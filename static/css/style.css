@@ -92,7 +92,7 @@ p.lead {
 }
 
 .text-lime-custom {
-  color: var(--secondary-dark) !important;
+  color: var(--primary) !important;
 }
 
 .text-dark-custom {
@@ -1019,7 +1019,7 @@ a:hover {
 }
 
 .site-footer .brand-title-accent {
-  color: #84CC16;
+  color: #2DD4BF;
 }
 
 .site-footer .brand-tagline-text {
@@ -1027,9 +1027,9 @@ a:hover {
 }
 
 .site-footer .brand-badge-pill {
-  background: rgba(132, 204, 22, 0.2);
-  color: #A3E635;
-  border: 1px solid rgba(132, 204, 22, 0.35);
+  background: rgba(15, 118, 110, 0.2);
+  color: #2DD4BF;
+  border: 1px solid rgba(15, 118, 110, 0.35);
 }
 
 /* Portal Sidebar Brand */

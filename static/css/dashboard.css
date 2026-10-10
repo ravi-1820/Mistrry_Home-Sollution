@@ -621,8 +621,8 @@
    ========================================================================== */
 
 .switch-link.provider-active {
-  background: #84CC16 !important;
-  color: #0C1E18 !important;
+  background: #0F766E !important;
+  color: #FFFFFF !important;
   font-weight: 700 !important;
   border-radius: var(--radius-full) !important;
   padding: 5px 14px !important;

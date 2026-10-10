@@ -15,13 +15,13 @@
   --primary-subtle: rgba(15, 118, 110, 0.08);
   --primary-subtle-hover: rgba(15, 118, 110, 0.16);
 
-  --secondary: #84CC16;
-  --secondary-rgb: 132, 204, 22;
-  --secondary-light: #A3E635;
-  --secondary-dark: #65A30D;
-  --secondary-hover: #A3E635;
-  --secondary-subtle: rgba(132, 204, 22, 0.16);
-  --secondary-subtle-hover: rgba(132, 204, 22, 0.26);
+  --secondary: #0D9488;
+  --secondary-rgb: 13, 148, 136;
+  --secondary-light: #14B8A6;
+  --secondary-dark: #0F766E;
+  --secondary-hover: #14B8A6;
+  --secondary-subtle: rgba(13, 148, 136, 0.12);
+  --secondary-subtle-hover: rgba(13, 148, 136, 0.22);
 
   --background: #F7F8F5;
   --background-subtle: #ECEFEA;
@@ -43,7 +43,7 @@
   --text-muted: #70827E;
   --text-inverse: #F7F8F5;
   --text-teal: #0F766E;
-  --text-lime: #65A30D;
+  --text-lime: #0D9488;
 
   /* Typography Scale (Modern Ultra-Crisp System) */
   --font-family-display: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

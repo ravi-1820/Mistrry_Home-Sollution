@@ -44,19 +44,19 @@
 
 .btn-custom-accent,
 .btn-custom-secondary {
-  background-color: var(--secondary);
-  color: var(--dark);
-  border-color: var(--secondary);
+  background: linear-gradient(135deg, #0F766E 0%, #0D9488 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #0F766E !important;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.28);
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.35) !important;
 }
 
 .btn-custom-accent:hover,
 .btn-custom-secondary:hover {
-  background-color: var(--secondary-light);
-  border-color: var(--secondary-light);
-  color: var(--dark);
-  box-shadow: 0 4px 14px rgba(132, 204, 22, 0.38);
+  background: linear-gradient(135deg, #115E59 0%, #0F766E 100%) !important;
+  border-color: #115E59 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 18px rgba(15, 118, 110, 0.45) !important;
   transform: translateY(-1px);
 }
 
@@ -170,8 +170,8 @@
 .badge-custom-lime,
 .badge-custom-accent {
   background-color: var(--secondary-subtle);
-  color: var(--text-lime);
-  border: 1px solid rgba(132, 204, 22, 0.35);
+  color: var(--secondary);
+  border: 1px solid rgba(13, 148, 136, 0.35);
   font-weight: 700;
 }
 
