@@ -1,0 +1,463 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Analytics | Mistrry Home Solution Enterprise</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link active"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Admin Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Admin</span></div>
+          <span class="badge bg-transparent border border-light text-white small font-weight-bold" style="font-size: 10px;">ENTERPRISE SUITE</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Platform Core</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_dashboard' %}" class="sidebar-nav-link active">
+            <i class="bi bi-speedometer2"></i> Dashboard
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_bookings' %}" class="sidebar-nav-link">
+            <i class="bi bi-calendar2-check"></i> Bookings
+            <span class="sidebar-badge bg-secondary text-dark font-weight-bold">18 New</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_users' %}" class="sidebar-nav-link">
+            <i class="bi bi-people"></i> Customers
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_providers' %}" class="sidebar-nav-link">
+            <i class="bi bi-person-badge"></i> Professionals
+            <span class="sidebar-badge bg-secondary text-dark font-weight-bold">14 Audit</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-menu-category">Operations & Catalog</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_services' %}" class="sidebar-nav-link">
+            <i class="bi bi-grid"></i> Services & Categories
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_quotations' %}" class="sidebar-nav-link">
+            <i class="bi bi-file-earmark-text"></i> Quotations
+            <span class="sidebar-badge bg-dark text-white border border-light">23 Pending</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_revisits' %}" class="sidebar-nav-link">
+            <i class="bi bi-arrow-repeat"></i> Revisit Management
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_payments' %}" class="sidebar-nav-link">
+            <i class="bi bi-currency-rupee"></i> Payments & Refunds
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-menu-category">Quality & Management</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_reviews' %}" class="sidebar-nav-link">
+            <i class="bi bi-star-half"></i> Complaints & Reviews
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_reports' %}" class="sidebar-nav-link">
+            <i class="bi bi-graph-up-arrow"></i> Reports
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'admin_settings' %}" class="sidebar-nav-link">
+            <i class="bi bi-gear"></i> Settings
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar-sm bg-secondary text-dark font-weight-bold d-flex align-items-center justify-content-center rounded-circle">AD</div>
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">System Superadmin</div>
+          <div class="text-muted small" style="font-size: 11px;">Operations HQ</div>
+        </div>
+        <a href="{% url 'home' %}" class="text-muted hover-white" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="font-weight-bold mb-0">Platform Overview & Live Operations</h4>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <a href="{% url 'admin_bookings' %}" class="btn btn-sm btn-outline-dark">
+            <i class="bi bi-calendar2-check me-1"></i> Manage Bookings
+          </a>
+          <button class="btn btn-sm btn-custom-primary" onclick="window.showToast('📊 Generating platform operations summary...', 'info')">
+            <i class="bi bi-download me-1"></i> Export Metrics
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        
+        <!-- Primary KPI Metrics Grid (Row 1) -->
+        <div class="row g-3 mb-3">
+          <!-- 1. Total Bookings -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Total Bookings</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-calendar-check-fill"></i></div>
+              </div>
+              <div class="kpi-value fs-4">1,248</div>
+              <div class="kpi-trend positive"><i class="bi bi-arrow-up-right"></i> +22.5%</div>
+            </div>
+          </div>
+
+          <!-- 2. Today's Bookings -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Today's Bookings</span>
+                <div class="kpi-icon-box kpi-icon-lime"><i class="bi bi-calendar-event"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-lime-custom">42</div>
+              <div class="kpi-trend positive"><i class="bi bi-arrow-up-right"></i> 14 Active Slots</div>
+            </div>
+          </div>
+
+          <!-- 3. Total Customers -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Total Customers</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-people-fill"></i></div>
+              </div>
+              <div class="kpi-value fs-4">48,290</div>
+              <div class="kpi-trend positive"><i class="bi bi-arrow-up-right"></i> +14.2% MoM</div>
+            </div>
+          </div>
+
+          <!-- 4. Active & Inactive Pros -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Active Pros</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-tools"></i></div>
+              </div>
+              <div class="kpi-value fs-4">1,842</div>
+              <div class="kpi-trend text-muted"><span class="text-dark font-weight-bold">86</span> Inactive / Paused</div>
+            </div>
+          </div>
+
+          <!-- 5. Pending Pro Verification -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Pending Verification</span>
+                <div class="kpi-icon-box kpi-icon-lime"><i class="bi bi-shield-exclamation"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-lime-custom">14</div>
+              <div class="kpi-trend text-muted"><a href="{% url 'admin_providers' %}" class="text-teal-custom">Audit Queue &rarr;</a></div>
+            </div>
+          </div>
+
+          <!-- 6. Pending Quotations -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Pending Quotations</span>
+                <div class="kpi-icon-box kpi-icon-dark"><i class="bi bi-file-earmark-text"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-dark">23</div>
+              <div class="kpi-trend text-muted"><a href="{% url 'admin_quotations' %}" class="text-dark">Awaiting Customer</a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operations & Financials Metrics Grid (Row 2) -->
+        <div class="row g-3 mb-4">
+          <!-- 7. Completed Bookings -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Completed</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-check2-circle"></i></div>
+              </div>
+              <div class="kpi-value fs-4">1,120</div>
+              <div class="kpi-trend positive"><i class="bi bi-shield-check"></i> 89.7% Success</div>
+            </div>
+          </div>
+
+          <!-- 8. Pending Bookings -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Pending Bookings</span>
+                <div class="kpi-icon-box kpi-icon-lime"><i class="bi bi-hourglass-split"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-lime-custom">18</div>
+              <div class="kpi-trend text-muted">Awaiting Dispatch</div>
+            </div>
+          </div>
+
+          <!-- 9. Cancelled Bookings -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Cancelled</span>
+                <div class="kpi-icon-box kpi-icon-dark"><i class="bi bi-x-circle"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-dark">68</div>
+              <div class="kpi-trend text-muted">5.4% Rate (Reviewed)</div>
+            </div>
+          </div>
+
+          <!-- 10. Revisit Bookings -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Revisit Bookings</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-arrow-repeat"></i></div>
+              </div>
+              <div class="kpi-value fs-4">15</div>
+              <div class="kpi-trend text-muted"><a href="{% url 'admin_revisits' %}" class="text-teal-custom">Warranty Follow-up</a></div>
+            </div>
+          </div>
+
+          <!-- 11. Visit-Charge Payment Summary (₹149) -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Visit Fees (₹149)</span>
+                <div class="kpi-icon-box kpi-icon-lime"><i class="bi bi-cash-stack"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-lime-custom">₹1.85 L</div>
+              <div class="kpi-trend text-muted">1,248 Inspections</div>
+            </div>
+          </div>
+
+          <!-- 12. Payments & Refund Status Summary -->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Payment Status</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-wallet2"></i></div>
+              </div>
+              <div class="kpi-value fs-5">1,220 Paid</div>
+              <div class="kpi-trend text-muted">28 Pend • 12 Ref (₹18.5k)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Charts Row -->
+        <div class="row g-4 mb-4">
+          <!-- Revenue Bar Chart (65%) -->
+          <div class="col-lg-8">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                  <h5 class="font-weight-bold mb-0">Marketplace Volume vs Net Commission</h5>
+                  <span class="text-muted small">Monthly gross transaction value, inspection fee volume, & platform take rate</span>
+                </div>
+                <span class="badge bg-light text-dark border">FY 2026 Live</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="adminRevenueChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Breakdown Doughnut Chart (35%) -->
+          <div class="col-lg-4">
+            <div class="card-custom p-4 bg-white h-100">
+              <h5 class="font-weight-bold mb-1">Bookings by Category</h5>
+              <span class="text-muted small d-block mb-3">Volume distribution across approved service trades</span>
+              <div style="height: 240px; position: relative;" class="d-flex align-items-center justify-content-center">
+                <canvas id="adminCategoryChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Booking Activity & Pending Provider Approvals -->
+        <div class="row g-4">
+          <!-- Recent Bookings Table (60%) -->
+          <div class="col-lg-7">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                  <h5 class="font-weight-bold mb-0">Recent Booking Activity</h5>
+                  <span class="text-muted small">Live customer bookings & inspection fee dispatch status</span>
+                </div>
+                <a href="{% url 'admin_bookings' %}" class="small text-teal-custom font-weight-bold">View All 1,248 &rarr;</a>
+              </div>
+              <div class="table-custom-wrapper">
+                <table class="table-custom">
+                  <thead>
+                    <tr>
+                      <th>Booking ID</th>
+                      <th>Customer</th>
+                      <th>Trade / Professional</th>
+                      <th>Visit Fee</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>#BK-98421</strong></td>
+                      <td>Priyanka Nambiar</td>
+                      <td>Electrician (Vikram Pro)</td>
+                      <td><span class="badge bg-light text-dark border">₹149 Paid</span></td>
+                      <td><span class="badge-custom badge-custom-teal"><i class="bi bi-arrow-repeat"></i> In Progress</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>#BK-98305</strong></td>
+                      <td>Karan Mehra</td>
+                      <td>Renovation (Apex Craft)</td>
+                      <td><span class="badge bg-light text-dark border">₹149 Paid</span></td>
+                      <td><span class="badge-custom badge-custom-verified"><i class="bi bi-check2"></i> Accepted</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>#BK-97110</strong></td>
+                      <td>Sneha Mukherjee</td>
+                      <td>Plumber (Deccan Hydro)</td>
+                      <td><span class="badge bg-light text-dark border">₹149 Paid</span></td>
+                      <td><span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Completed</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>#BK-94109</strong></td>
+                      <td>Sneha Mukherjee</td>
+                      <td>Plumber (Deccan Hydro)</td>
+                      <td><span class="badge bg-light text-dark border">₹0 Revisit</span></td>
+                      <td><span class="badge-custom badge-custom-lime"><i class="bi bi-arrow-counterclockwise"></i> Revisit</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>#BK-96540</strong></td>
+                      <td>Rohit Kulkarni</td>
+                      <td>AC Repair (CoolBreeze)</td>
+                      <td><span class="badge bg-light text-dark border">₹149 Refund</span></td>
+                      <td><span class="badge-custom badge-custom-dark"><i class="bi bi-x-circle"></i> Cancelled</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Verification Queue (40%) -->
+          <div class="col-lg-5">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                  <h5 class="font-weight-bold mb-0">Pending Professional Verification</h5>
+                  <span class="text-muted small">Trade credentials requiring audit</span>
+                </div>
+                <span class="badge bg-secondary text-dark font-weight-bold">14 In Queue</span>
+              </div>
+
+              <div class="d-flex flex-column gap-3">
+                <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between pending-card">
+                  <div>
+                    <h6 class="font-weight-bold mb-0">Deccan Hydro Plumbers</h6>
+                    <div class="text-muted small">Hydraulic Trade License • PL-MUM-88123C • Ahmedabad</div>
+                    <div class="text-muted" style="font-size: 11px;">Category: Plumber & RO Geyser</div>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-custom-primary btn-admin-approve-pro" title="Approve"><i class="bi bi-check-lg"></i></button>
+                    <button class="btn btn-sm btn-outline-dark btn-admin-reject-pro" title="Reject"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                </div>
+
+                <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between pending-card">
+                  <div>
+                    <h6 class="font-weight-bold mb-0">Shakti Structural Engineers</h6>
+                    <div class="text-muted small">RCC Structural Masonry Clearance • Pune / Ahmedabad</div>
+                    <div class="text-muted" style="font-size: 11px;">Category: Constructions</div>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-custom-primary btn-admin-approve-pro" title="Approve"><i class="bi bi-check-lg"></i></button>
+                    <button class="btn btn-sm btn-outline-dark btn-admin-reject-pro" title="Reject"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                </div>
+
+                <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between pending-card">
+                  <div>
+                    <h6 class="font-weight-bold mb-0">Apex Craft & Joinery</h6>
+                    <div class="text-muted small">Modular Woodwork & Fittings Certification</div>
+                    <div class="text-muted" style="font-size: 11px;">Category: Carpenter</div>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-custom-primary btn-admin-approve-pro" title="Approve"><i class="bi bi-check-lg"></i></button>
+                    <button class="btn btn-sm btn-outline-dark btn-admin-reject-pro" title="Reject"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle & Admin Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/admin.js' %}"></script>
+</body>
+</html>

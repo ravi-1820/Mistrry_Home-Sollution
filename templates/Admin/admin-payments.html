@@ -1,0 +1,473 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments, Visit Charges (₹149) & Refunds | Mistrry Home Solution Admin</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link active"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Admin Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Admin</span></div>
+          <span class="badge bg-transparent border border-light text-white small font-weight-bold" style="font-size: 10px;">ENTERPRISE SUITE</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Platform Core</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_dashboard' %}" class="sidebar-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_bookings' %}" class="sidebar-nav-link"><i class="bi bi-calendar2-check"></i> Bookings <span class="sidebar-badge bg-secondary text-dark font-weight-bold">18 New</span></a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_users' %}" class="sidebar-nav-link"><i class="bi bi-people"></i> Customers</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_providers' %}" class="sidebar-nav-link"><i class="bi bi-person-badge"></i> Professionals <span class="sidebar-badge bg-secondary text-dark font-weight-bold">14 Audit</span></a></li>
+      </ul>
+
+      <div class="sidebar-menu-category">Operations & Catalog</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_services' %}" class="sidebar-nav-link"><i class="bi bi-grid"></i> Services & Categories</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_quotations' %}" class="sidebar-nav-link"><i class="bi bi-file-earmark-text"></i> Quotations <span class="sidebar-badge bg-dark text-white border border-light">23 Pending</span></a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_revisits' %}" class="sidebar-nav-link"><i class="bi bi-arrow-repeat"></i> Revisit Management</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_payments' %}" class="sidebar-nav-link active"><i class="bi bi-currency-rupee"></i> Payments & Refunds</a></li>
+      </ul>
+
+      <div class="sidebar-menu-category">Quality & Management</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_reviews' %}" class="sidebar-nav-link"><i class="bi bi-star-half"></i> Complaints & Reviews</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_reports' %}" class="sidebar-nav-link"><i class="bi bi-graph-up-arrow"></i> Reports</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_settings' %}" class="sidebar-nav-link"><i class="bi bi-gear"></i> Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar-sm bg-secondary text-dark font-weight-bold d-flex align-items-center justify-content-center rounded-circle">AD</div>
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">System Superadmin</div>
+          <div class="text-muted small" style="font-size: 11px;">Operations HQ</div>
+        </div>
+        <a href="{% url 'home' %}" class="text-muted hover-white" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="font-weight-bold mb-0">Payments, Visit Charges (₹149) & Escrow Ledger</h4>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('📥 Exporting Payment Ledger CSV', 'info')">
+            <i class="bi bi-download me-1"></i> Export Transactions
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+
+        <!-- Financial KPI Overview Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-xl-3 col-md-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Diagnostic Fees (₹149)</span>
+                <div class="kpi-icon-box kpi-icon-lime"><i class="bi bi-cash-stack"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-lime-custom">₹1,85,952</div>
+              <div class="kpi-trend text-muted">1,248 Verified Inspections</div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Final Quotation Volume</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-shield-check"></i></div>
+              </div>
+              <div class="kpi-value fs-4">₹46.34 L</div>
+              <div class="kpi-trend positive"><i class="bi bi-arrow-up-right"></i> Settled Post-Signoff</div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Pending Gateways</span>
+                <div class="kpi-icon-box kpi-icon-dark"><i class="bi bi-clock-history"></i></div>
+              </div>
+              <div class="kpi-value fs-4 text-dark">28 Txns</div>
+              <div class="kpi-trend text-muted">Awaiting Customer UPI</div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Processed Refunds</span>
+                <div class="kpi-icon-box kpi-icon-primary"><i class="bi bi-arrow-counterclockwise"></i></div>
+              </div>
+              <div class="kpi-value fs-4">₹18,488</div>
+              <div class="kpi-trend text-muted">12 Claims (Read-Only Audit)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 7 Specific: Visit Charge ₹149 Interface Card -->
+        <div class="card-custom p-4 bg-white mb-4 border" style="border-left: 4px solid var(--primary) !important;">
+          <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-light text-teal-custom border border-teal font-monospace font-weight-bold">
+                <i class="bi bi-check-circle-fill me-1"></i> SECTION 7: VISIT CHARGE CONFIGURATION
+              </span>
+              <h5 class="font-weight-bold mb-0 text-dark">Standard Inspection Visit Charge: ₹149</h5>
+            </div>
+            <span class="badge bg-light text-dark border">Client Approved Standard Policy</span>
+          </div>
+          <p class="text-muted small mb-0">
+            • Initial technician inspection is billed at <strong>₹149</strong> upon booking confirmation.<br>
+            • Visit charges and final service quotations are tracked as <strong>distinct financial records</strong>.<br>
+            • <strong class="text-dark">Backend Integration Notice:</strong> Banking refund processing is displayed as read-only. Server-side payment gateway webhook integration (Razorpay/Cashfree/PayU) is required for live automated refunds.
+          </p>
+        </div>
+
+        <!-- Master Transaction Ledger Table -->
+        <div class="card-custom p-4 bg-white">
+          <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <input type="text" id="paySearchInput" class="form-control form-control-sm" placeholder="Search by Txn ID, Booking ID, customer..." style="width: 280px; border-radius: var(--radius-md);">
+              <select id="payTypeFilter" class="form-select form-select-sm" style="width: 210px; border-radius: var(--radius-md);">
+                <option value="all">All Charge Types</option>
+                <option value="Inspection Visit Charge (₹149)">Inspection Visit Charge (₹149)</option>
+                <option value="Final Service">Final Service / Milestone</option>
+              </select>
+              <select id="payStatusFilter" class="form-select form-select-sm" style="width: 150px; border-radius: var(--radius-md);">
+                <option value="all">All Statuses</option>
+                <option value="Successful">Successful</option>
+                <option value="Pending">Pending</option>
+                <option value="Refunded">Refunded</option>
+              </select>
+            </div>
+            <span class="text-muted small">Showing 8 Ledger Entries</span>
+          </div>
+
+          <div class="table-custom-wrapper">
+            <table class="table-custom" id="adminPaymentsTable">
+              <thead>
+                <tr>
+                  <th>Txn ID</th>
+                  <th>Booking ID</th>
+                  <th>Customer & Pro</th>
+                  <th>Charge Classification</th>
+                  <th>Amount</th>
+                  <th>Method & Gateway Ref</th>
+                  <th>Status</th>
+                  <th>Date & Time</th>
+                  <th>Refund Details</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 1: TXN-VIS-101 -->
+                <tr data-type="Inspection Visit Charge (₹149)" data-status="Successful" data-search="TXN-VIS-101 BK-98421 Priyanka Nambiar Vikram UPI">
+                  <td><strong class="text-dark">#TXN-VIS-101</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-98421</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Priyanka Nambiar</div>
+                    <div class="text-muted small">Vikram Electrical</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Inspection Visit Charge (₹149)</span></td>
+                  <td><strong class="text-lime-custom fs-6">₹149</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">UPI (PhonePe)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-UPI-98218902</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Successful</span></td>
+                  <td class="small text-muted">Oct 09, 2026, 09:30 AM</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-VIS-101')">Receipt</button></td>
+                </tr>
+
+                <!-- 2: TXN-SRV-201 -->
+                <tr data-type="Final Service" data-status="Pending" data-search="TXN-SRV-201 BK-98421 Priyanka Nambiar Vikram Quotation">
+                  <td><strong class="text-dark">#TXN-SRV-201</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-98421</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Priyanka Nambiar</div>
+                    <div class="text-muted small">Vikram Electrical</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Final Service Quotation</span></td>
+                  <td><strong class="text-dark fs-6">₹1,499</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">UPI (GPay)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-ESC-48190284</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-lime"><i class="bi bi-clock"></i> Pending</span></td>
+                  <td class="small text-muted">Oct 14, 2026</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-SRV-201')">Receipt</button></td>
+                </tr>
+
+                <!-- 3: TXN-VIS-102 -->
+                <tr data-type="Inspection Visit Charge (₹149)" data-status="Successful" data-search="TXN-VIS-102 BK-98305 Karan Mehra Apex Craft NetBanking">
+                  <td><strong class="text-dark">#TXN-VIS-102</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-98305</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Karan Mehra</div>
+                    <div class="text-muted small">Apex Craft</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Inspection Visit Charge (₹149)</span></td>
+                  <td><strong class="text-lime-custom fs-6">₹149</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">NetBanking (HDFC)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-NB-77291048</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Successful</span></td>
+                  <td class="small text-muted">Oct 07, 2026, 02:22 PM</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-VIS-102')">Receipt</button></td>
+                </tr>
+
+                <!-- 4: TXN-SRV-202 -->
+                <tr data-type="Final Service" data-status="Successful" data-search="TXN-SRV-202 BK-98305 Karan Mehra Apex Advance Escrow">
+                  <td><strong class="text-dark">#TXN-SRV-202</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-98305</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Karan Mehra</div>
+                    <div class="text-muted small">Apex Craft</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Advance Escrow Milestone</span></td>
+                  <td><strong class="text-dark fs-6">₹15,000</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">NetBanking (HDFC)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-ESC-99281033</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-verified"><i class="bi bi-shield-check"></i> Escrow Held</span></td>
+                  <td class="small text-muted">Oct 08, 2026, 04:35 PM</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-SRV-202')">Receipt</button></td>
+                </tr>
+
+                <!-- 5: TXN-VIS-103 -->
+                <tr data-type="Inspection Visit Charge (₹149)" data-status="Successful" data-search="TXN-VIS-103 BK-97110 Sneha Mukherjee Deccan Hydro Card">
+                  <td><strong class="text-dark">#TXN-VIS-103</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-97110</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Sneha Mukherjee</div>
+                    <div class="text-muted small">Deccan Hydro</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Inspection Visit Charge (₹149)</span></td>
+                  <td><strong class="text-lime-custom fs-6">₹149</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">Credit Card (ICICI)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-CC-66281904</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Successful</span></td>
+                  <td class="small text-muted">Sep 27, 2026, 04:02 PM</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-VIS-103')">Receipt</button></td>
+                </tr>
+
+                <!-- 6: TXN-SRV-203 -->
+                <tr data-type="Final Service" data-status="Successful" data-search="TXN-SRV-203 BK-97110 Sneha Mukherjee Deccan Hydro Final Quotation">
+                  <td><strong class="text-dark">#TXN-SRV-203</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-97110</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Sneha Mukherjee</div>
+                    <div class="text-muted small">Deccan Hydro</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Final Service Quotation</span></td>
+                  <td><strong class="text-dark fs-6">₹1,899</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">Credit Card (ICICI)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-CC-66282019</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Released</span></td>
+                  <td class="small text-muted">Sep 28, 2026, 03:50 PM</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-SRV-203')">Receipt</button></td>
+                </tr>
+
+                <!-- 7: TXN-VIS-104 -->
+                <tr data-type="Inspection Visit Charge (₹149)" data-status="Refunded" data-search="TXN-VIS-104 BK-96540 Rohit Kulkarni CoolBreeze UPI Refund">
+                  <td><strong class="text-dark">#TXN-VIS-104</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-96540</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Rohit Kulkarni</div>
+                    <div class="text-muted small">CoolBreeze</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Inspection Visit Charge (₹149)</span></td>
+                  <td><strong class="text-dark fs-6">₹149</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">UPI (Paytm)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-UPI-11928374</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-dark"><i class="bi bi-arrow-counterclockwise"></i> Refunded</span></td>
+                  <td class="small text-muted">Oct 04, 2026</td>
+                  <td>
+                    <span class="badge bg-light text-danger border">REF-GTW-40192</span>
+                    <div class="text-muted" style="font-size: 10px;">Refunded to Source</div>
+                  </td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-VIS-104')">Receipt</button></td>
+                </tr>
+
+                <!-- 8: TXN-VIS-105 -->
+                <tr data-type="Inspection Visit Charge (₹149)" data-status="Successful" data-search="TXN-VIS-105 BK-95211 Raghavendra Singhal Royal Woodcraft UPI">
+                  <td><strong class="text-dark">#TXN-VIS-105</strong></td>
+                  <td><a href="{% url 'admin_bookings' %}" class="text-teal-custom font-weight-bold">#BK-95211</a></td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Raghavendra Singhal</div>
+                    <div class="text-muted small">Royal Woodcraft</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Inspection Visit Charge (₹149)</span></td>
+                  <td><strong class="text-lime-custom fs-6">₹149</strong></td>
+                  <td>
+                    <div class="text-dark font-weight-bold">UPI (GPay)</div>
+                    <div class="text-muted font-mono" style="font-size: 11px;">PAY-UPI-55291083</div>
+                  </td>
+                  <td><span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Successful</span></td>
+                  <td class="small text-muted">Oct 06, 2026, 01:15 PM</td>
+                  <td class="small text-muted">None</td>
+                  <td><button class="btn btn-sm btn-outline-dark" onclick="openPaymentReceiptModal('TXN-VIS-105')">Receipt</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Payment Receipt / Audit Modal -->
+  <div class="modal fade" id="paymentReceiptModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 p-4">
+        <div class="modal-header border-0 pb-0">
+          <div>
+            <h5 class="modal-title font-weight-bold mb-0">Transaction Receipt & Audit Log</h5>
+            <span class="text-muted small">Reference: <span id="modalTxnId" class="text-dark font-mono font-weight-bold"></span></span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pt-3">
+          <div class="p-3 bg-light rounded-3 mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-muted small">Charge Classification:</span>
+              <strong id="modalTxnType" class="text-dark small"></strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-muted small">Gross Transaction Amount:</span>
+              <strong id="modalTxnAmount" class="text-lime-custom fs-5"></strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text-muted small">Status:</span>
+              <span id="modalTxnStatus" class="badge-custom badge-custom-verified"></span>
+            </div>
+          </div>
+
+          <div class="row g-2 small mb-3">
+            <div class="col-6 text-muted">Linked Booking:</div>
+            <div class="col-6 text-end text-dark font-weight-bold" id="modalTxnBooking"></div>
+
+            <div class="col-6 text-muted">Customer Name:</div>
+            <div class="col-6 text-end text-dark font-weight-bold" id="modalTxnCustomer"></div>
+
+            <div class="col-6 text-muted">Assigned Provider:</div>
+            <div class="col-6 text-end text-dark font-weight-bold" id="modalTxnPro"></div>
+
+            <div class="col-6 text-muted">Payment Channel:</div>
+            <div class="col-6 text-end text-dark font-weight-bold" id="modalTxnMethod"></div>
+
+            <div class="col-6 text-muted">Gateway Txn Hash:</div>
+            <div class="col-6 text-end text-dark font-mono" id="modalTxnGateway"></div>
+
+            <div class="col-6 text-muted">Timestamp:</div>
+            <div class="col-6 text-end text-muted" id="modalTxnDate"></div>
+
+            <div class="col-6 text-muted">Refund Status:</div>
+            <div class="col-6 text-end text-dark" id="modalTxnRefund"></div>
+          </div>
+
+          <div class="alert alert-light border small text-muted mb-0">
+            <i class="bi bi-info-circle me-1 text-teal-custom"></i>
+            All financial ledger mutations are protected by cryptographic webhook signature verification on the payment gateway.
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/admin.js' %}"></script>
+  <script>
+    // Live Search and Filters for Payments Table
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('paySearchInput');
+      const typeFilter = document.getElementById('payTypeFilter');
+      const statusFilter = document.getElementById('payStatusFilter');
+      const tableRows = document.querySelectorAll('#adminPaymentsTable tbody tr');
+
+      function filterTable() {
+        const query = searchInput.value.toLowerCase().trim();
+        const selectedType = typeFilter.value;
+        const selectedStatus = statusFilter.value;
+
+        tableRows.forEach(row => {
+          const rowSearch = (row.getAttribute('data-search') || '').toLowerCase();
+          const rowType = row.getAttribute('data-type') || '';
+          const rowStatus = row.getAttribute('data-status') || '';
+
+          const matchesQuery = !query || rowSearch.includes(query);
+          const matchesType = (selectedType === 'all') || (rowType.includes(selectedType));
+          const matchesStatus = (selectedStatus === 'all') || (rowStatus === selectedStatus);
+
+          if (matchesQuery && matchesType && matchesStatus) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      if (searchInput) searchInput.addEventListener('input', filterTable);
+      if (typeFilter) typeFilter.addEventListener('change', filterTable);
+      if (statusFilter) statusFilter.addEventListener('change', filterTable);
+    });
+  </script>
+</body>
+</html>

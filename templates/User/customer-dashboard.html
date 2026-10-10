@@ -1,0 +1,730 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard & My Bookings | Mistrry Home Solution</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body style="background-color: var(--background);">
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link active"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Navbar -->
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg py-3">
+      <div class="container-custom d-flex align-items-center justify-content-between">
+        <a class="brand-logo" href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" alt="Mistrry Home Solution" class="brand-logo-img" style="height: 64px; width: auto; object-fit: contain;">
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="{% url 'services' %}" class="btn-custom btn-custom-primary btn-custom-sm">
+            <i class="bi bi-plus-lg me-1"></i> Book New Service
+          </a>
+          <div class="dropdown">
+            <button class="user-avatar-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Customer Profile" class="user-avatar">
+              <span class="d-none d-md-inline fw-bold small text-dark">Priyanka N.</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 mt-2">
+              <li><h6 class="dropdown-header">Customer Account</h6></li>
+              <li><a class="dropdown-item" href="{% url 'customer_profile' %}"><i class="bi bi-person-circle me-2"></i> Profile & Settings</a></li>
+              <li><a class="dropdown-item" href="#tab-overview" data-bs-toggle="pill" data-bs-target="#tab-overview"><i class="bi bi-speedometer2 me-2"></i> Overview</a></li>
+              <li><a class="dropdown-item" href="#tab-bookings" data-bs-toggle="pill" data-bs-target="#tab-bookings"><i class="bi bi-calendar-check me-2"></i> My Bookings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-dark" href="{% url 'signin' %}"><i class="bi bi-box-arrow-right me-2"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Portal Subheader Welcome Banner -->
+  <section class="customer-portal-header">
+    <div class="container-custom">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="hero-luxury-badge" style="padding: 4px 10px; font-size: 11px;">
+              <span class="hero-badge-pulse"></span> Member Portal
+            </span>
+            <span class="text-muted small">• Bodakdev & Satellite, Ahmedabad</span>
+          </div>
+          <h2 class="font-weight-bold text-dark mb-1" style="letter-spacing: -0.02em;">Welcome back, Priyanka 👋</h2>
+          <p class="text-muted small mb-0">Track real-time dispatches, manage verified bookings, download tax invoices, and monitor escrow warranty.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="{% url 'services' %}" class="btn-custom btn-custom-primary">
+            <i class="bi bi-lightning-charge-fill me-1"></i> Book Master Service
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="py-4 flex-grow-1">
+    <div class="container-custom">
+      <div class="row g-4">
+        
+        <!-- Left Sidebar Navigation -->
+        <div class="col-lg-3">
+          <div class="customer-sidebar-card sticky-top" style="top: 96px;">
+            
+            <!-- User Profile Card -->
+            <div class="customer-profile-box">
+              <div class="d-flex align-items-center gap-3">
+                <div class="position-relative">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Priyanka" class="rounded-circle border" style="width: 52px; height: 52px; object-fit: cover;">
+                  <span class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1 border border-white" style="width: 12px; height: 12px;" title="Online"></span>
+                </div>
+                <div>
+                  <h6 class="font-weight-bold mb-0 text-dark">Priyanka Nambiar</h6>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle mt-1" style="font-size: 10px; font-weight: 700;">
+                    <i class="bi bi-patch-check-fill me-1"></i> Verified Owner
+                  </span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between text-muted small mt-3 pt-2 border-top border-secondary-subtle" style="font-size: 11px;">
+                <span>Bodakdev, Ahmedabad</span>
+                <span class="text-dark font-weight-bold">Tier: Prime Elite</span>
+              </div>
+            </div>
+
+            <!-- Tab Nav Links -->
+            <div class="nav customer-nav-pills" id="customer-dashboard-tabs" role="tablist">
+              <button class="nav-link active" id="tab-overview-btn" data-bs-toggle="pill" data-bs-target="#tab-overview" type="button" role="tab">
+                <i class="bi bi-speedometer2"></i>
+                <span>Overview & Live Status</span>
+              </button>
+              
+              <button class="nav-link" id="tab-bookings-btn" data-bs-toggle="pill" data-bs-target="#tab-bookings" type="button" role="tab">
+                <i class="bi bi-calendar2-check-fill"></i>
+                <span class="flex-grow-1">My Bookings</span>
+                <span class="badge bg-dark text-white rounded-pill">1 Active</span>
+              </button>
+              
+              <button class="nav-link" id="tab-saved-btn" data-bs-toggle="pill" data-bs-target="#tab-saved" type="button" role="tab">
+                <i class="bi bi-heart-fill"></i>
+                <span>Saved Craftsmen</span>
+              </button>
+              
+              <button class="nav-link" id="tab-payments-btn" data-bs-toggle="pill" data-bs-target="#tab-payments" type="button" role="tab">
+                <i class="bi bi-shield-lock-fill"></i>
+                <span>Escrow & Payments</span>
+              </button>
+              
+              <button class="nav-link" id="tab-addresses-btn" data-bs-toggle="pill" data-bs-target="#tab-addresses" type="button" role="tab">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>Saved Addresses</span>
+              </button>
+              
+              <button class="nav-link" id="tab-profile-btn" data-bs-toggle="pill" data-bs-target="#tab-profile" type="button" role="tab">
+                <i class="bi bi-gear-fill"></i>
+                <span>Account Settings</span>
+              </button>
+            </div>
+            
+            <!-- Direct Concierge Support Box -->
+            <div class="mt-4 pt-3 border-top text-center">
+              <div class="small text-muted mb-2">Need immediate assistance?</div>
+              <a href="tel:1800647879" class="btn-custom btn-custom-outline btn-custom-sm w-100 justify-content-center">
+                <i class="bi bi-headset me-1 text-teal-custom"></i> 24/7 Concierge Support
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Content Panels -->
+        <div class="col-lg-9">
+          <div class="tab-content" id="customerTabContent">
+            
+            <!-- ========================================================
+                 TAB 1: Overview & Live Tracking
+                 ======================================================== -->
+            <div class="tab-pane fade show active" id="tab-overview" role="tabpanel">
+              
+              <!-- Active Live Dispatch Card -->
+              <div class="booking-item-card is-active">
+                <div class="booking-header-bar">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="live-pulse-dot"></span>
+                    <h5 class="font-weight-bold mb-0 text-dark">Live Service in Progress</h5>
+                    <span class="badge bg-dark text-white font-monospace ms-2">#BK-98421</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-bold" style="border-radius: var(--radius-full); font-size: 12px;">
+                      <i class="bi bi-truck me-1"></i> Technician En Route (ETA ~15 mins)
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row align-items-center g-3 mb-3">
+                  <div class="col-md-8">
+                    <h4 class="booking-service-title mb-1">Full Home Electrical Safety Audit & Rewiring</h4>
+                    <div class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-teal-custom me-1"></i> Flat 402, Goyal Intercity, Drive-In Road, Bodakdev, Ahmedabad</div>
+                  </div>
+                  <div class="col-md-4 text-md-end">
+                    <div class="booking-otp-pill">
+                      <i class="bi bi-shield-check text-secondary"></i>
+                      <span>Service OTP: <strong class="booking-otp-code">4821</strong></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Live Status Flow Stepper -->
+                <div class="tracking-stepper-box">
+                  <div class="status-timeline mb-0">
+                    <div class="status-timeline-node completed">
+                      <div class="status-timeline-dot"><i class="bi bi-check-lg"></i></div>
+                      <span class="status-timeline-text">Requested<br><small class="text-muted">09:30 AM</small></span>
+                    </div>
+                    <div class="status-timeline-node completed">
+                      <div class="status-timeline-dot"><i class="bi bi-check-lg"></i></div>
+                      <span class="status-timeline-text">Accepted<br><small class="text-muted">09:42 AM</small></span>
+                    </div>
+                    <div class="status-timeline-node active">
+                      <div class="status-timeline-dot"><i class="bi bi-truck"></i></div>
+                      <span class="status-timeline-text">On the Way<br><small class="text-teal-custom fw-bold">Live Now</small></span>
+                    </div>
+                    <div class="status-timeline-node">
+                      <div class="status-timeline-dot">4</div>
+                      <span class="status-timeline-text">In Progress<br><small class="text-muted">Pending</small></span>
+                    </div>
+                    <div class="status-timeline-node">
+                      <div class="status-timeline-dot">5</div>
+                      <span class="status-timeline-text">Completed<br><small class="text-muted">OTP Release</small></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Technician Assigned Profile -->
+                <div class="p-3 bg-light border rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?auto=format&fit=crop&w=120&q=80" class="rounded-circle border" style="width: 52px; height: 52px; object-fit: cover;">
+                    <div>
+                      <div class="d-flex align-items-center gap-2">
+                        <h6 class="font-weight-bold mb-0 text-dark">Vikramaditya Rao</h6>
+                        <span class="badge bg-dark text-white" style="font-size: 10px;">★ 4.98 (340+ Jobs)</span>
+                      </div>
+                      <div class="text-muted small">Lead Craftsman • Vikram Electrical Solutions</div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <a href="tel:+919876543210" class="btn-custom btn-custom-outline btn-custom-sm">
+                      <i class="bi bi-telephone-fill text-teal-custom me-1"></i> Call Technician
+                    </a>
+                    <button class="btn-custom btn-custom-primary btn-custom-sm" onclick="window.showToast('💬 Live technician chat activated!', 'success', 'bi-chat-dots')">
+                      <i class="bi bi-chat-dots-fill me-1"></i> Live Chat
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Metrics Row (Supabase Emerald Luxury Cards) -->
+              <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <div class="kpi-card">
+                    <div class="kpi-top">
+                      <span class="kpi-label">Completed Services</span>
+                      <div class="kpi-icon-box kpi-icon-primary">
+                        <i class="bi bi-check2-circle"></i>
+                      </div>
+                    </div>
+                    <div class="kpi-value">3 Bookings</div>
+                    <div class="kpi-trend positive">
+                      <i class="bi bi-arrow-up-right"></i> 100% Verified Quality
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="kpi-card">
+                    <div class="kpi-top">
+                      <span class="kpi-label">Active Warranty</span>
+                      <div class="kpi-icon-box kpi-icon-lime">
+                        <i class="bi bi-shield-check"></i>
+                      </div>
+                    </div>
+                    <div class="kpi-value text-teal-custom">₹50k Covered</div>
+                    <div class="kpi-trend positive">
+                      <i class="bi bi-patch-check"></i> 30-Day Escrow Protection
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="kpi-card">
+                    <div class="kpi-top">
+                      <span class="kpi-label">Saved Pros</span>
+                      <div class="kpi-icon-box kpi-icon-dark">
+                        <i class="bi bi-bookmark-heart"></i>
+                      </div>
+                    </div>
+                    <div class="kpi-value">4 Masters</div>
+                    <div class="kpi-trend">
+                      <span class="text-muted">Quick 1-click rebooking</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- ========================================================
+                 TAB 2: My Bookings (Complete Redesign)
+                 ======================================================== -->
+            <div class="tab-pane fade" id="tab-bookings" role="tabpanel">
+              
+              <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+                <div>
+                  <h4 class="font-weight-bold text-dark mb-1">My Service Bookings</h4>
+                  <p class="text-muted small mb-0">Review current live bookings, past completed orders, OTP verification codes, and invoices.</p>
+                </div>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-dark active">All (3)</button>
+                  <button class="btn btn-outline-dark">Active (1)</button>
+                  <button class="btn btn-outline-dark">Completed (2)</button>
+                </div>
+              </div>
+
+              <!-- BOOKING CARD 1: ACTIVE -->
+              <div class="booking-item-card is-active">
+                <div class="booking-header-bar">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="live-pulse-dot"></span>
+                    <span class="badge bg-dark text-white font-monospace">#BK-98421</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
+                      <i class="bi bi-clock-history me-1"></i> Active • On the Way
+                    </span>
+                  </div>
+                  <div class="h5 font-weight-bold text-teal-custom mb-0">₹1,499</div>
+                </div>
+
+                <h5 class="booking-service-title">Full Home Electrical Safety Audit & Rewiring</h5>
+                
+                <div class="booking-meta-row">
+                  <div class="booking-meta-item">
+                    <i class="bi bi-calendar3"></i>
+                    <span><strong>Date & Time:</strong> Tomorrow, Oct 6 • 10:00 AM – 12:00 PM</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-person-badge"></i>
+                    <span><strong>Assigned Pro:</strong> Vikram Electrical Solutions (4.98 ★)</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span><strong>Address:</strong> Flat 402, Goyal Intercity, Drive-In Road, Bodakdev, Ahmedabad</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-wallet2"></i>
+                    <span><strong>Payment:</strong> Instant UPI / GPay (Escrow Protected)</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-3 border-top">
+                  <div class="booking-otp-pill">
+                    <i class="bi bi-shield-lock-fill text-secondary"></i>
+                    <span>Technician Completion OTP: <strong class="booking-otp-code">4821</strong></span>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button class="btn-custom btn-custom-outline btn-custom-sm" onclick="window.showToast('📍 Live GPS tracking open', 'info', 'bi-geo')">
+                      <i class="bi bi-geo me-1 text-teal-custom"></i> Track Live
+                    </button>
+                    <a href="tel:+919876543210" class="btn-custom btn-custom-primary btn-custom-sm">
+                      <i class="bi bi-telephone-fill me-1"></i> Contact Pro
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOOKING CARD 2: COMPLETED (ONLINE ESCROW) -->
+              <div class="booking-item-card">
+                <div class="booking-header-bar">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-light text-dark border font-monospace">#BK-97110</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
+                      <i class="bi bi-check-circle-fill me-1"></i> Completed & Verified
+                    </span>
+                    <span class="badge bg-light text-muted border">Sep 28, 2026</span>
+                  </div>
+                  <div class="h5 font-weight-bold text-dark mb-0">₹1,899</div>
+                </div>
+
+                <h5 class="booking-service-title">High-Pressure Hydro-Jet Drain Cleaning</h5>
+                
+                <div class="booking-meta-row">
+                  <div class="booking-meta-item">
+                    <i class="bi bi-person-badge"></i>
+                    <span><strong>Provider:</strong> AquaFlow Master Plumbers</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span><strong>Location:</strong> Flat 402, Prestige Elm Park, Whitefield</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-shield-check text-success"></i>
+                    <span><strong>Escrow Status:</strong> Released to Provider via OTP 9124</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-award text-teal-custom"></i>
+                    <span><strong>Warranty:</strong> Active until Oct 28, 2026 (30 Days)</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-3 border-top">
+                  <div class="text-muted small">
+                    <i class="bi bi-star-fill text-warning me-1"></i> Rated 5.0 by you: <em>"Prompt arrival, solved stubborn blockage in 30 mins."</em>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button class="btn-custom btn-custom-outline btn-custom-sm" onclick="window.showToast('📄 Downloading GST Tax Invoice PDF...', 'info', 'bi-file-earmark-pdf')">
+                      <i class="bi bi-download me-1 text-teal-custom"></i> GST Invoice
+                    </button>
+                    <a href="{% url 'service_detail' %}?cat=plumber" class="btn-custom btn-custom-soft btn-custom-sm">
+                      <i class="bi bi-arrow-repeat me-1"></i> Rebook Service
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOOKING CARD 3: COMPLETED (CASH ON SERVICE) -->
+              <div class="booking-item-card">
+                <div class="booking-header-bar">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-light text-dark border font-monospace">#BK-96504</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
+                      <i class="bi bi-check-circle-fill me-1"></i> Completed & Verified
+                    </span>
+                    <span class="badge bg-light text-muted border">Sep 15, 2026</span>
+                  </div>
+                  <div class="h5 font-weight-bold text-dark mb-0">₹999</div>
+                </div>
+
+                <h5 class="booking-service-title">AC Deep Cleaning & Filter Sanitization</h5>
+                
+                <div class="booking-meta-row">
+                  <div class="booking-meta-item">
+                    <i class="bi bi-person-badge"></i>
+                    <span><strong>Provider:</strong> CoolTech Master Solutions</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span><strong>Location:</strong> Flat 402, Goyal Intercity, Bodakdev, Ahmedabad</span>
+                  </div>
+                  <div class="booking-meta-item">
+                    <i class="bi bi-cash-stack text-success"></i>
+                    <span><strong>Payment Mode:</strong> Cash on Service (Paid ₹999 to Technician)</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-3 border-top">
+                  <div class="text-muted small">
+                    <i class="bi bi-patch-check-fill text-success me-1"></i> Verified Cash Receipt Generated #REC-33019
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button class="btn-custom btn-custom-outline btn-custom-sm" onclick="window.showToast('📄 Downloading Cash Receipt PDF...', 'info', 'bi-receipt')">
+                      <i class="bi bi-receipt me-1 text-teal-custom"></i> Receipt
+                    </button>
+                    <a href="{% url 'service_detail' %}?cat=acrepair" class="btn-custom btn-custom-soft btn-custom-sm">
+                      <i class="bi bi-arrow-repeat me-1"></i> Rebook Service
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- ========================================================
+                 TAB 3: Saved Craftsmen
+                 ======================================================== -->
+            <div class="tab-pane fade" id="tab-saved" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                  <div>
+                    <h4 class="font-weight-bold text-dark mb-1">Saved Master Craftsmen</h4>
+                    <p class="text-muted small mb-0">Your bookmarked and highly-rated professionals for priority booking.</p>
+                  </div>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" class="rounded-circle border" style="width: 52px; height: 52px; object-fit: cover;">
+                        <div>
+                          <h6 class="font-weight-bold mb-0 text-dark">Apex Craft Renovations</h6>
+                          <div class="text-muted small">4.98 ★ (412 Reviews) • Luxury Kitchens</div>
+                          <span class="badge bg-success-subtle text-success mt-1" style="font-size: 10px;">Available Tomorrow</span>
+                        </div>
+                      </div>
+                      <a href="{% url 'service_detail' %}?cat=renovation" class="btn-custom btn-custom-primary btn-custom-sm">Book</a>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" class="rounded-circle border" style="width: 52px; height: 52px; object-fit: cover;">
+                        <div>
+                          <h6 class="font-weight-bold mb-0 text-dark">Artisan Woodcraft Guild</h6>
+                          <div class="text-muted small">4.92 ★ (290 Reviews) • Teak Furniture</div>
+                          <span class="badge bg-success-subtle text-success mt-1" style="font-size: 10px;">Available Today</span>
+                        </div>
+                      </div>
+                      <a href="{% url 'service_detail' %}?cat=carpenter" class="btn-custom btn-custom-primary btn-custom-sm">Book</a>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?auto=format&fit=crop&w=120&q=80" class="rounded-circle border" style="width: 52px; height: 52px; object-fit: cover;">
+                        <div>
+                          <h6 class="font-weight-bold mb-0 text-dark">Vikram Electrical Solutions</h6>
+                          <div class="text-muted small">4.98 ★ (340 Reviews) • Automation & Power</div>
+                          <span class="badge bg-primary-subtle text-primary mt-1" style="font-size: 10px;">Current Active Pro</span>
+                        </div>
+                      </div>
+                      <a href="{% url 'service_detail' %}?cat=electrical" class="btn-custom btn-custom-outline btn-custom-sm">View</a>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" class="rounded-circle border" style="width: 52px; height: 52px; object-fit: cover;">
+                        <div>
+                          <h6 class="font-weight-bold mb-0 text-dark">AquaFlow Master Plumbers</h6>
+                          <div class="text-muted small">4.95 ★ (518 Reviews) • Hydro & Piping</div>
+                          <span class="badge bg-success-subtle text-success mt-1" style="font-size: 10px;">Available Tomorrow</span>
+                        </div>
+                      </div>
+                      <a href="{% url 'service_detail' %}?cat=plumber" class="btn-custom btn-custom-primary btn-custom-sm">Book</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ========================================================
+                 TAB 4: Escrow & Payments
+                 ======================================================== -->
+            <div class="tab-pane fade" id="tab-payments" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                  <div>
+                    <h4 class="font-weight-bold text-dark mb-1">Escrow & Payment History</h4>
+                    <p class="text-muted small mb-0">Every payment is secured in a third-party escrow vault and released only upon your OTP confirmation.</p>
+                  </div>
+                </div>
+
+                <!-- Escrow Shield Info Box -->
+                <div class="p-3 rounded-3 mb-4 d-flex align-items-center gap-3" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.08) 0%, rgba(132, 204, 22, 0.08) 100%); border: 1px solid rgba(15, 118, 110, 0.2);">
+                  <i class="bi bi-shield-lock-fill text-teal-custom fs-2 flex-shrink-0"></i>
+                  <div>
+                    <strong class="text-dark">100% Escrow Protection Active:</strong>
+                    <div class="text-muted small">Funds are safely protected. Whether paying via UPI, Card, or Cash on Service, you never pay for substandard work.</div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light small">
+                      <tr>
+                        <th>Transaction ID</th>
+                        <th>Service</th>
+                        <th>Payment Mode</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody class="small">
+                      <tr>
+                        <td><code>TXN-884920</code></td>
+                        <td>Electrical Safety Audit</td>
+                        <td><i class="bi bi-qr-code text-teal-custom me-1"></i> UPI / GPay</td>
+                        <td>Oct 05, 2026</td>
+                        <td class="font-weight-bold">₹1,499</td>
+                        <td><span class="badge bg-dark">Locked in Escrow</span></td>
+                      </tr>
+                      <tr>
+                        <td><code>TXN-773190</code></td>
+                        <td>Hydro-Jet Drain Cleaning</td>
+                        <td><i class="bi bi-credit-card text-teal-custom me-1"></i> Credit Card</td>
+                        <td>Sep 28, 2026</td>
+                        <td class="font-weight-bold">₹1,899</td>
+                        <td><span class="badge bg-success-subtle text-success border border-success-subtle fw-semibold">Released to Pro</span></td>
+                      </tr>
+                      <tr>
+                        <td><code>TXN-661204</code></td>
+                        <td>AC Deep Cleaning & Gas Refill</td>
+                        <td><i class="bi bi-cash-stack text-success me-1"></i> Cash on Service</td>
+                        <td>Sep 15, 2026</td>
+                        <td class="font-weight-bold">₹999</td>
+                        <td><span class="badge bg-success-subtle text-success border border-success-subtle fw-semibold">Settled with Pro</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- ========================================================
+                 TAB 5: Saved Addresses
+                 ======================================================== -->
+            <div class="tab-pane fade" id="tab-addresses" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                  <div>
+                    <h4 class="font-weight-bold text-dark mb-1">Saved Addresses</h4>
+                    <p class="text-muted small mb-0">Manage service locations for instant 1-click booking dispatch.</p>
+                  </div>
+                  <button class="btn-custom btn-custom-outline btn-custom-sm" onclick="window.showToast('📍 Add new address modal initialized', 'info')">
+                    <i class="bi bi-plus-lg me-1"></i> Add New Address
+                  </button>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light position-relative">
+                      <span class="badge bg-dark position-absolute top-0 end-0 m-3">Primary Default</span>
+                      <h6 class="font-weight-bold mb-1 text-dark"><i class="bi bi-house-door-fill text-teal-custom me-2"></i> Home (Bodakdev)</h6>
+                      <p class="text-muted small mb-2">Flat 402, Goyal Intercity, Drive-In Road, Bodakdev, Ahmedabad, Gujarat - 380054</p>
+                      <span class="text-muted small"><i class="bi bi-telephone me-1"></i> Contact: +91 98765 43210</span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-white position-relative">
+                      <h6 class="font-weight-bold mb-1 text-dark"><i class="bi bi-building text-teal-custom me-2"></i> Weekend Villa</h6>
+                      <p class="text-muted small mb-2">Villa 18, Sun City, South Bopal, Ahmedabad, Gujarat - 380058</p>
+                      <span class="text-muted small"><i class="bi bi-telephone me-1"></i> Contact: +91 98765 43210</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ========================================================
+                 TAB 6: Profile Settings
+                 ======================================================== -->
+            <div class="tab-pane fade" id="tab-profile" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <h4 class="font-weight-bold text-dark mb-1">Account & Preferences</h4>
+                <p class="text-muted small mb-4">Update your homeowner profile details, contact preferences, and security settings.</p>
+                
+                <form onsubmit="event.preventDefault(); window.showToast('✅ Profile updated successfully!', 'success');">
+              {% csrf_token %}
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">Full Name</label>
+                      <input type="text" class="form-control" value="Priyanka Nambiar">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">Email Address</label>
+                      <input type="email" class="form-control" value="priyanka.nambiar@example.com">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">Phone Number</label>
+                      <input type="tel" class="form-control" value="+91 98765 43210">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">City / Location</label>
+                      <input type="text" class="form-control" value="Ahmedabad, Gujarat">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn-custom btn-custom-primary mt-4">Save Changes</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation Dock (App Experience) -->
+  <div class="mobile-bottom-dock">
+    <a href="{% url 'home' %}" class="dock-item">
+      <i class="bi bi-house-door-fill"></i>
+      <span>Home</span>
+    </a>
+    <a href="{% url 'services' %}" class="dock-item">
+      <i class="bi bi-grid-fill"></i>
+      <span>Services</span>
+    </a>
+    <a href="{% url 'services' %}" class="dock-item-primary" title="Instant Book">
+      <i class="bi bi-lightning-charge-fill"></i>
+    </a>
+    <a href="{% url 'customer_dashboard' %}" class="dock-item active">
+      <i class="bi bi-calendar-check"></i>
+      <span>Bookings</span>
+    </a>
+    <a href="{% url 'provider_dashboard' %}" class="dock-item">
+      <i class="bi bi-person-circle"></i>
+      <span>Pro Hub</span>
+    </a>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container-custom">
+      <div class="footer-bottom d-flex align-items-center justify-content-between flex-wrap gap-2 pt-0 mt-0 border-0">
+        <div>© 2026 Mistrry Home Solution. All rights reserved.</div>
+        <div class="d-flex gap-4">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Support Concierge</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/customer.js' %}"></script>
+</body>
+</html>
+

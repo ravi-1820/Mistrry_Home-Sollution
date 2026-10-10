@@ -1,0 +1,411 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Profile & Settings | Mistrry Home Solution</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body style="background-color: var(--background);">
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px; border-radius: 9999px; padding: 4px 10px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <a href="{% url 'home' %}" class="switch-link active"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Navbar -->
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg py-3">
+      <div class="container-custom d-flex align-items-center justify-content-between">
+        <a class="brand-logo" href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" alt="Mistrry Home Solution" class="brand-logo-img" style="height: 60px; width: auto; object-fit: contain;">
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="{% url 'customer_dashboard' %}" class="btn-custom btn-custom-outline btn-custom-sm">
+            <i class="bi bi-calendar2-check-fill text-teal-custom me-1"></i> My Bookings
+          </a>
+          <a href="{% url 'services' %}" class="btn-custom btn-custom-primary btn-custom-sm">
+            <i class="bi bi-plus-lg me-1"></i> Book New Service
+          </a>
+          
+          <div class="dropdown">
+            <button class="user-avatar-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Customer Profile" class="user-avatar" id="nav-user-avatar">
+              <span class="d-none d-md-inline fw-bold small text-dark">Priyanka N.</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 mt-2">
+              <li><h6 class="dropdown-header">Customer Account</h6></li>
+              <li><a class="dropdown-item active" href="{% url 'customer_profile' %}"><i class="bi bi-person-circle me-2"></i> Profile & Settings</a></li>
+              <li><a class="dropdown-item" href="{% url 'customer_dashboard' %}"><i class="bi bi-calendar-check me-2"></i> My Bookings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-dark" href="{% url 'signin' %}"><i class="bi bi-box-arrow-right me-2"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Profile Hero Banner -->
+  <section class="customer-portal-header">
+    <div class="container-custom">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge" style="background: #E6F4F1; color: #00897B; border: 1px solid rgba(0, 137, 123, 0.25); font-weight: 700; font-size: 11px; border-radius: 9999px; padding: 4px 10px;">
+              <i class="bi bi-person-check-fill me-1"></i> Homeowner Account
+            </span>
+            <span class="text-muted small">• Identity & Preferences</span>
+          </div>
+          <h2 class="font-weight-bold text-dark mb-1" style="letter-spacing: -0.02em;">Account Profile & Settings</h2>
+          <p class="text-muted small mb-0">Manage your contact information, saved service addresses, and notification preferences.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="{% url 'customer_dashboard' %}" class="btn-custom btn-custom-outline">
+            <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Profile Page Container -->
+  <main class="py-4 flex-grow-1">
+    <div class="container-custom">
+      <div class="row g-4">
+        
+        <!-- Left Column: User Summary & Interactive Nav Tabs -->
+        <div class="col-lg-4">
+          <div class="customer-sidebar-card sticky-top" style="top: 96px;">
+            
+            <!-- User Avatar & Identity Card -->
+            <div class="text-center p-3 mb-3 bg-light rounded-4 border">
+              <div class="position-relative d-inline-block mb-3">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Priyanka Nambiar" class="rounded-circle border shadow-sm" id="profile-photo-preview" style="width: 90px; height: 90px; object-fit: cover;">
+                <label for="avatar-upload" class="position-absolute bottom-0 end-0 bg-dark text-white rounded-circle border border-white shadow-sm" style="cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Change Photo">
+                  <i class="bi bi-camera-fill" style="font-size: 12px;"></i>
+                </label>
+                <input type="file" id="avatar-upload" class="d-none" accept="image/*" onchange="handleAvatarChange(event)">
+              </div>
+
+              <h5 class="font-weight-bold text-dark mb-1">Priyanka Nambiar</h5>
+              <div class="text-muted small mb-2"><i class="bi bi-envelope me-1"></i> priyanka.nambiar@example.com</div>
+              
+              <div class="d-flex justify-content-center gap-1.5 flex-wrap">
+                <span class="badge" style="background: #DCFCE7; color: #16A34A; font-weight: 700; font-size: 11px; border-radius: 9999px; padding: 4px 10px;">
+                  <i class="bi bi-patch-check-fill me-1"></i> Verified Homeowner
+                </span>
+                <span class="badge bg-dark text-white py-1 px-2.5 rounded-pill" style="font-size: 11px;">
+                  Member since Sep 2025
+                </span>
+              </div>
+            </div>
+
+            <!-- Profile Nav Tabs -->
+            <div class="nav flex-column customer-nav-pills gap-1" id="profileTab" role="tablist">
+              <button class="nav-link active" id="tab-btn-personal" data-bs-toggle="pill" data-bs-target="#tab-personal" type="button" role="tab">
+                <i class="bi bi-person-vcard"></i>
+                <span>Personal & Contact Info</span>
+              </button>
+              <button class="nav-link" id="tab-btn-addresses" data-bs-toggle="pill" data-bs-target="#tab-addresses" type="button" role="tab">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>Saved Service Addresses</span>
+              </button>
+              <button class="nav-link" id="tab-btn-notifications" data-bs-toggle="pill" data-bs-target="#tab-notifications" type="button" role="tab">
+                <i class="bi bi-bell-fill"></i>
+                <span>Dispatch & WhatsApp Alerts</span>
+              </button>
+              <button class="nav-link" id="tab-btn-security" data-bs-toggle="pill" data-bs-target="#tab-security" type="button" role="tab">
+                <i class="bi bi-shield-lock-fill"></i>
+                <span>Account Security & Password</span>
+              </button>
+            </div>
+
+            <!-- Quick Help Box -->
+            <div class="mt-4 p-3 bg-light rounded-3 border text-center">
+              <div class="text-muted small mb-1">Need help with your account?</div>
+              <a href="{% url 'contact' %}" class="btn btn-sm btn-outline-dark rounded-pill px-3 font-weight-semibold" style="font-size: 12px;">
+                <i class="bi bi-headset me-1 text-teal-custom"></i> 24/7 Concierge Support
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Column: Clean Tab Content -->
+        <div class="col-lg-8">
+          <div class="tab-content" id="profileTabContent">
+            
+            <!-- Tab 1: Personal & Contact Information -->
+            <div class="tab-pane fade show active" id="tab-personal" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                  <div>
+                    <h5 class="font-weight-bold text-dark mb-1"><i class="bi bi-person-vcard text-teal-custom me-2"></i> Personal & Contact Information</h5>
+                    <p class="text-muted small mb-0">Your primary identification and contact details used for service visits and invoices.</p>
+                  </div>
+                </div>
+
+                <form onsubmit="handlePersonalSubmit(event)">
+              {% csrf_token %}
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">First Name</label>
+                      <input type="text" class="form-control font-weight-semibold" id="input-first-name" value="Priyanka" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">Last Name</label>
+                      <input type="text" class="form-control font-weight-semibold" id="input-last-name" value="Nambiar" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">Email Address</label>
+                      <div class="input-group">
+                        <input type="email" class="form-control font-weight-semibold" value="priyanka.nambiar@example.com" readonly style="background-color: var(--surface-subtle);">
+                        <span class="input-group-text bg-success-subtle text-success border-success-subtle" style="font-size: 12px; font-weight: 700;">
+                          <i class="bi bi-check-circle-fill me-1"></i> Verified
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small text-muted font-weight-bold">Mobile Number (for OTPs)</label>
+                      <div class="input-group">
+                        <input type="tel" class="form-control font-weight-semibold" value="+91 98765 43210" readonly style="background-color: var(--surface-subtle);">
+                        <span class="input-group-text bg-success-subtle text-success border-success-subtle" style="font-size: 12px; font-weight: 700;">
+                          <i class="bi bi-check-circle-fill me-1"></i> Verified
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <label class="form-label small text-muted font-weight-bold">City / Location</label>
+                      <input type="text" class="form-control font-weight-semibold" value="Ahmedabad, Gujarat" required>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                    <button type="submit" class="btn-custom btn-custom-primary">
+                      <i class="bi bi-check2 me-1"></i> Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Tab 2: Saved Service Addresses -->
+            <div class="tab-pane fade" id="tab-addresses" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom flex-wrap gap-2">
+                  <div>
+                    <h5 class="font-weight-bold text-dark mb-1"><i class="bi bi-geo-alt-fill text-teal-custom me-2"></i> Saved Service Addresses</h5>
+                    <p class="text-muted small mb-0">Manage pre-saved locations for instant 1-click mistry booking dispatch.</p>
+                  </div>
+                  <button class="btn btn-sm btn-custom btn-custom-primary rounded-pill px-3 py-1.5 font-weight-bold d-flex align-items-center gap-1.5" onclick="window.showToast('📍 Add new address modal initialized', 'info')">
+                    <i class="bi bi-plus-lg"></i> Add New Address
+                  </button>
+                </div>
+
+                <div class="row g-3">
+                  <!-- Address 1 -->
+                  <div class="col-md-6">
+                    <div class="p-3.5 border rounded-3 bg-light position-relative h-100 d-flex flex-column justify-content-between">
+                      <span class="badge bg-dark position-absolute top-0 end-0 m-3 rounded-pill px-2.5 py-1" style="font-size: 10.5px;">Default Primary</span>
+                      <div>
+                        <h6 class="font-weight-bold mb-1 text-dark"><i class="bi bi-house-door-fill text-teal-custom me-2"></i> Home (Bodakdev Apartment)</h6>
+                        <p class="text-muted small mb-2">Flat 402, Goyal Intercity, Drive-In Road, Bodakdev, Ahmedabad, Gujarat - 380054</p>
+                        <span class="text-muted small d-block"><i class="bi bi-telephone me-1"></i> Contact: +91 98765 43210</span>
+                      </div>
+                      <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                        <button class="btn btn-sm btn-link text-teal-custom p-0 text-decoration-none fw-bold" onclick="window.showToast('✏️ Edit address form opened', 'info')">Edit Address</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Address 2 -->
+                  <div class="col-md-6">
+                    <div class="p-3.5 border rounded-3 bg-white position-relative h-100 d-flex flex-column justify-content-between">
+                      <div>
+                        <h6 class="font-weight-bold mb-1 text-dark"><i class="bi bi-building text-teal-custom me-2"></i> Weekend Villa (South Bopal)</h6>
+                        <p class="text-muted small mb-2">Villa 18, Sun City, South Bopal, Ahmedabad, Gujarat - 380058</p>
+                        <span class="text-muted small d-block"><i class="bi bi-telephone me-1"></i> Contact: +91 98765 43210</span>
+                      </div>
+                      <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                        <button class="btn btn-sm btn-link text-teal-custom p-0 text-decoration-none fw-bold" onclick="window.showToast('✏️ Edit address form opened', 'info')">Edit Address</button>
+                        <span class="text-muted small">•</span>
+                        <button class="btn btn-sm btn-link text-muted p-0 text-decoration-none" onclick="window.showToast('⭐️ Set as primary default address', 'success')">Set as Default</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 3: Alerts & WhatsApp Notifications -->
+            <div class="tab-pane fade" id="tab-notifications" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                  <div>
+                    <h5 class="font-weight-bold text-dark mb-1"><i class="bi bi-bell-fill text-teal-custom me-2"></i> Dispatch & Communication Alerts</h5>
+                    <p class="text-muted small mb-0">Control how you receive technician arrival tracking and service invoices.</p>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                  <!-- Notification 1 -->
+                  <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-light">
+                    <div>
+                      <h6 class="font-weight-bold text-dark mb-0"><i class="bi bi-whatsapp text-success me-2"></i> WhatsApp Real-Time Dispatch Tracking</h6>
+                      <div class="text-muted small">Receive technician live location, vehicle number, and start OTP directly on WhatsApp.</div>
+                    </div>
+                    <div class="form-check form-switch fs-5 ms-3">
+                      <input class="form-check-input" type="checkbox" role="switch" checked onchange="window.showToast('WhatsApp dispatch alerts updated', 'info')">
+                    </div>
+                  </div>
+
+                  <!-- Notification 2 -->
+                  <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-light">
+                    <div>
+                      <h6 class="font-weight-bold text-dark mb-0"><i class="bi bi-chat-text-fill text-teal-custom me-2"></i> SMS Critical Arrival & OTP Alerts</h6>
+                      <div class="text-muted small">Instant SMS sent when technician reaches your doorstep.</div>
+                    </div>
+                    <div class="form-check form-switch fs-5 ms-3">
+                      <input class="form-check-input" type="checkbox" role="switch" checked onchange="window.showToast('SMS critical arrival alerts updated', 'info')">
+                    </div>
+                  </div>
+
+                  <!-- Notification 3 -->
+                  <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-light">
+                    <div>
+                      <h6 class="font-weight-bold text-dark mb-0"><i class="bi bi-envelope-check-fill text-dark me-2"></i> Email Invoices & 30-Day Warranty Certs</h6>
+                      <div class="text-muted small">Get downloadable GST invoices and Mistrry Home Solution warranty certificates.</div>
+                    </div>
+                    <div class="form-check form-switch fs-5 ms-3">
+                      <input class="form-check-input" type="checkbox" role="switch" checked onchange="window.showToast('Email invoice preferences updated', 'info')">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 4: Account Security & Password -->
+            <div class="tab-pane fade" id="tab-security" role="tabpanel">
+              <div class="card-custom p-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                  <div>
+                    <h5 class="font-weight-bold text-dark mb-1"><i class="bi bi-shield-lock-fill text-teal-custom me-2"></i> Password & Account Security</h5>
+                    <p class="text-muted small mb-0">Update your login credentials and manage your account protection.</p>
+                  </div>
+                </div>
+
+                <form onsubmit="handlePasswordChange(event)">
+              {% csrf_token %}
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <label class="form-label small text-muted font-weight-bold">Current Password</label>
+                      <input type="password" class="form-control font-weight-semibold" placeholder="••••••••" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label small text-muted font-weight-bold">New Password</label>
+                      <input type="password" class="form-control font-weight-semibold" placeholder="Min. 8 characters" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label small text-muted font-weight-bold">Confirm New Password</label>
+                      <input type="password" class="form-control font-weight-semibold" placeholder="••••••••" required>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top flex-wrap gap-2">
+                    <div class="text-success small font-weight-bold">
+                      <i class="bi bi-shield-check me-1"></i> Two-Factor Authentication (2FA) is Active
+                    </div>
+                    <button type="submit" class="btn-custom btn-custom-primary">
+                      <i class="bi bi-key-fill me-1"></i> Update Password
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container-custom">
+      <div class="footer-bottom d-flex align-items-center justify-content-between flex-wrap gap-2 pt-0 mt-0 border-0">
+        <div>© 2026 Mistrry Home Solution. All rights reserved.</div>
+        <div class="d-flex gap-4">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Support Concierge</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/customer.js' %}"></script>
+
+  <script>
+    function handleAvatarChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const preview = document.getElementById('profile-photo-preview');
+          const navAvatar = document.getElementById('nav-user-avatar');
+          if (preview) preview.src = evt.target.result;
+          if (navAvatar) navAvatar.src = evt.target.result;
+          window.showToast('✅ Profile photo updated successfully!', 'success');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handlePersonalSubmit(e) {
+      e.preventDefault();
+      const fn = document.getElementById('input-first-name').value;
+      const ln = document.getElementById('input-last-name').value;
+      window.showToast(`✅ Profile details for ${fn} ${ln} saved successfully!`, 'success');
+    }
+
+    function handlePasswordChange(e) {
+      e.preventDefault();
+      window.showToast('🔒 Account password updated successfully!', 'success');
+    }
+  </script>
+</body>
+</html>

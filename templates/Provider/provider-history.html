@@ -1,0 +1,409 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job History & Revisits | Mistrry Pro</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px; border-radius: 9999px; padding: 4px 10px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link provider-active"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Provider Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Pro</span></div>
+          <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 9.5px; border-radius: 9999px; padding: 2px 8px; letter-spacing: 0.05em;">VERIFIED PARTNER</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Work & Dispatch</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_dashboard' %}" class="sidebar-nav-link">
+            <i class="bi bi-speedometer2"></i> Dashboard Overview
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_jobs' %}" class="sidebar-nav-link">
+            <i class="bi bi-briefcase"></i> Job Requests & Tasks
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">2</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_schedule' %}" class="sidebar-nav-link">
+            <i class="bi bi-calendar3"></i> Schedule & Slots
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_quotations' %}" class="sidebar-nav-link">
+            <i class="bi bi-file-earmark-text"></i> Inspections & Quotations
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_earnings' %}" class="sidebar-nav-link">
+            <i class="bi bi-wallet2"></i> Earnings & Payouts
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_history' %}" class="sidebar-nav-link active">
+            <i class="bi bi-clock-history"></i> Job History & Revisits
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_profile' %}" class="sidebar-nav-link">
+            <i class="bi bi-person-badge"></i> Business Profile
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="javascript:void(0)" onclick="window.showToast('🔔 3 Unread notifications logged', 'info')" class="sidebar-nav-link">
+            <i class="bi bi-bell"></i> Notifications
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">3</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'contact' %}" class="sidebar-nav-link">
+            <i class="bi bi-question-circle"></i> Help & Support
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" class="rounded-circle border border-2" style="width: 40px; height: 40px; object-fit: cover;">
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">Vikram Electrical</div>
+          <div class="text-lime-custom small d-flex align-items-center gap-1" style="font-size: 11px;">
+            <i class="bi bi-circle-fill" style="font-size: 6px;"></i> Verified Professional
+          </div>
+        </div>
+        <a href="{% url 'provider_profile' %}" class="text-muted hover-white" title="Profile Details"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="dashboard-main">
+      <!-- Topbar -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-outline-secondary d-md-none" onclick="document.querySelector('.dashboard-sidebar').classList.toggle('show')">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <div>
+            <h4 class="font-weight-bold mb-0 text-dark">Job History & Revisits</h4>
+            <span class="text-muted small">Archived service records, 30-day warranty coverage & customer review ledger</span>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1.5 font-weight-semibold d-flex align-items-center gap-1.5" onclick="window.showToast('📄 Exporting full 480-job history CSV report...', 'info')">
+            <i class="bi bi-download"></i> Export History CSV
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        <!-- 4 KPI Summary Cards -->
+        <div class="row g-3 mb-4">
+          <!-- KPI 1 -->
+          <div class="col-xl-3 col-md-6">
+            <div class="provider-kpi-box">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="kpi-label">Completed Jobs</span>
+                <div class="kpi-icon-mint"><i class="bi bi-check2-all"></i></div>
+              </div>
+              <div>
+                <div class="kpi-number-bold">480</div>
+                <div class="text-teal-custom font-weight-bold" style="font-size: 12px;">100% Escrow Cleared</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div class="col-xl-3 col-md-6">
+            <div class="provider-kpi-box">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="kpi-label">Revisit Rate</span>
+                <div class="kpi-icon-mint" style="background: #DCFCE7; color: #16A34A;"><i class="bi bi-arrow-repeat"></i></div>
+              </div>
+              <div>
+                <div class="kpi-number-bold">0.8%</div>
+                <div class="text-muted" style="font-size: 12px;">Top 1% Quality in Ahmedabad</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="col-xl-3 col-md-6">
+            <div class="provider-kpi-box">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="kpi-label">Active 30-Day Warranties</span>
+                <div class="kpi-icon-mint" style="background: #E0F2FE; color: #0284C7;"><i class="bi bi-shield-check"></i></div>
+              </div>
+              <div>
+                <div class="kpi-number-bold">18</div>
+                <div class="text-muted" style="font-size: 12px;">Eligible for zero-cost revisit</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="col-xl-3 col-md-6">
+            <div class="provider-kpi-box">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="kpi-label">Average Pro Rating</span>
+                <div class="kpi-icon-mint" style="background: #FEF3C7; color: #D97706;"><i class="bi bi-star-fill text-warning"></i></div>
+              </div>
+              <div>
+                <div class="kpi-number-bold">4.95 ★</div>
+                <div class="text-muted" style="font-size: 12px;">380+ Verified 5-Star Reviews</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Revisit Alert Box -->
+        <div class="border rounded-4 p-3.5 mb-4 bg-white shadow-xs" style="border-left: 4px solid #00897B !important;">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div class="d-flex align-items-start gap-3">
+              <div class="kpi-icon-mint" style="width: 44px; height: 44px; font-size: 20px;"><i class="bi bi-tools"></i></div>
+              <div>
+                <div class="d-flex align-items-center gap-2">
+                  <h6 class="font-weight-bold text-dark mb-0">Scheduled Warranty Revisit: #REV-209</h6>
+                  <span class="badge" style="background: #DCFCE7; color: #16A34A; font-weight: 700; font-size: 11px; border-radius: 9999px;">30-Day Warranty Protected</span>
+                </div>
+                <p class="text-muted small mb-1 mt-0.5">
+                  <strong>Customer:</strong> Karan Trivedi • <strong>Location:</strong> Sterling City, Bopal • <strong>Original Job:</strong> #BK-9210 (Completed Sep 28, 2026)
+                </p>
+                <div class="text-dark small"><i class="bi bi-info-circle text-teal-custom me-1"></i> Issue: <em>"Sub-panel MCB tripped on induction cooktop. Rechecking terminal tightness."</em></div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1.5 font-weight-semibold" onclick="window.showToast('📞 Calling customer Karan Trivedi...', 'info')">
+                <i class="bi bi-telephone-fill text-teal-custom me-1"></i> Call Customer
+              </button>
+              <button class="btn btn-sm font-weight-bold text-white rounded-pill px-3 py-1.5" style="background: #00897B;" onclick="window.showToast('✅ Revisit arrival logged! No charges billed under warranty.', 'success')">
+                <i class="bi bi-check2-circle me-1"></i> Complete Revisit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Past Jobs Master Table -->
+        <div class="provider-card">
+          <!-- Filters & Search -->
+          <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-1.5 flex-wrap">
+              <button class="job-filter-btn active" onclick="filterHistory('all', this)">All History (480)</button>
+              <button class="job-filter-btn" onclick="filterHistory('warranty', this)">Under 30-Day Warranty (18)</button>
+              <button class="job-filter-btn" onclick="filterHistory('revisit', this)">Revisit Logged (4)</button>
+              <button class="job-filter-btn" onclick="filterHistory('top', this)">5-Star Rated (462)</button>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+              <div class="input-group input-group-sm" style="width: 240px;">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control border-start-0 ps-0" placeholder="Search by job ID or customer..." onkeyup="searchHistory(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <!-- History Table -->
+          <div class="table-responsive">
+            <table class="table align-middle mb-0" style="font-size: 13.5px;">
+              <thead class="bg-light text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.05em;">
+                <tr>
+                  <th class="py-3 px-3">Job ID</th>
+                  <th class="py-3">Customer & Area</th>
+                  <th class="py-3">Service Scope</th>
+                  <th class="py-3">Completion Date</th>
+                  <th class="py-3">Total Billed</th>
+                  <th class="py-3">Warranty Status</th>
+                  <th class="py-3">Rating</th>
+                  <th class="py-3 text-end px-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="history-rows">
+                <!-- Row 1 -->
+                <tr class="history-row" data-type="warranty">
+                  <td class="px-3 font-weight-bold text-dark">#BK-98421</td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Priyanka Nambiar</div>
+                    <div class="text-muted small">Bodakdev, Ahmedabad</div>
+                  </td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Full Home Electrical Safety Audit</div>
+                    <div class="text-muted small">63A Distribution board testing & compliance report</div>
+                  </td>
+                  <td>Oct 08, 2026</td>
+                  <td class="font-weight-bold text-dark fs-6">₹1,499</td>
+                  <td>
+                    <span class="badge" style="background: #DCFCE7; color: #16A34A; font-weight: 700; font-size: 11px; border-radius: 9999px;">
+                      Active (29 Days Left)
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning font-weight-bold"><i class="bi bi-star-fill"></i> 5.0</div>
+                  </td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 font-weight-semibold" onclick="window.showToast('📄 Downloading Invoice for #BK-98421...', 'info')">
+                      Invoice
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr class="history-row" data-type="warranty">
+                  <td class="px-3 font-weight-bold text-dark">#BK-97810</td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Vikram Rathod</div>
+                    <div class="text-muted small">Satellite, Ahmedabad</div>
+                  </td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Sub-Panel MCB Replacement & Balancing</div>
+                    <div class="text-muted small">40A double-pole isolator install</div>
+                  </td>
+                  <td>Oct 02, 2026</td>
+                  <td class="font-weight-bold text-dark fs-6">₹2,800</td>
+                  <td>
+                    <span class="badge" style="background: #DCFCE7; color: #16A34A; font-weight: 700; font-size: 11px; border-radius: 9999px;">
+                      Active (23 Days Left)
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning font-weight-bold"><i class="bi bi-star-fill"></i> 5.0</div>
+                  </td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 font-weight-semibold" onclick="window.showToast('📄 Downloading Invoice for #BK-97810...', 'info')">
+                      Invoice
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr class="history-row" data-type="revisit">
+                  <td class="px-3 font-weight-bold text-dark">#BK-9210</td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Karan Trivedi</div>
+                    <div class="text-muted small">Sterling City, Bopal</div>
+                  </td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Induction Hob Dedicated Cable Line</div>
+                    <div class="text-muted small">Revisit requested for terminal tightening</div>
+                  </td>
+                  <td>Sep 28, 2026</td>
+                  <td class="font-weight-bold text-dark fs-6">₹3,400</td>
+                  <td>
+                    <span class="badge" style="background: #FEF3C7; color: #D97706; font-weight: 700; font-size: 11px; border-radius: 9999px;">
+                      Revisit Scheduled
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning font-weight-bold"><i class="bi bi-star-fill"></i> 4.8</div>
+                  </td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-light border rounded-pill px-3 py-1 font-weight-semibold text-teal-custom" onclick="window.showToast('🛠 Revisit details opened', 'info')">
+                      Revisit Log
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 4 -->
+                <tr class="history-row" data-type="top">
+                  <td class="px-3 font-weight-bold text-dark">#BK-8902</td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Dr. Sneha Parikh</div>
+                    <div class="text-muted small">Vastrapur, Ahmedabad</div>
+                  </td>
+                  <td>
+                    <div class="font-weight-bold text-dark">Clinic Dental Chair UPS Inverter Backup Wiring</div>
+                    <div class="text-muted small">Pure sine wave inverter connection & grounding test</div>
+                  </td>
+                  <td>Sep 15, 2026</td>
+                  <td class="font-weight-bold text-dark fs-6">₹8,500</td>
+                  <td>
+                    <span class="badge" style="background: #F1F5F9; color: #64748B; font-weight: 600; font-size: 11px; border-radius: 9999px;">
+                      Warranty Completed
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning font-weight-bold"><i class="bi bi-star-fill"></i> 5.0</div>
+                  </td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 font-weight-semibold" onclick="window.showToast('📄 Downloading Invoice for #BK-8902...', 'info')">
+                      Invoice
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script>
+    function filterHistory(type, btn) {
+      document.querySelectorAll('.job-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const rows = document.querySelectorAll('.history-row');
+      rows.forEach(row => {
+        if (type === 'all' || row.dataset.type === type) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function searchHistory(query) {
+      const q = query.toLowerCase();
+      const rows = document.querySelectorAll('.history-row');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

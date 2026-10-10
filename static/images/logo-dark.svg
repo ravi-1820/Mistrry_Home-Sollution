@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" fill="none">
+  <defs>
+    <linearGradient id="mistrryDarkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C9A7"/>
+      <stop offset="50%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#84CC16"/>
+    </linearGradient>
+    <linearGradient id="mistrryDarkMGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C9A7"/>
+      <stop offset="100%" stop-color="#A3E635"/>
+    </linearGradient>
+    <linearGradient id="mistrryDarkTextGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D2B4"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ICON MARK (Left) -->
+  <g transform="translate(10, 5)">
+    <!-- Outer Hex House Frame -->
+    <path d="M75 12 L138 52 V128 L114 142 V68 L75 42 L36 68 V142 L12 128 V52 Z" fill="url(#mistrryDarkGrad)" />
+    <!-- Chimney -->
+    <path d="M112 28 V18 H126 V37 Z" fill="url(#mistrryDarkGrad)"/>
+    
+    <!-- 4 Window Panes -->
+    <rect x="64" y="26" width="9" height="9" rx="2" fill="#A3E635"/>
+    <rect x="77" y="26" width="9" height="9" rx="2" fill="#A3E635"/>
+    <rect x="64" y="38" width="9" height="9" rx="2" fill="#A3E635"/>
+    <rect x="77" y="38" width="9" height="9" rx="2" fill="#A3E635"/>
+
+    <!-- Center Stylized M Chevron -->
+    <path d="M38 78 L75 106 L112 78 V128 L75 152 L38 128 Z" fill="url(#mistrryDarkMGrad)"/>
+    <path d="M48 88 L75 108 L102 88 V120 L75 138 L48 120 Z" fill="#FFFFFF" opacity="0.3"/>
+  </g>
+
+  <!-- BRAND TYPOGRAPHY (Right) -->
+  <!-- "Mistrry" -->
+  <text x="175" y="78" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="62" fill="url(#mistrryDarkTextGrad)" letter-spacing="-1.5">Mistrry</text>
+  <!-- Bright Lime Dot on 'i' of Mistrry -->
+  <circle cx="238" cy="38" r="9" fill="#A3E635"/>
+
+  <!-- "Home Solution" -->
+  <text x="175" y="122" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="40" fill="#84CC16" letter-spacing="-0.5">Home Solution</text>
+
+  <!-- Tagline -->
+  <text x="175" y="148" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="13" fill="#E2E8F0" letter-spacing="0.3">Your Home  •  Our Expertise  •  Complete Solution</text>
+</svg>

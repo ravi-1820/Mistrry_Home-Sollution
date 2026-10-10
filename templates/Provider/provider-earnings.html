@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider Earnings & Escrow Payouts | Mistrry Home Solution Pro</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link provider-active"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Pro</span></div>
+          <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 9.5px; border-radius: 9999px; padding: 2px 8px; letter-spacing: 0.05em;">VERIFIED PARTNER</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Work & Dispatch</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_dashboard' %}" class="sidebar-nav-link">
+            <i class="bi bi-speedometer2"></i> Dashboard Overview
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_jobs' %}" class="sidebar-nav-link">
+            <i class="bi bi-briefcase"></i> Job Requests & Tasks
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">2</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_schedule' %}" class="sidebar-nav-link">
+            <i class="bi bi-calendar3"></i> Schedule & Slots
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_quotations' %}" class="sidebar-nav-link">
+            <i class="bi bi-file-earmark-text"></i> Inspections & Quotations
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_earnings' %}" class="sidebar-nav-link active">
+            <i class="bi bi-wallet2"></i> Earnings & Payouts
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_history' %}" class="sidebar-nav-link">
+            <i class="bi bi-clock-history"></i> Job History & Revisits
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_profile' %}" class="sidebar-nav-link">
+            <i class="bi bi-person-badge"></i> Business Profile
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="javascript:void(0)" onclick="window.showToast('🔔 3 Unread notifications logged', 'info')" class="sidebar-nav-link">
+            <i class="bi bi-bell"></i> Notifications
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">3</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'contact' %}" class="sidebar-nav-link">
+            <i class="bi bi-question-circle"></i> Help & Support
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" class="rounded-circle border border-2" style="width: 40px; height: 40px; object-fit: cover;">
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">Vikram Electrical</div>
+          <div class="text-lime-custom small d-flex align-items-center gap-1" style="font-size: 11px;">
+            <i class="bi bi-circle-fill" style="font-size: 6px;"></i> Verified Professional
+          </div>
+        </div>
+        <a href="{% url 'provider_profile' %}" class="text-muted hover-white" title="Profile Details"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="font-weight-bold mb-0">Financial Settlements & Payouts</h4>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn-custom btn-custom-primary btn-custom-sm" data-bs-toggle="modal" data-bs-target="#payoutModal">
+            <i class="bi bi-bank me-1"></i> Request Instant Bank Payout
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        <!-- Balance Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <div class="kpi-card">
+              <div class="kpi-label">Available for Withdrawal</div>
+              <div class="h3 font-weight-bold text-teal-custom mb-1">₹42,800</div>
+              <div class="small text-muted">Ready for IMPS instant transfer</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="kpi-card">
+              <div class="kpi-label">Pending In Escrow</div>
+              <div class="h3 font-weight-bold text-lime-custom mb-1">₹6,500</div>
+              <div class="small text-muted">Pending customer OTP release</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="kpi-card">
+              <div class="kpi-label">This Month Total</div>
+              <div class="h3 font-weight-bold text-dark mb-1">₹1,14,500</div>
+              <div class="small text-teal-custom font-weight-bold"><i class="bi bi-arrow-up"></i> +24.5% Growth</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="kpi-card">
+              <div class="kpi-label">Lifetime Settlements</div>
+              <div class="h3 font-weight-bold text-dark mb-1">₹14.2 Lakhs</div>
+              <div class="small text-muted">480 Total Jobs</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transaction Ledger Table -->
+        <div class="card-custom p-4 bg-white">
+          <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+            <h5 class="font-weight-bold mb-0">Settlement Transaction Ledger</h5>
+            <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('📥 Exporting GST Statement CSV...', 'info')">
+              <i class="bi bi-file-earmark-spreadsheet me-1"></i> Export Statement
+            </button>
+          </div>
+
+          <div class="table-custom-wrapper">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Settlement ID</th>
+                  <th>Job / Customer</th>
+                  <th>Date</th>
+                  <th>Gross Amount</th>
+                  <th>Platform Fee (15%)</th>
+                  <th>Net Payout</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>SET-99410</code></td>
+                  <td>#BK-97810 (Vikram Rathod)</td>
+                  <td>Oct 02, 2026</td>
+                  <td>₹2,800</td>
+                  <td class="text-muted">-₹420</td>
+                  <td class="font-weight-bold text-teal-custom">₹2,380</td>
+                  <td><span class="badge-custom badge-custom-verified">Settled to Bank</span></td>
+                </tr>
+                <tr>
+                  <td><code>SET-99201</code></td>
+                  <td>#BK-97450 (Kavita Nair)</td>
+                  <td>Sep 29, 2026</td>
+                  <td>₹5,500</td>
+                  <td class="text-muted">-₹825</td>
+                  <td class="font-weight-bold text-teal-custom">₹4,675</td>
+                  <td><span class="badge-custom badge-custom-verified">Settled to Bank</span></td>
+                </tr>
+                <tr>
+                  <td><code>SET-98842</code></td>
+                  <td>#BK-97110 (Sneha M.)</td>
+                  <td>Sep 28, 2026</td>
+                  <td>₹1,899</td>
+                  <td class="text-muted">-₹284</td>
+                  <td class="font-weight-bold text-teal-custom">₹1,615</td>
+                  <td><span class="badge-custom badge-custom-verified">Settled to Bank</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Payout Request Modal -->
+  <div class="modal fade" id="payoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 p-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title font-weight-bold">Transfer to Linked Bank Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="p-3 bg-light rounded-3 mb-3 border">
+            <div class="text-muted small">Linked HDFC Bank Account:</div>
+            <div class="font-weight-bold text-dark">HDFC Bank •••• 4920 (IFSC: HDFC0001234)</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small text-muted font-weight-bold">Withdrawal Amount (₹)</label>
+            <input type="number" class="form-control form-control-lg font-weight-bold" value="42800" max="42800" style="border-radius: var(--radius-md);">
+            <div class="form-text small text-muted">Available: ₹42,800. No transfer fee.</div>
+          </div>
+          <button class="btn-custom btn-custom-primary w-100" data-bs-dismiss="modal" onclick="window.showToast('🚀 Payout initiated! ₹42,800 transferred to your HDFC account.', 'success', 'bi-bank')">
+            Confirm Instant Transfer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

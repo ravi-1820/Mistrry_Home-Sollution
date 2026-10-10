@@ -1,0 +1,105 @@
+:root {
+  /* ==========================================================================
+     HOMESERV LUXURY DESIGN SYSTEM (Supabase Sage & Linear Architecture)
+     Strict 4-Color Palette:
+     - Primary: Deep Forest Teal (#0F766E)
+     - Secondary: Electric Lime (#84CC16)
+     - Background: Soft Sage/Off-White (#F7F8F5)
+     - Dark: Velvet Charcoal (#17211F)
+     ========================================================================== */
+  --primary: #0F766E;
+  --primary-rgb: 15, 118, 110;
+  --primary-light: #115E59;
+  --primary-dark: #134E4A;
+  --primary-hover: #115E59;
+  --primary-subtle: rgba(15, 118, 110, 0.08);
+  --primary-subtle-hover: rgba(15, 118, 110, 0.16);
+
+  --secondary: #84CC16;
+  --secondary-rgb: 132, 204, 22;
+  --secondary-light: #A3E635;
+  --secondary-dark: #65A30D;
+  --secondary-hover: #A3E635;
+  --secondary-subtle: rgba(132, 204, 22, 0.16);
+  --secondary-subtle-hover: rgba(132, 204, 22, 0.26);
+
+  --background: #F7F8F5;
+  --background-subtle: #ECEFEA;
+  --surface: #FFFFFF;
+  --surface-card: #FFFFFF;
+  --surface-subtle: #F1F4EE;
+  --surface-hover: #E7ECE3;
+  --surface-border: #DFE5DA;
+  --surface-border-subtle: #E8EDE4;
+
+  --dark: #17211F;
+  --dark-rgb: 23, 33, 31;
+  --dark-light: #22312E;
+  --dark-surface: #1B2825;
+  --dark-border: rgba(247, 248, 245, 0.12);
+
+  --text-primary: #17211F;
+  --text-secondary: #475854;
+  --text-muted: #70827E;
+  --text-inverse: #F7F8F5;
+  --text-teal: #0F766E;
+  --text-lime: #65A30D;
+
+  /* Typography Scale (Modern Ultra-Crisp System) */
+  --font-family-display: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-base: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3.125rem;   /* 50px */
+  --font-size-6xl: 4rem;       /* 64px */
+
+  /* Spacing Scale (8px Grid) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+
+  /* Modern Radius (16–28px) */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* Restrained, Layered Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(23, 33, 31, 0.03);
+  --shadow-sm: 0 2px 6px 0 rgba(23, 33, 31, 0.04);
+  --shadow-md: 0 8px 24px -4px rgba(23, 33, 31, 0.07);
+  --shadow-lg: 0 16px 36px -6px rgba(23, 33, 31, 0.09);
+  --shadow-xl: 0 24px 50px -8px rgba(23, 33, 31, 0.12);
+  --shadow-glow-teal: 0 12px 30px -4px rgba(15, 118, 110, 0.25);
+  --shadow-glow-lime: 0 12px 30px -4px rgba(132, 204, 22, 0.3);
+
+  /* Transitions */
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Dimensions */
+  --container-max-width: 1760px;
+  --container-max-width-wide: 1840px;
+  --navbar-height: 76px;
+  --sidebar-width: 270px;
+}

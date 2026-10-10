@@ -1,0 +1,816 @@
+/* ==========================================================================
+   HOMESERV - Dashboard & Portal Architecture (Supabase Sage Edition)
+   Strict 4-Color Palette: #0F766E (Teal), #84CC16 (Lime), #F7F8F5 (Sage), #17211F (Dark)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Dashboard Layout Shell
+   -------------------------------------------------------------------------- */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.dashboard-sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--dark);
+  color: #B5C4C0;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width var(--transition-base), transform var(--transition-base);
+  z-index: 1040;
+  border-right: 1px solid var(--dark-border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: var(--space-6) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.sidebar-brand-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.025em;
+}
+
+.sidebar-menu-category {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #71807D;
+  padding: var(--space-4) var(--space-6) var(--space-2) var(--space-6);
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: var(--space-2) var(--space-4);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav-item .sidebar-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: #9BA9A6;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.sidebar-nav-item .sidebar-nav-link i {
+  font-size: 1.15rem;
+  color: #71807D;
+  transition: color var(--transition-fast);
+}
+
+.sidebar-nav-item .sidebar-nav-link:hover {
+  color: #FFFFFF;
+  background-color: rgba(247, 248, 245, 0.06);
+}
+
+.sidebar-nav-item .sidebar-nav-link:hover i {
+  color: var(--secondary);
+}
+
+.sidebar-nav-item .sidebar-nav-link.active {
+  color: #FFFFFF;
+  background-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.35);
+}
+
+.sidebar-nav-item .sidebar-nav-link.active i {
+  color: var(--secondary);
+}
+
+.sidebar-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--dark-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Dashboard Main Container & Topbar
+   -------------------------------------------------------------------------- */
+.dashboard-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--background);
+}
+
+.dashboard-topbar {
+  height: var(--navbar-height);
+  background-color: rgba(247, 248, 245, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--surface-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.dashboard-body {
+  padding: var(--space-8);
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .dashboard-topbar {
+    padding: 0 var(--space-4);
+  }
+  .dashboard-body {
+    padding: var(--space-4);
+  }
+  .dashboard-sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+  }
+  .dashboard-sidebar.show {
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   KPI Metric Cards (Supabase Sage Minimalist Style)
+   -------------------------------------------------------------------------- */
+.kpi-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-base);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(15, 118, 110, 0.3);
+}
+
+.kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.kpi-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.kpi-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 1px solid var(--surface-border);
+}
+
+.kpi-icon-primary {
+  background-color: var(--primary-subtle);
+  color: var(--primary);
+  border-color: rgba(15, 118, 110, 0.2);
+}
+
+.kpi-icon-accent,
+.kpi-icon-warning,
+.kpi-icon-lime {
+  background-color: var(--secondary-subtle);
+  color: var(--text-lime);
+  border-color: rgba(132, 204, 22, 0.35);
+}
+
+.kpi-icon-dark {
+  background-color: var(--dark);
+  color: var(--secondary);
+  border-color: var(--dark-border);
+}
+
+.kpi-icon-success,
+.kpi-icon-info {
+  background-color: var(--primary-subtle);
+  color: var(--primary);
+  border-color: rgba(15, 118, 110, 0.2);
+}
+
+.kpi-value {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.1;
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.025em;
+}
+
+.kpi-trend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.kpi-trend.positive {
+  color: var(--primary);
+}
+
+.kpi-trend.negative {
+  color: var(--dark);
+}
+
+/* --------------------------------------------------------------------------
+   Status Timeline Component (Job Status Flow)
+   -------------------------------------------------------------------------- */
+.status-timeline {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: var(--space-6) 0;
+  padding: 0 var(--space-4);
+}
+
+.status-timeline::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background-color: var(--surface-border);
+  z-index: 1;
+}
+
+.status-timeline-node {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.status-timeline-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 2px solid var(--surface-border);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  transition: all var(--transition-base);
+}
+
+.status-timeline-node.completed .status-timeline-dot {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--dark);
+  font-weight: 800;
+}
+
+.status-timeline-node.active .status-timeline-dot {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px var(--primary-subtle);
+}
+
+.status-timeline-text {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.status-timeline-node.active .status-timeline-text,
+.status-timeline-node.completed .status-timeline-text {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Data Tables (Admin & Provider Master Tables)
+   -------------------------------------------------------------------------- */
+.table-custom-wrapper {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+
+.table-custom {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+}
+
+.table-custom thead th {
+  background-color: var(--surface-subtle);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--surface-border);
+  white-space: nowrap;
+}
+
+.table-custom tbody td {
+  padding: 15px 18px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--surface-border-subtle);
+  color: var(--dark);
+  font-size: var(--font-size-sm);
+  background-color: var(--surface);
+}
+
+.table-custom tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-custom tbody tr:hover td {
+  background-color: var(--surface-hover);
+}
+
+/* --------------------------------------------------------------------------
+   Provider Calendar / Schedule Slots
+   -------------------------------------------------------------------------- */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 991px) {
+  .schedule-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.schedule-day-col {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+}
+
+.schedule-day-header {
+  text-align: center;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--surface-border-subtle);
+  margin-bottom: var(--space-3);
+}
+
+.schedule-slot-card {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  margin-bottom: 8px;
+  border-left: 3px solid var(--primary);
+  background-color: var(--surface-subtle);
+}
+
+.schedule-slot-card.booked {
+  background-color: var(--primary-subtle);
+  border-left-color: var(--primary);
+}
+
+.schedule-slot-card.available {
+  background-color: var(--secondary-subtle);
+  border-left-color: var(--secondary);
+}
+
+/* ==========================================================================
+   CUSTOMER PORTAL & BOOKINGS REDESIGN (Supabase Emerald Luxury)
+   ========================================================================== */
+
+.customer-portal-header {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--surface-border);
+  padding: 28px 0;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.customer-sidebar-card {
+  background: #FFFFFF;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 4px 24px rgba(15, 118, 110, 0.04);
+  padding: 22px;
+}
+
+.customer-profile-box {
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.07) 0%, rgba(132, 204, 22, 0.07) 100%);
+  border: 1px solid rgba(15, 118, 110, 0.14);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.customer-nav-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.customer-nav-pills .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #4A5568;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.customer-nav-pills .nav-link i {
+  font-size: 1.15rem;
+  color: #718096;
+  transition: color var(--transition-fast);
+}
+
+.customer-nav-pills .nav-link:hover {
+  background: #F7F8F5;
+  color: var(--dark);
+  border-color: var(--surface-border);
+}
+
+.customer-nav-pills .nav-link:hover i {
+  color: var(--primary);
+}
+
+.customer-nav-pills .nav-link.active {
+  background: var(--dark) !important;
+  color: #FFFFFF !important;
+  border-color: var(--dark) !important;
+  box-shadow: 0 6px 18px rgba(10, 37, 29, 0.22) !important;
+}
+
+.customer-nav-pills .nav-link.active i {
+  color: var(--secondary) !important;
+}
+
+.customer-nav-pills .nav-link.active .badge {
+  background-color: var(--secondary) !important;
+  color: var(--dark) !important;
+}
+
+/* Premium Booking Cards */
+.booking-item-card {
+  background: #FFFFFF;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  margin-bottom: 20px;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-item-card:hover {
+  border-color: rgba(15, 118, 110, 0.3);
+  box-shadow: 0 12px 32px rgba(15, 118, 110, 0.08);
+  transform: translateY(-2px);
+}
+
+.booking-item-card.is-active {
+  border-color: rgba(15, 118, 110, 0.35);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFCFB 100%);
+  border-left: 4px solid var(--primary);
+}
+
+.booking-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--surface-border);
+  margin-bottom: 18px;
+}
+
+.booking-service-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+
+.booking-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  font-size: 13px;
+  color: #4A5568;
+  margin-bottom: 18px;
+}
+
+.booking-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.booking-meta-item i {
+  color: var(--primary);
+  font-size: 14px;
+}
+
+.booking-otp-pill {
+  background: var(--dark);
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--dark-border);
+}
+
+.booking-otp-code {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--secondary);
+  letter-spacing: 0.1em;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: beaconPulse 2s infinite ease-in-out;
+  display: inline-block;
+}
+
+.tracking-stepper-box {
+  background: #F7F8F5;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   MISTRRY PRO - PROVIDER DASHBOARD (Emerald Pro Edition)
+   ========================================================================== */
+
+.switch-link.provider-active {
+  background: #84CC16 !important;
+  color: #0C1E18 !important;
+  font-weight: 700 !important;
+  border-radius: var(--radius-full) !important;
+  padding: 5px 14px !important;
+}
+
+.provider-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1280px) {
+  .provider-kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .provider-kpi-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.provider-kpi-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 18px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all 180ms ease;
+  min-height: 146px;
+}
+
+.provider-kpi-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 137, 123, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 137, 123, 0.08);
+}
+
+.kpi-icon-mint {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(0, 137, 123, 0.08);
+  color: #00897B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.kpi-number-bold {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin: 8px 0 4px 0;
+  font-family: var(--font-family-display);
+}
+
+.status-toggle-pill {
+  background: #E6F4F1;
+  color: #00897B;
+  border: 1px solid rgba(0, 137, 123, 0.25);
+  border-radius: 9999px;
+  padding: 5px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  user-select: none;
+}
+
+.status-toggle-pill:hover {
+  background: #DCF2EE;
+}
+
+.status-toggle-pill.offline {
+  background: #F1F5F9;
+  color: #64748B;
+  border-color: #CBD5E1;
+}
+
+.current-dispatch-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.job-req-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  transition: all 180ms ease;
+}
+
+.job-req-card:hover {
+  border-color: rgba(0, 137, 123, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 137, 123, 0.08);
+}
+
+.quotation-status-row {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  transition: all 150ms ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.quotation-status-row:hover {
+  background: #F8FAFC;
+  border-color: rgba(0, 137, 123, 0.3);
+  transform: translateX(2px);
+}
+
+.quotation-num-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13.5px;
+  flex-shrink: 0;
+}
+
+.quotation-num-blue {
+  background: #E0F2FE;
+  color: #0284C7;
+}
+
+.quotation-num-green {
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+.quotation-num-yellow {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.quotation-num-emerald {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.job-filter-btn {
+  background: transparent;
+  color: #64748B;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.job-filter-btn:hover {
+  color: #0F172A;
+  background: #F1F5F9;
+}
+
+.job-filter-btn.active {
+  background: #00897B;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+

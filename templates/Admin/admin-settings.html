@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform Settings & API Dependencies | Mistrry Home Solution Admin</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link active"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Admin Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Admin</span></div>
+          <span class="badge bg-transparent border border-light text-white small font-weight-bold" style="font-size: 10px;">ENTERPRISE SUITE</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Platform Core</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_dashboard' %}" class="sidebar-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_bookings' %}" class="sidebar-nav-link"><i class="bi bi-calendar2-check"></i> Bookings <span class="sidebar-badge bg-secondary text-dark font-weight-bold">18 New</span></a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_users' %}" class="sidebar-nav-link"><i class="bi bi-people"></i> Customers</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_providers' %}" class="sidebar-nav-link"><i class="bi bi-person-badge"></i> Professionals <span class="sidebar-badge bg-secondary text-dark font-weight-bold">14 Audit</span></a></li>
+      </ul>
+
+      <div class="sidebar-menu-category">Operations & Catalog</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_services' %}" class="sidebar-nav-link"><i class="bi bi-grid"></i> Services & Categories</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_quotations' %}" class="sidebar-nav-link"><i class="bi bi-file-earmark-text"></i> Quotations <span class="sidebar-badge bg-dark text-white border border-light">23 Pending</span></a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_revisits' %}" class="sidebar-nav-link"><i class="bi bi-arrow-repeat"></i> Revisit Management</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_payments' %}" class="sidebar-nav-link"><i class="bi bi-currency-rupee"></i> Payments & Refunds</a></li>
+      </ul>
+
+      <div class="sidebar-menu-category">Quality & Management</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_reviews' %}" class="sidebar-nav-link"><i class="bi bi-star-half"></i> Complaints & Reviews</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_reports' %}" class="sidebar-nav-link"><i class="bi bi-graph-up-arrow"></i> Reports</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_settings' %}" class="sidebar-nav-link active"><i class="bi bi-gear"></i> Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar-sm bg-secondary text-dark font-weight-bold d-flex align-items-center justify-content-center rounded-circle">AD</div>
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">System Superadmin</div>
+          <div class="text-muted small" style="font-size: 11px;">Operations HQ</div>
+        </div>
+        <a href="{% url 'home' %}" class="text-muted hover-white" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="font-weight-bold mb-0">Platform Settings & Technical Architecture</h4>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn-custom btn-custom-primary btn-custom-sm" onclick="window.showToast('✅ Platform configuration updated in session state.', 'success')">
+            <i class="bi bi-check-lg me-1"></i> Save Changes
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+
+        <div class="row g-4">
+          <!-- 1. Diagnostic Visit Fee (₹149) Settings -->
+          <div class="col-lg-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <h5 class="font-weight-bold mb-1">Inspection Visit Charge Rules</h5>
+              <span class="text-muted small d-block mb-3">Diagnostic dispatch fee configured for initial technician visit</span>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted font-weight-bold">Inspection Fee Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light font-weight-bold">₹</span>
+                  <input type="text" class="form-control font-weight-bold" value="149" readonly style="background-color: var(--surface-subtle);">
+                </div>
+                <div class="text-muted" style="font-size: 11px; margin-top: 4px;">Initial configured charge is ₹149. Managed according to client-approved standard policy.</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted font-weight-bold">Quotation Settlement Rule</label>
+                <select class="form-select" style="border-radius: var(--radius-md);">
+                  <option>Client Policy: Assessed per approved quotation terms</option>
+                  <option>Deductible from quotation total upon acceptance</option>
+                  <option>Standalone inspection diagnostic fee</option>
+                </select>
+              </div>
+
+              <div class="alert alert-light border small text-muted mb-0">
+                <i class="bi bi-info-circle me-1 text-teal-custom"></i>
+                Fee collection is processed through verified gateway payment intents prior to professional dispatch.
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Warranty & Revisit Policy Settings -->
+          <div class="col-lg-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <h5 class="font-weight-bold mb-1">Warranty & Revisit Parameters</h5>
+              <span class="text-muted small d-block mb-3">Rules governing linked follow-up appointments</span>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted font-weight-bold">Workmanship Warranty Window</label>
+                <select class="form-select" style="border-radius: var(--radius-md);">
+                  <option>30 Days Standard Workmanship Warranty</option>
+                  <option>60 Days Extended Guarantee</option>
+                  <option>90 Days Major Renovation Warranty</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted font-weight-bold">Revisit Technician Allocation</label>
+                <select class="form-select" style="border-radius: var(--radius-md);">
+                  <option>Default to original booking technician (Recommended)</option>
+                  <option>Allow admin transfer to alternate verified pro</option>
+                </select>
+              </div>
+
+              <div class="alert alert-light border small text-muted mb-0">
+                <i class="bi bi-shield-check me-1 text-teal-custom"></i>
+                All warranty revisits require linking to a completed booking reference with verified inspection history.
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Backend Integration Dependencies & Status -->
+          <div class="col-12">
+            <div class="card-custom p-4 bg-white">
+              <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                  <h5 class="font-weight-bold mb-0">Backend API Integration Checklist & Status</h5>
+                  <span class="text-muted small">Strict frontend-only audit: Documenting live frontend state vs backend endpoints required for persistence</span>
+                </div>
+                <span class="badge bg-secondary text-dark font-weight-bold">Audit Matrix</span>
+              </div>
+
+              <div class="table-custom-wrapper">
+                <table class="table-custom">
+                  <thead>
+                    <tr>
+                      <th>Module / Feature</th>
+                      <th>Frontend Implementation</th>
+                      <th>Required Backend API Endpoint</th>
+                      <th>Production Persistence Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Booking Management</td>
+                      <td>Full UI with filters, details, pro transfer, reschedule, cancel</td>
+                      <td class="font-mono small text-muted">/api/admin/bookings/</td>
+                      <td><span class="badge-custom badge-custom-verified">Frontend UI Active (Session State)</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Professional Management</td>
+                      <td>Dossier inspection, verification queue, account activation/suspension</td>
+                      <td class="font-mono small text-muted">/api/admin/providers/verify/</td>
+                      <td><span class="badge-custom badge-custom-verified">Frontend UI Active (Session State)</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Service Categories (9)</td>
+                      <td>Complete 9 categories catalog, active/inactive switch, service creator</td>
+                      <td class="font-mono small text-muted">/api/categories/</td>
+                      <td><span class="badge-custom badge-custom-verified">Client-Approved Taxonomy Locked</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Visit Charge (₹149)</td>
+                      <td>₹149 UI display, separate transaction records, payment statuses</td>
+                      <td class="font-mono small text-muted">/api/payments/visit-charge/</td>
+                      <td><span class="badge-custom badge-custom-verified">Frontend Display Active</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Quotation Management</td>
+                      <td>Breakdown modal, itemized labour/material costs, revision history</td>
+                      <td class="font-mono small text-muted">/api/quotations/</td>
+                      <td><span class="badge-custom badge-custom-verified">Frontend Audit Active</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Revisit Management</td>
+                      <td>Linked original booking picker, date/time inputs, reason logging</td>
+                      <td class="font-mono small text-muted">/api/admin/revisits/</td>
+                      <td><span class="badge-custom badge-custom-verified">Frontend UI Active (Session State)</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold text-dark">Payment Gateway & Refunds</td>
+                      <td>Distinct ₹149 and quotation ledger, filters, read-only refund display</td>
+                      <td class="font-mono small text-muted">/api/payments/refund/ (Webhook)</td>
+                      <td><span class="badge-custom badge-custom-lime">Backend Verification Required</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/admin.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partner Dashboard | Mistrry Pro</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px; border-radius: 9999px; padding: 4px 10px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link provider-active"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Provider Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Pro</span></div>
+          <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 9.5px; border-radius: 9999px; padding: 2px 8px; letter-spacing: 0.05em;">VERIFIED PARTNER</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Work & Dispatch</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_dashboard' %}" class="sidebar-nav-link active">
+            <i class="bi bi-speedometer2"></i> Dashboard Overview
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_jobs' %}" class="sidebar-nav-link">
+            <i class="bi bi-briefcase"></i> Job Requests & Tasks
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">2</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_schedule' %}" class="sidebar-nav-link">
+            <i class="bi bi-calendar3"></i> Schedule & Slots
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_quotations' %}" class="sidebar-nav-link">
+            <i class="bi bi-file-earmark-text"></i> Inspections & Quotations
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_earnings' %}" class="sidebar-nav-link">
+            <i class="bi bi-wallet2"></i> Earnings & Payouts
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_history' %}" class="sidebar-nav-link">
+            <i class="bi bi-clock-history"></i> Job History & Revisits
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_profile' %}" class="sidebar-nav-link">
+            <i class="bi bi-person-badge"></i> Business Profile
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="javascript:void(0)" onclick="window.showToast('🔔 3 Unread notifications: 2 new service leads and 1 escrow release.', 'info')" class="sidebar-nav-link">
+            <i class="bi bi-bell"></i> Notifications
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">3</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'contact' %}" class="sidebar-nav-link">
+            <i class="bi bi-question-circle"></i> Help & Support
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" class="rounded-circle border border-2" style="width: 40px; height: 40px; object-fit: cover;">
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">Vikram Electrical</div>
+          <div class="text-lime-custom small d-flex align-items-center gap-1" style="font-size: 11px;">
+            <i class="bi bi-circle-fill" style="font-size: 6px;"></i> Verified Professional
+          </div>
+        </div>
+        <a href="{% url 'provider_profile' %}" class="text-muted hover-white" title="Profile Details"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <div class="dashboard-main">
+      <!-- Topbar -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-outline-secondary d-md-none" onclick="document.querySelector('.dashboard-sidebar').classList.toggle('show')">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <h4 class="font-weight-bold mb-0 text-dark">Partner Dashboard</h4>
+          <div id="availability-toggle-btn" class="status-toggle-pill" onclick="toggleProviderAvailability()">
+            <span class="live-pulse-dot"></span>
+            <span id="availability-text">Accepting New Jobs</span>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2.5">
+          <button class="btn btn-sm btn-light border rounded-pill px-3.5 py-1.5 d-flex align-items-center gap-2" onclick="window.showToast('🔔 You have 2 new residential leads in Bodakdev, Ahmedabad', 'info')">
+            <i class="bi bi-bell text-dark"></i>
+            <span class="text-dark font-weight-semibold" style="font-size: 13.5px;">Notifications</span>
+            <span class="badge rounded-pill" style="background: #00897B; color: #fff; font-size: 11px; padding: 3px 7px;">3</span>
+          </button>
+          <a href="{% url 'provider_profile' %}" class="btn btn-sm btn-light border rounded-pill px-3.5 py-1.5 d-flex align-items-center gap-1.5 text-dark font-weight-semibold" style="font-size: 13.5px;">
+            <i class="bi bi-eye text-dark"></i> Public Profile
+          </a>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        <!-- 5 KPI Summary Cards (Row 1) -->
+        <div class="provider-kpi-grid mb-4">
+          <!-- KPI 1: Today's Jobs -->
+          <div class="provider-kpi-box">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="kpi-label">Today's Jobs</span>
+              <div class="kpi-icon-mint"><i class="bi bi-calendar-event"></i></div>
+            </div>
+            <div>
+              <div class="kpi-number-bold">3</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 12px; font-weight: 500;">
+                <span><i class="bi bi-circle-fill text-teal-custom me-1" style="font-size: 7px;"></i>2 Completed</span>
+                <span>•</span>
+                <span><i class="bi bi-circle-fill text-dark me-1" style="font-size: 7px;"></i>1 In Progress</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 2: Pending Requests -->
+          <div class="provider-kpi-box">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="kpi-label">Pending Requests</span>
+              <div class="kpi-icon-mint"><i class="bi bi-bell"></i></div>
+            </div>
+            <div>
+              <div class="kpi-number-bold">2</div>
+              <div class="text-muted" style="font-size: 12px; font-weight: 500;">Respond within 30 mins</div>
+            </div>
+          </div>
+
+          <!-- KPI 3: Monthly Net Earnings -->
+          <div class="provider-kpi-box">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="kpi-label">Monthly Net Earnings</span>
+              <div class="kpi-icon-mint"><i class="bi bi-currency-rupee"></i></div>
+            </div>
+            <div>
+              <div class="kpi-number-bold">₹1,14,500</div>
+              <div class="d-flex align-items-center gap-1 text-teal-custom" style="font-size: 12px; font-weight: 700;">
+                <i class="bi bi-arrow-up-right font-weight-bold"></i> +24.5% vs last month
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 4: Completed Jobs -->
+          <div class="provider-kpi-box">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="kpi-label">Completed Jobs</span>
+              <div class="kpi-icon-mint"><i class="bi bi-check2-square"></i></div>
+            </div>
+            <div>
+              <div class="kpi-number-bold">480</div>
+              <div class="d-flex align-items-center gap-1 text-teal-custom" style="font-size: 12px; font-weight: 700;">
+                <i class="bi bi-patch-check-fill"></i> 100% Escrow Cleared
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 5: Professional Rating -->
+          <div class="provider-kpi-box">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="kpi-label">Pro Rating</span>
+              <div class="kpi-icon-mint"><i class="bi bi-star-fill text-lime-custom"></i></div>
+            </div>
+            <div>
+              <div class="kpi-number-bold d-flex align-items-center gap-1">
+                4.95 <i class="bi bi-star-fill text-teal-custom" style="font-size: 1.5rem;"></i>
+              </div>
+              <div class="d-flex align-items-center gap-1 text-teal-custom" style="font-size: 12px; font-weight: 700;">
+                <i class="bi bi-patch-check-fill"></i> Top 1% in Ahmedabad
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Monthly Revenue Chart & Current Job in Dispatch -->
+        <div class="row g-4 mb-4">
+          <!-- Revenue & Payout Trends (Col-lg-7) -->
+          <div class="col-lg-7">
+            <div class="provider-card h-100 d-flex flex-column justify-content-between">
+              <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2.5">
+                  <div class="kpi-icon-mint"><i class="bi bi-graph-up-arrow"></i></div>
+                  <div>
+                    <h5 class="font-weight-bold mb-0 text-dark" style="font-size: 16px;">Monthly Revenue & Payout Trends</h5>
+                    <span class="text-muted" style="font-size: 12px;">Net earnings after platform commission</span>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-light border rounded-pill px-3 d-flex align-items-center gap-1.5 text-dark font-weight-semibold" style="font-size: 12.5px;" data-bs-toggle="dropdown">
+                    <i class="bi bi-calendar3"></i> Last 6 Months <i class="bi bi-chevron-down small ms-1"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                    <li><a class="dropdown-item active" href="javascript:void(0)" onclick="updateChartRange('6M')">Last 6 Months</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" onclick="updateChartRange('3M')">Last 3 Months</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" onclick="updateChartRange('1Y')">Past Year (2025-2026)</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div style="height: 270px; position: relative; width: 100%;">
+                <canvas id="providerEarningsChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Job In Dispatch (Col-lg-5) -->
+          <div class="col-lg-5">
+            <div class="provider-card h-100 d-flex flex-column justify-content-between">
+              <!-- Top Header Pill Badges -->
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="badge d-inline-flex align-items-center gap-1.5" style="background: #E6F4F1; color: #00897B; border: 1px solid rgba(0, 137, 123, 0.25); font-weight: 700; font-size: 11.5px; border-radius: 9999px; padding: 5px 12px;">
+                  <i class="bi bi-check2"></i> Current Job In Dispatch
+                </span>
+                <span class="badge d-inline-flex align-items-center" style="background: #FFFFFF; color: #475569; border: 1px solid #CBD5E1; font-weight: 600; font-size: 11px; border-radius: 9999px; padding: 4px 10px;">
+                  OTP Required
+                </span>
+              </div>
+
+              <!-- Inner Pro Card Details -->
+              <div class="current-dispatch-box my-2">
+                <!-- Top User Profile Row -->
+                <div class="d-flex align-items-center gap-3 pb-3 border-bottom">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=140&q=80" alt="Rahul Sharma" class="rounded-circle" style="width: 52px; height: 52px; object-fit: cover; border: 2px solid #FFFFFF; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                  <div class="flex-grow-1">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <h6 class="font-weight-bold mb-0 text-dark" style="font-size: 15px;">Rahul Sharma</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mt-0.5" style="font-size: 12px;">
+                      <span class="text-warning font-weight-bold"><i class="bi bi-star-fill"></i> 4.8</span>
+                      <span class="text-muted">(124 reviews)</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mt-1">
+                      <span class="text-muted" style="font-size: 11.5px;">Electrician | 5+ Years Experience</span>
+                      <span class="badge" style="background: #DCFCE7; color: #16A34A; font-weight: 700; font-size: 10.5px; border-radius: 9999px; padding: 2px 8px;">
+                        <i class="bi bi-check2"></i> Verified
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2-Column Info Grid -->
+                <div class="row g-2 pt-3 pb-2" style="font-size: 12.5px;">
+                  <!-- Location -->
+                  <div class="col-7">
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-geo-alt-fill text-teal-custom mt-0.5"></i>
+                      <div>
+                        <div class="text-muted" style="font-size: 11px; font-weight: 600;">Location</div>
+                        <div class="font-weight-bold text-dark">Whitefield, Ahmedabad</div>
+                        <div class="text-teal-custom font-weight-semibold" style="font-size: 11.5px;">Distance: 3.2 km</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Service -->
+                  <div class="col-5">
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-tools text-teal-custom mt-0.5"></i>
+                      <div>
+                        <div class="text-muted" style="font-size: 11px; font-weight: 600;">Service</div>
+                        <div class="font-weight-bold text-dark" style="line-height: 1.3;">Electrical Fitting & Repair (Home)</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Visit Time -->
+                  <div class="col-12 mt-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-calendar3 text-teal-custom"></i>
+                      <div>
+                        <span class="text-muted" style="font-size: 11px; font-weight: 600;">Visit Time:</span>
+                        <span class="font-weight-bold text-dark ms-1"><i class="bi bi-clock me-1 text-muted"></i>Today, 04:30 PM</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Status Badges Bar -->
+                <div class="d-flex align-items-center gap-2 pt-2 border-top flex-wrap">
+                  <span class="badge" style="background: #DCFCE7; color: #16A34A; font-weight: 700; font-size: 11.5px; border-radius: 9999px; padding: 4px 10px;">
+                    Visit Charge: ₹149
+                  </span>
+                  <span class="badge" style="background: #FEF3C7; color: #D97706; font-weight: 700; font-size: 11.5px; border-radius: 9999px; padding: 4px 10px;">
+                    <i class="bi bi-circle-fill me-1" style="font-size: 6px;"></i> Pending Payment
+                  </span>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex align-items-center gap-2 pt-1">
+                <button type="button" class="btn btn-custom btn-custom-primary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2" style="background: #00897B; border-radius: 9999px; font-weight: 700; font-size: 13.5px;" data-bs-toggle="modal" data-bs-target="#timelineOtpModal">
+                  <i class="bi bi-sliders"></i> Manage Timeline & OTP
+                </button>
+                <a href="https://maps.google.com" target="_blank" class="btn btn-light border rounded-pill px-3 py-2 d-flex align-items-center gap-1.5 text-dark font-weight-semibold" style="font-size: 13.5px;" title="Open GPS Navigation">
+                  <i class="bi bi-geo-alt-fill text-teal-custom"></i> Map
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Job Requests & Tasks + Inspection & Quotation Status -->
+        <div class="row g-4">
+          <!-- Job Requests & Tasks (Col-lg-8) -->
+          <div class="col-lg-8">
+            <div class="provider-card h-100 d-flex flex-column justify-content-between">
+              <!-- Header with Filters -->
+              <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2.5">
+                  <div class="kpi-icon-mint"><i class="bi bi-calendar-check"></i></div>
+                  <div>
+                    <h5 class="font-weight-bold mb-0 text-dark" style="font-size: 16px;">Job Requests & Tasks</h5>
+                    <span class="text-muted" style="font-size: 12px;">New service requests from customers</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                  <button type="button" class="job-filter-btn active" onclick="filterJobCards('new', this)">New Requests (2)</button>
+                  <button type="button" class="job-filter-btn" onclick="filterJobCards('accepted', this)">Accepted (1)</button>
+                  <button type="button" class="job-filter-btn" onclick="filterJobCards('progress', this)">In Progress (2)</button>
+                  <button type="button" class="job-filter-btn" onclick="filterJobCards('completed', this)">Completed (5)</button>
+                  <a href="{% url 'provider_jobs' %}" class="text-teal-custom font-weight-bold ms-2 text-decoration-none" style="font-size: 12.5px;">
+                    View All <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- 2 Cards Grid -->
+              <div class="row g-3" id="provider-jobs-cards-container">
+                <!-- Card 1: AC Repair -->
+                <div class="col-md-6 job-item-wrapper" data-status="new">
+                  <div class="job-req-card">
+                    <div>
+                      <div class="d-flex align-items-start gap-3 mb-2.5">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=160&q=80" alt="AC Repair" class="rounded-3" style="width: 58px; height: 58px; object-fit: cover; flex-shrink: 0;">
+                        <div class="flex-grow-1">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-2">
+                              <h6 class="font-weight-bold mb-0 text-dark" style="font-size: 15px;">AC Repair</h6>
+                              <span class="badge" style="background: #E0F2FE; color: #0284C7; font-weight: 700; font-size: 10.5px; border-radius: 9999px; padding: 2px 7px;">New</span>
+                            </div>
+                          </div>
+                          <div class="text-muted mt-1" style="font-size: 12px;"><i class="bi bi-person me-1"></i> Priya Singh</div>
+                          <div class="text-muted" style="font-size: 12px;"><i class="bi bi-geo-alt me-1"></i> Sector 62, Noida, UP</div>
+                          <div class="text-muted" style="font-size: 12px;"><i class="bi bi-calendar3 me-1"></i> Today, 05:00 PM – 07:00 PM</div>
+                        </div>
+                        <div class="text-end" style="flex-shrink: 0;">
+                          <div class="text-muted" style="font-size: 11px; font-weight: 600;">Budget</div>
+                          <div class="font-weight-bold text-dark" style="font-size: 14.5px;">₹1,200 – ₹1,800</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between pt-2.5 border-top flex-wrap gap-2">
+                      <div class="d-flex align-items-center gap-3 text-muted" style="font-size: 11.5px;">
+                        <span><i class="bi bi-geo-alt text-teal-custom me-1"></i>3.5 km</span>
+                        <span><i class="bi bi-lightning-charge text-muted me-1"></i>Priority: Normal</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn btn-sm btn-accept-request px-3 py-1 font-weight-bold" style="background: #00897B; color: #FFFFFF; border-radius: 9999px; font-size: 12px;">
+                          Accept Job
+                        </button>
+                        <button type="button" class="btn btn-sm btn-reject-request px-3 py-1 font-weight-semibold" style="background: #FFFFFF; color: #EF4444; border: 1px solid #FCA5A5; border-radius: 9999px; font-size: 12px;">
+                          Decline
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Plumber -->
+                <div class="col-md-6 job-item-wrapper" data-status="new">
+                  <div class="job-req-card">
+                    <div>
+                      <div class="d-flex align-items-start gap-3 mb-2.5">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=160&q=80" alt="Plumber" class="rounded-3" style="width: 58px; height: 58px; object-fit: cover; flex-shrink: 0;">
+                        <div class="flex-grow-1">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-2">
+                              <h6 class="font-weight-bold mb-0 text-dark" style="font-size: 15px;">Plumber</h6>
+                              <span class="badge" style="background: #E0F2FE; color: #0284C7; font-weight: 700; font-size: 10.5px; border-radius: 9999px; padding: 2px 7px;">New</span>
+                            </div>
+                          </div>
+                          <div class="text-muted mt-1" style="font-size: 12px;"><i class="bi bi-person me-1"></i> Amit Verma</div>
+                          <div class="text-muted" style="font-size: 12px;"><i class="bi bi-geo-alt me-1"></i> Gurgaon, Haryana</div>
+                          <div class="text-muted" style="font-size: 12px;"><i class="bi bi-calendar3 me-1"></i> Tomorrow, 10:00 AM – 12:00 PM</div>
+                        </div>
+                        <div class="text-end" style="flex-shrink: 0;">
+                          <div class="text-muted" style="font-size: 11px; font-weight: 600;">Budget</div>
+                          <div class="font-weight-bold text-dark" style="font-size: 14.5px;">₹800 – ₹1,500</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between pt-2.5 border-top flex-wrap gap-2">
+                      <div class="d-flex align-items-center gap-3 text-muted" style="font-size: 11.5px;">
+                        <span><i class="bi bi-geo-alt text-teal-custom me-1"></i>5.2 km</span>
+                        <span class="text-danger font-weight-bold"><i class="bi bi-lightning-charge-fill me-1"></i>Priority: High</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn btn-sm btn-accept-request px-3 py-1 font-weight-bold" style="background: #00897B; color: #FFFFFF; border-radius: 9999px; font-size: 12px;">
+                          Accept Job
+                        </button>
+                        <button type="button" class="btn btn-sm btn-reject-request px-3 py-1 font-weight-semibold" style="background: #FFFFFF; color: #EF4444; border: 1px solid #FCA5A5; border-radius: 9999px; font-size: 12px;">
+                          Decline
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inspection & Quotation Status (Col-lg-4) -->
+          <div class="col-lg-4">
+            <div class="provider-card h-100 d-flex flex-column justify-content-between">
+              <!-- Header -->
+              <div class="d-flex align-items-center gap-2.5 mb-3">
+                <div class="kpi-icon-mint"><i class="bi bi-clipboard-data"></i></div>
+                <div>
+                  <h5 class="font-weight-bold mb-0 text-dark" style="font-size: 16px;">Inspection & Quotation Status</h5>
+                  <span class="text-muted" style="font-size: 12px;">Track your submitted quotations</span>
+                </div>
+              </div>
+
+              <!-- 4 Status Rows -->
+              <div class="d-flex flex-column gap-2">
+                <!-- Status 1: Draft -->
+                <a href="{% url 'provider_quotations' %}" class="quotation-status-row">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="quotation-num-circle quotation-num-blue">1</div>
+                    <div>
+                      <div class="font-weight-bold text-dark" style="font-size: 14px;">Draft</div>
+                      <div class="text-muted" style="font-size: 11.5px;">Prepare quotation details and add items.</div>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted small"></i>
+                </a>
+
+                <!-- Status 2: Submitted -->
+                <a href="{% url 'provider_quotations' %}" class="quotation-status-row">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="quotation-num-circle quotation-num-green">2</div>
+                    <div>
+                      <div class="font-weight-bold text-dark" style="font-size: 14px;">Submitted</div>
+                      <div class="text-muted" style="font-size: 11.5px;">Waiting for customer review.</div>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted small"></i>
+                </a>
+
+                <!-- Status 3: Awaiting Customer Approval -->
+                <a href="{% url 'provider_quotations' %}" class="quotation-status-row">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="quotation-num-circle quotation-num-yellow">1</div>
+                    <div>
+                      <div class="font-weight-bold text-dark" style="font-size: 14px;">Awaiting Customer Approval</div>
+                      <div class="text-muted" style="font-size: 11.5px;">Customer needs to approve or reject.</div>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted small"></i>
+                </a>
+
+                <!-- Status 4: Approved -->
+                <a href="{% url 'provider_quotations' %}" class="quotation-status-row">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="quotation-num-circle quotation-num-emerald">3</div>
+                    <div>
+                      <div class="font-weight-bold text-dark" style="font-size: 14px;">Approved</div>
+                      <div class="text-muted" style="font-size: 11.5px;">Work can begin after approval.</div>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted small"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Manage Timeline & OTP Modal -->
+  <div class="modal fade" id="timelineOtpModal" tabindex="-1" aria-labelledby="timelineOtpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 py-3 px-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-sliders text-lime-custom fs-5"></i>
+            <h5 class="modal-title font-weight-bold mb-0 text-white" id="timelineOtpModalLabel">Manage Job Timeline & Customer OTP</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4 bg-white">
+          <!-- Job Info Banner -->
+          <div class="p-3 bg-light rounded-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="font-weight-bold text-dark">#JOB-8841: Electrical Fitting & Repair (Home)</div>
+              <div class="text-muted small">Customer: Rahul Sharma • Whitefield, Ahmedabad (3.2 km away)</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge" style="background: #DCFCE7; color: #16A34A; font-size: 12px; font-weight: 700; border-radius: 9999px; padding: 4px 10px;">Visit Charge: ₹149</span>
+              <span id="current-job-status-badge" class="badge" style="background: #00897B; color: #fff; font-size: 12px; font-weight: 700; border-radius: 9999px; padding: 4px 10px;">On the Way</span>
+            </div>
+          </div>
+
+          <!-- Stepper Timeline -->
+          <h6 class="font-weight-bold text-dark mb-3">Service Progression Workflow</h6>
+          <div class="status-timeline mb-4">
+            <div class="status-timeline-node completed" onclick="updateJobStatus(0, 'Accepted')">
+              <div class="status-timeline-dot"><i class="bi bi-check-lg"></i></div>
+              <span class="status-timeline-text">Accepted</span>
+            </div>
+            <div class="status-timeline-node active" onclick="updateJobStatus(1, 'On the Way')">
+              <div class="status-timeline-dot">2</div>
+              <span class="status-timeline-text">On the Way</span>
+            </div>
+            <div class="status-timeline-node" onclick="updateJobStatus(2, 'Arrived')">
+              <div class="status-timeline-dot">3</div>
+              <span class="status-timeline-text">Arrived</span>
+            </div>
+            <div class="status-timeline-node" onclick="updateJobStatus(3, 'Inspection')">
+              <div class="status-timeline-dot">4</div>
+              <span class="status-timeline-text">Inspection</span>
+            </div>
+            <div class="status-timeline-node" onclick="updateJobStatus(4, 'Quotation')">
+              <div class="status-timeline-dot">5</div>
+              <span class="status-timeline-text">Quotation</span>
+            </div>
+            <div class="status-timeline-node" onclick="updateJobStatus(5, 'In Progress')">
+              <div class="status-timeline-dot">6</div>
+              <span class="status-timeline-text">In Progress</span>
+            </div>
+            <div class="status-timeline-node" onclick="updateJobStatus(6, 'Completed')">
+              <div class="status-timeline-dot">7</div>
+              <span class="status-timeline-text">Completed</span>
+            </div>
+          </div>
+
+          <!-- Customer OTP Verification Box -->
+          <div class="border rounded-3 p-3 bg-light mb-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h6 class="font-weight-bold text-dark mb-0"><i class="bi bi-shield-lock-fill text-teal-custom me-1"></i> Customer Start-Job OTP Verification</h6>
+              <span class="text-muted small">Required to start service meter</span>
+            </div>
+            <p class="text-muted small mb-3">Ask customer for the 6-digit verification code sent to their registered WhatsApp / SMS upon arrival.</p>
+            <div class="row g-2 align-items-center">
+              <div class="col-sm-8">
+                <input type="text" id="providerOtpInput" class="form-control font-weight-bold text-center tracking-widest fs-5 bg-white" placeholder="Enter 6-digit OTP (e.g. 849201)" maxlength="6">
+              </div>
+              <div class="col-sm-4">
+                <button type="button" class="btn btn-custom btn-custom-primary w-100 py-2 font-weight-bold" style="background: #00897B; border-radius: 9999px;" onclick="verifyJobOtp()">
+                  <i class="bi bi-check-circle-fill me-1"></i> Verify OTP
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer bg-light border-0 py-2.5 px-4">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-custom btn-custom-primary rounded-pill px-4" style="background: #00897B;" onclick="saveTimelineProgression()">
+            Save Status & Sync
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/provider.js' %}"></script>
+</body>
+</html>

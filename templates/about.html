@@ -1,0 +1,620 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Mistrry Home Solution - The Gold Standard in Home Craftsmanship</title>
+  <meta name="description" content="Learn about Mistrry Home Solution's mission to bring transparency, master craftsmanship, and milestone escrow security to every residential home project.">
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons 1.11.3 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link active"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Navbar -->
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-custom">
+        <div class="nav-shell">
+          <!-- Zone 1: Left (Brand / Logo & Search Bar with spacing) -->
+          <div class="nav-zone-left">
+            <a class="brand-logo" href="{% url 'home' %}" aria-label="Mistrry Home Solution">
+              <img src="{% static 'images/logo.png' %}" alt="Mistrry Home Solution" class="brand-logo-img">
+            </a>
+
+            <!-- Reference Capsule Search Bar -->
+            <form class="nav-search-form d-none d-lg-flex" onsubmit="handleNavGlobalSearch(event)">
+              {% csrf_token %}
+              <div class="header-capsule-search">
+                <i class="bi bi-search text-muted" style="font-size: 13.5px;"></i>
+                <input type="text" placeholder="Search services, professionals, or areas..." id="navGlobalSearch" autocomplete="off">
+                <button type="submit" class="header-capsule-search-btn" aria-label="Search">
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Zone 2: Right (Menu Links with Underline & Sign In / Register Capsule) -->
+          <div class="nav-zone-right">
+            <!-- Navigation Links (Desktop) -->
+            <nav class="d-none d-lg-flex" role="navigation" aria-label="Main Navigation">
+              <ul class="d-flex align-items-center mb-0 list-unstyled gap-2">
+                <li><a class="nav-link-underline" href="{% url 'home' %}">Home</a></li>
+                <li><a class="nav-link-underline" href="{% url 'services' %}">Services</a></li>
+                <li><a class="nav-link-underline" href="{% url 'projects' %}">Projects</a></li>
+                <li><a class="nav-link-underline active" href="{% url 'about' %}">About</a></li>
+                <li><a class="nav-link-underline" href="{% url 'contact' %}">Contact</a></li>
+              </ul>
+            </nav>
+
+            <!-- Sign In / Register Capsule Button -->
+            <div class="d-none d-sm-flex align-items-center">
+              <a href="{% url 'signin' %}" class="header-signin-capsule">
+                <i class="bi bi-person fs-6"></i>
+                <span>Sign In / Register</span>
+              </a>
+            </div>
+
+            <!-- Mobile Hamburger Menu Toggler -->
+            <button class="nav-mobile-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#customerNavOffcanvas" aria-label="Open mobile navigation menu">
+              <i class="bi bi-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Offcanvas Menu -->
+  <div class="offcanvas offcanvas-end customer-offcanvas" tabindex="-1" id="customerNavOffcanvas" aria-labelledby="customerNavOffcanvas">
+    <div class="offcanvas-header border-bottom py-3 px-4">
+      <a class="brand-logo" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Mistrry Home Solution" class="brand-logo-img">
+      </a>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-between p-4">
+      <div>
+        <!-- Guest Auth Card in mobile drawer -->
+        <div class="p-3 rounded-4 bg-light-subtle border border-light-subtle mb-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="rounded-circle d-flex align-items-center justify-content-center bg-white shadow-xs" style="width: 44px; height: 44px; color: var(--primary);">
+              <i class="bi bi-person fs-4"></i>
+            </div>
+            <div>
+              <div class="fw-bold text-dark small">Welcome to Mistrry</div>
+              <div class="text-muted" style="font-size: 12px;">Sign in to book & track services</div>
+            </div>
+          </div>
+          <div class="d-grid">
+            <a href="{% url 'signin' %}" class="nav-signin-btn justify-content-center text-center py-2" style="font-size: 14px;">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Account
+            </a>
+          </div>
+        </div>
+
+        <!-- Mobile Drawer Search Bar -->
+        <form class="mb-4" onsubmit="handleNavGlobalSearch(event)">
+              {% csrf_token %}
+          <div class="nav-search-box w-100">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="nav-search-input" placeholder="Search services, pros..." autocomplete="off">
+            <button type="submit" class="search-submit-btn" aria-label="Search">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- Navigation links in mobile drawer -->
+        <div class="text-uppercase text-muted fw-bold mb-2 ps-2" style="font-size: 11px; letter-spacing: 0.05em;">Menu</div>
+        <ul class="nav flex-column gap-1 mb-4">
+          <li class="nav-item">
+            <a class="mobile-nav-link" href="{% url 'home' %}">
+              <i class="bi bi-house-door me-3"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="mobile-nav-link" href="{% url 'services' %}">
+              <i class="bi bi-grid me-3"></i> Services
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="mobile-nav-link" href="{% url 'projects' %}">
+              <i class="bi bi-images me-3"></i> Projects
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="mobile-nav-link active" href="{% url 'about' %}">
+              <i class="bi bi-info-circle me-3"></i> About
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="mobile-nav-link" href="{% url 'contact' %}">
+              <i class="bi bi-envelope me-3"></i> Contact
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pt-4 border-top">
+        <a href="{% url 'services' %}" class="btn-custom btn-custom-primary w-100 justify-content-center py-2">
+          <i class="bi bi-search me-1"></i> Instant Book a Pro
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- About Hero Section -->
+    <section class="hero-editorial-section position-relative">
+      <div class="hero-bg-art hero-bg-art-about"></div>
+      <div class="hero-bg-glow hero-bg-glow-teal"></div>
+      <div class="hero-bg-glow hero-bg-glow-lime"></div>
+      <div class="hero-bg-grid"></div>
+
+      <div class="container-custom position-relative" style="z-index: 2;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">About Mistrry Home Solution</li>
+          </ol>
+        </nav>
+
+        <div class="row align-items-center g-4 g-xl-5">
+          <div class="col-lg-8">
+            <span class="section-badge mb-3">
+              <i class="bi bi-shield-check text-teal-custom"></i> The Architectural Standard
+            </span>
+            <h1 class="hero-headline text-balance mb-3">
+              Engineering Trust, Precision & Escrow into Every Home.
+            </h1>
+            <p class="hero-subheadline mb-4">
+              We founded Mistrry Home Solution to eliminate the guesswork, friction, and delays of home projects. By uniting certified master contractors with milestone escrow security and digital diagnostic audits, we guarantee unmatched craftsmanship.
+            </p>
+
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+              <a href="{% url 'services' %}" class="btn-custom btn-custom-primary btn-custom-lg">
+                <i class="bi bi-search me-1"></i> Explore Certified Services
+              </a>
+              <a href="{% url 'projects' %}" class="btn-custom btn-custom-outline btn-custom-lg">
+                <i class="bi bi-stars me-1"></i> View Project Case Studies
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 text-lg-end">
+            <div class="card-custom p-4 bg-white text-start shadow-sm border">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="bento-icon-box mb-0">
+                  <i class="bi bi-patch-check-fill"></i>
+                </div>
+                <div>
+                  <h6 class="font-weight-bold mb-0">The 1% Vetting Guild</h6>
+                  <span class="text-muted small">Verified Master Artisans</span>
+                </div>
+              </div>
+              <p class="text-muted small mb-3">Only 1 in 10 trade contractors pass our criminal background screening, trade license audits, and physical skill assessments.</p>
+              
+              <div class="p-2 px-3 rounded-3 bg-light border d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-shield-lock-fill text-lime-custom"></i>
+                  <span class="small font-weight-bold">₹50k Milestone Escrow</span>
+                </div>
+                <span class="badge bg-dark text-white" style="font-size: 10px;">Zero Risk</span>
+              </div>
+
+              <a href="{% url 'projects' %}" class="btn-custom btn-custom-outline btn-custom-sm w-100 justify-content-center">
+                <i class="bi bi-collection-play me-1"></i> Browse Real Projects
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact & Metrics Section -->
+    <section class="section-padding bg-white">
+      <div class="container-custom">
+        <div class="row g-4">
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="story-stat-box">
+              <div class="story-stat-number text-teal-custom">50,000+</div>
+              <div class="story-stat-label">Homes Transformed Across India</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="story-stat-box">
+              <div class="story-stat-number text-dark">₹4.8 Cr</div>
+              <div class="story-stat-label">Protected in Milestone Escrow</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="story-stat-box">
+              <div class="story-stat-number text-lime-custom">1,840+</div>
+              <div class="story-stat-label">Certified Master Trade Guilds</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="story-stat-box">
+              <div class="story-stat-number text-dark">99.4%</div>
+              <div class="story-stat-label">On-Time SLA Delivery Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Mistrry Home Solution Philosophy & Editorial Section -->
+    <section class="section-padding" style="background-color: var(--background);">
+      <div class="container-custom">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <div class="position-relative">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80" alt="Master Craftsman" class="rounded-4 w-100 shadow-lg border" style="height: 480px; object-fit: cover;">
+              <div class="card-custom p-3 position-absolute bottom-0 start-0 m-4 d-none d-sm-block bg-white shadow-lg" style="max-width: 280px;">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-shield-lock-fill text-lime-custom fs-2"></i>
+                  <div>
+                    <h6 class="mb-0 font-weight-bold">Zero Advance Risk</h6>
+                    <span class="text-muted small">Escrow funds released only upon on-site OTP inspection.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <span class="section-badge"><i class="bi bi-compass-fill"></i> Our Purpose</span>
+            <h2 class="section-title mb-3">Why Traditional Home Contracting Was Broken</h2>
+            <p class="text-secondary lead mb-3">
+              Homeowners spent decades dealing with unverified workers, opaque cost markups, vanishing contractors, and shoddy materials with zero accountability.
+            </p>
+            <p class="text-secondary mb-4">
+              Mistrry Home Solution re-engineered this paradigm from the ground up. We created a closed-loop platform that combines architectural supervision, itemized standard rate cards, and an impenetrable milestone escrow architecture where you remain in complete control of your budget until the work is flawlessly completed.
+            </p>
+
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex align-items-start gap-3">
+                <div class="bento-icon-box flex-shrink-0" style="width: 44px; height: 44px; font-size: 1.2rem;">
+                  <i class="bi bi-check2-circle"></i>
+                </div>
+                <div>
+                  <h6 class="font-weight-bold mb-1">Strict Trade Guild Audits</h6>
+                  <p class="text-muted small mb-0">Every artisan is tested with live physical skill examinations, tools verification, and background checks.</p>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-start gap-3">
+                <div class="bento-icon-box flex-shrink-0" style="width: 44px; height: 44px; font-size: 1.2rem;">
+                  <i class="bi bi-receipt-cutoff"></i>
+                </div>
+                <div>
+                  <h6 class="font-weight-bold mb-1">Upfront Transparent Pricing</h6>
+                  <p class="text-muted small mb-0">No mid-project surprises or hidden material inflations. Every estimate is digitally itemized.</p>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-start gap-3">
+                <div class="bento-icon-box flex-shrink-0" style="width: 44px; height: 44px; font-size: 1.2rem;">
+                  <i class="bi bi-patch-check-fill"></i>
+                </div>
+                <div>
+                  <h6 class="font-weight-bold mb-1">5-Year Structural Backing</h6>
+                  <p class="text-muted small mb-0">Renovations, modular installations, and construction projects carry ironclad warranty certificates.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leadership & Craft Advisory Board -->
+    <section class="section-padding bg-white">
+      <div class="container-custom">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="bi bi-people-fill text-teal-custom"></i> Leadership & Craft Council</span>
+          <h2 class="section-title">Guided by Master Builders & Engineers</h2>
+          <p class="section-subtitle">Our executive and guild advisory team brings decades of architectural excellence and civil engineering rigour.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="team-card">
+              <div class="team-avatar-wrapper">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Priyanka Nambiar">
+              </div>
+              <div class="team-card-body">
+                <h5 class="team-name">Priyanka Nambiar</h5>
+                <div class="team-role">Head of Architectural Standards</div>
+                <p class="text-muted small mb-0">Former Chief Architect at Studio Linea with 14+ years designing high-end residences.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="team-card">
+              <div class="team-avatar-wrapper">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Vikramaditya Rao">
+              </div>
+              <div class="team-card-body">
+                <h5 class="team-name">Vikramaditya Rao</h5>
+                <div class="team-role">Guild Master of Electrical & Automation</div>
+                <p class="text-muted small mb-0">Certified Master Electrician with 18+ years overseeing smart grid safety compliance.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="team-card">
+              <div class="team-avatar-wrapper">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80" alt="Ananya Roy">
+              </div>
+              <div class="team-card-body">
+                <h5 class="team-name">Ananya Roy</h5>
+                <div class="team-role">VP of Trust, Safety & Escrow</div>
+                <p class="text-muted small mb-0">Pioneered our ₹50,000 customer escrow protection vault and dispute resolution system.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="team-card">
+              <div class="team-avatar-wrapper">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" alt="Raghavendra Singhal">
+              </div>
+              <div class="team-card-body">
+                <h5 class="team-name">Raghavendra Singhal</h5>
+                <div class="team-role">Director of Woodcraft & Fabrication</div>
+                <p class="text-muted small mb-0">Generational teak artisan and furniture conservator leading our bespoke timber atelier.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section class="section-padding" style="background-color: var(--background);">
+      <div class="container-custom" style="max-width: 860px;">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="bi bi-question-circle-fill text-teal-custom"></i> Common Questions</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-subtitle">Everything you need to know about booking, guarantees, and escrow protection.</p>
+        </div>
+
+        <div class="accordion accordion-custom" id="aboutFaqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeading1">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
+                How does the Mistrry Home Solution ₹50,000 Milestone Escrow work?
+              </button>
+            </h2>
+            <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#aboutFaqAccordion">
+              <div class="accordion-body">
+                When you book a service or project, your payment is held securely in an independent escrow account. The master contractor begins work immediately, but funds are only released in staged milestones after you personally inspect the work on-site and confirm your private 4-digit completion OTP.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeading2">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
+                How are Mistrry Home Solution service professionals vetted?
+              </button>
+            </h2>
+            <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#aboutFaqAccordion">
+              <div class="accordion-body">
+                Every trade partner undergoes criminal background checks, government identity verification, past client references, and a rigorous on-site skills audit conducted by our Guild Council. Only the top 1% of applicants are approved to receive customer bookings.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeading3">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
+                What warranties are provided on completed renovations?
+              </button>
+            </h2>
+            <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#aboutFaqAccordion">
+              <div class="accordion-body">
+                All major modular kitchens, structural masonry, and bathroom renovations come with a 5 to 10-year structural warranty certificate backed directly by Mistrry Home Solution and our certified partner guilds.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeading4">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4">
+                Can I talk to a live concierge before booking?
+              </button>
+            </h2>
+            <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#aboutFaqAccordion">
+              <div class="accordion-body">
+                Yes! Our Dedicated Project Concierge is available 7 days a week via our <a href="{% url 'contact' %}" class="text-teal-custom font-weight-bold">Contact Page</a> or by phone at +91 (800) 466-3737 for free consultation and site inspection scheduling.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Banner -->
+    <section class="section-padding bg-white">
+      <div class="container-custom">
+        <div class="card-custom p-5 text-center text-white position-relative overflow-hidden" style="background-color: var(--dark); border-color: var(--dark-border);">
+          <div class="position-relative" style="z-index: 2; max-width: 660px; margin: 0 auto;">
+            <span class="badge-custom badge-custom-lime mb-3">
+              <i class="bi bi-lightning-charge-fill"></i> Experience the Difference
+            </span>
+            <h2 class="display-6 font-weight-bold text-white mb-3">Ready for master craftsmanship without the stress?</h2>
+            <p class="text-white-50 lead mb-4">Book verified master contractors today with upfront transparent rates and guaranteed escrow protection.</p>
+            <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+              <a href="{% url 'services' %}" class="btn-custom btn-custom-primary btn-custom-lg">
+                <i class="bi bi-search me-1"></i> Explore Services
+              </a>
+              <a href="{% url 'contact' %}" class="btn-custom btn-custom-outline-light btn-custom-lg">
+                <i class="bi bi-telephone-fill me-1"></i> Speak with a Concierge
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation Dock (App Experience) -->
+  <div class="mobile-bottom-dock">
+    <a href="{% url 'home' %}" class="dock-item">
+      <i class="bi bi-house-door-fill"></i>
+      <span>Home</span>
+    </a>
+    <a href="{% url 'services' %}" class="dock-item">
+      <i class="bi bi-grid-fill"></i>
+      <span>Services</span>
+    </a>
+    <a href="{% url 'projects' %}" class="dock-item-primary" title="Our Projects">
+      <i class="bi bi-stars"></i>
+    </a>
+    <a href="{% url 'about' %}" class="dock-item active">
+      <i class="bi bi-info-circle-fill"></i>
+      <span>About</span>
+    </a>
+    <a href="{% url 'contact' %}" class="dock-item">
+      <i class="bi bi-chat-dots-fill"></i>
+      <span>Contact</span>
+    </a>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container-custom">
+      <!-- Main Footer Columns -->
+      <div class="row g-5">
+        <!-- Col 1: Brand & Authority -->
+        <div class="col-lg-4">
+          <a class="brand-logo mb-3 d-inline-block" href="{% url 'home' %}">
+            <img src="{% static 'images/logo-dark.png' %}" alt="Mistrry Home Solution" class="brand-logo-img" style="height: 58px; width: auto; max-width: 240px; object-fit: contain;">
+          </a>
+          <p class="text-footer-muted mb-4">
+            Your Home • Our Expertise • Complete Solution. Connecting verified, police-cleared master mistries with homeowners across Ahmedabad for electrical, plumbing, carpentry, AC servicing, and bespoke turnkey renovations.
+          </p>
+          <div class="d-flex align-items-center gap-2 flex-wrap mb-4">
+            <span class="footer-chip"><i class="bi bi-shield-check text-lime-custom"></i> Escrow Secured</span>
+            <span class="footer-chip"><i class="bi bi-patch-check-fill text-teal-custom"></i> ISO 9001:2015</span>
+            <span class="footer-chip"><i class="bi bi-star-fill text-warning"></i> 4.92/5 Rating</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <a href="#" class="social-icon-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-icon-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://wa.me/918004663737" class="social-icon-btn whatsapp-btn" aria-label="WhatsApp Support"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Services Directory -->
+        <div class="col-6 col-lg-2">
+          <h5>Services</h5>
+          <ul class="footer-links">
+            <li><a href="{% url 'services' %}?cat=electrician"><i class="bi bi-lightning-charge text-teal-custom me-2"></i>Electrician</a></li>
+            <li><a href="{% url 'services' %}?cat=plumber"><i class="bi bi-wrench text-teal-custom me-2"></i>Plumber</a></li>
+            <li><a href="{% url 'services' %}?cat=carpenter"><i class="bi bi-tools text-teal-custom me-2"></i>Carpenter</a></li>
+            <li><a href="{% url 'services' %}?cat=ac-repair"><i class="bi bi-snow text-teal-custom me-2"></i>AC Repair</a></li>
+            <li><a href="{% url 'services' %}?cat=renovation"><i class="bi bi-house-gear text-teal-custom me-2"></i>Renovation</a></li>
+            <li><a href="{% url 'services' %}"><i class="bi bi-grid text-teal-custom me-2"></i>All Services</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Company & Platform -->
+        <div class="col-6 col-lg-2">
+          <h5>Company</h5>
+          <ul class="footer-links">
+            <li><a href="{% url 'about' %}"><i class="bi bi-chevron-right me-1 small"></i>About Us</a></li>
+            <li><a href="{% url 'projects' %}"><i class="bi bi-chevron-right me-1 small"></i>Our Projects</a></li>
+            <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right me-1 small"></i>Services Catalog</a></li>
+            <li><a href="{% url 'contact' %}"><i class="bi bi-chevron-right me-1 small"></i>Contact Us</a></li>
+            <li><a href="{% url 'customer_dashboard' %}"><i class="bi bi-chevron-right me-1 small"></i>Customer Hub</a></li>
+            <li><a href="{% url 'provider_dashboard' %}"><i class="bi bi-chevron-right me-1 small"></i>Join as Provider</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact & Concierge -->
+        <div class="col-lg-4">
+          <h5>Concierge Desk</h5>
+          <div class="footer-contact-card">
+            <div class="footer-contact-item mb-3">
+              <i class="bi bi-geo-alt-fill text-lime-custom"></i>
+              <div>
+                <strong class="text-white d-block">Headquarters</strong>
+                <span>Floor 4, Titanium Square, SG Highway, Bodakdev, Ahmedabad 380054</span>
+              </div>
+            </div>
+            <div class="footer-contact-item mb-3">
+              <i class="bi bi-envelope-fill text-teal-custom"></i>
+              <div>
+                <strong class="text-white d-block">Concierge Support</strong>
+                <span>concierge@mistrryhomesolution.com</span>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <i class="bi bi-clock-fill text-lime-custom"></i>
+              <div>
+                <strong class="text-white d-block">Operating Hours</strong>
+                <span>Monday – Sunday: 7:00 AM – 10:00 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>© 2026 Mistrry Home Solution Technologies Pvt. Ltd. All rights reserved.</div>
+        <div class="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Escrow Security Guarantee</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform Operational Reports | Mistrry Home Solution Admin</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link active"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Admin Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Admin</span></div>
+          <span class="badge bg-transparent border border-light text-white small font-weight-bold" style="font-size: 10px;">ENTERPRISE SUITE</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Platform Core</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_dashboard' %}" class="sidebar-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_bookings' %}" class="sidebar-nav-link"><i class="bi bi-calendar2-check"></i> Bookings <span class="sidebar-badge bg-secondary text-dark font-weight-bold">18 New</span></a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_users' %}" class="sidebar-nav-link"><i class="bi bi-people"></i> Customers</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_providers' %}" class="sidebar-nav-link"><i class="bi bi-person-badge"></i> Professionals <span class="sidebar-badge bg-secondary text-dark font-weight-bold">14 Audit</span></a></li>
+      </ul>
+
+      <div class="sidebar-menu-category">Operations & Catalog</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_services' %}" class="sidebar-nav-link"><i class="bi bi-grid"></i> Services & Categories</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_quotations' %}" class="sidebar-nav-link"><i class="bi bi-file-earmark-text"></i> Quotations <span class="sidebar-badge bg-dark text-white border border-light">23 Pending</span></a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_revisits' %}" class="sidebar-nav-link"><i class="bi bi-arrow-repeat"></i> Revisit Management</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_payments' %}" class="sidebar-nav-link"><i class="bi bi-currency-rupee"></i> Payments & Refunds</a></li>
+      </ul>
+
+      <div class="sidebar-menu-category">Quality & Management</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="{% url 'admin_reviews' %}" class="sidebar-nav-link"><i class="bi bi-star-half"></i> Complaints & Reviews</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_reports' %}" class="sidebar-nav-link active"><i class="bi bi-graph-up-arrow"></i> Reports</a></li>
+        <li class="sidebar-nav-item"><a href="{% url 'admin_settings' %}" class="sidebar-nav-link"><i class="bi bi-gear"></i> Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar-sm bg-secondary text-dark font-weight-bold d-flex align-items-center justify-content-center rounded-circle">AD</div>
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">System Superadmin</div>
+          <div class="text-muted small" style="font-size: 11px;">Operations HQ</div>
+        </div>
+        <a href="{% url 'home' %}" class="text-muted hover-white" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="font-weight-bold mb-0">Platform Operational Reports</h4>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('📊 Compiling master PDF report...', 'info')">
+            <i class="bi bi-file-earmark-pdf me-1"></i> Export Master PDF
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+
+        <!-- Informational Banner -->
+        <div class="card-custom p-3 bg-white mb-4 border" style="border-left: 4px solid var(--primary) !important;">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+              <span class="badge bg-light text-teal-custom border border-teal font-monospace font-weight-bold mb-1">
+                <i class="bi bi-bar-chart-fill me-1"></i> REPORTING OVERVIEW
+              </span>
+              <p class="text-muted small mb-0">
+                Displaying existing operational reports compiled from active bookings, visit charge payments, quotations, escrow settlements, revisits, and technician rosters.
+              </p>
+            </div>
+            <span class="badge bg-light text-dark border">FY 2026 Audit Ready</span>
+          </div>
+        </div>
+
+        <!-- 6 Required Operational Reports -->
+        <div class="row g-4">
+          <!-- 1. Bookings Report -->
+          <div class="col-md-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="font-weight-bold mb-0"><i class="bi bi-calendar2-check text-teal-custom me-2"></i> Bookings Report</h5>
+                <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('Exporting Bookings CSV', 'info')"><i class="bi bi-download"></i></button>
+              </div>
+              <p class="text-muted small mb-3">Gross dispatch volume, fulfillment rate, and cancellation distribution.</p>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Total Platform Bookings:</span>
+                <strong class="text-dark">1,248</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Completed & Signed Off:</span>
+                <strong class="text-lime-custom">1,120 (89.7%)</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Active In Progress / Dispatch:</span>
+                <strong class="text-dark">60</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 small">
+                <span class="text-muted">Reviewed Cancellations:</span>
+                <strong class="text-dark">68 (5.4%)</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Visit-Charge Payments (₹149) Report -->
+          <div class="col-md-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="font-weight-bold mb-0"><i class="bi bi-cash-stack text-lime-custom me-2"></i> Visit-Charge Payments (₹149)</h5>
+                <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('Exporting Visit Fees CSV', 'info')"><i class="bi bi-download"></i></button>
+              </div>
+              <p class="text-muted small mb-3">Diagnostic inspection fee receipts collected prior to professional dispatch.</p>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Configured Inspection Charge:</span>
+                <strong class="text-dark">₹149 / Inspection</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Total Inspection Dispatches:</span>
+                <strong class="text-dark">1,248 Visits</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Gross Visit Fees Collected:</span>
+                <strong class="text-lime-custom">₹1,85,952</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 small">
+                <span class="text-muted">Refunded Visit Fees:</span>
+                <strong class="text-dark">₹1,788 (12 claims)</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Quotation Status Report -->
+          <div class="col-md-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="font-weight-bold mb-0"><i class="bi bi-file-earmark-text text-teal-custom me-2"></i> Quotation Status Report</h5>
+                <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('Exporting Quotations CSV', 'info')"><i class="bi bi-download"></i></button>
+              </div>
+              <p class="text-muted small mb-3">Conversion and customer acceptance metrics for on-site quotations.</p>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Quotations Formulated:</span>
+                <strong class="text-dark">23 Total</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Customer Accepted:</span>
+                <strong class="text-lime-custom">18 (78.2%)</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Pending Customer Review:</span>
+                <strong class="text-dark">4</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 small">
+                <span class="text-muted">Declined / Re-quoted:</span>
+                <strong class="text-dark">1</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Final Payments & Settlement Report -->
+          <div class="col-md-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="font-weight-bold mb-0"><i class="bi bi-currency-rupee text-dark me-2"></i> Final Payments & Settlement</h5>
+                <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('Exporting Settlements CSV', 'info')"><i class="bi bi-download"></i></button>
+              </div>
+              <p class="text-muted small mb-3">Service quotation escrow releases and marketplace payouts.</p>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Gross Marketplace GMV:</span>
+                <strong class="text-dark">₹4.82 Cr</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Escrow Settled to Providers:</span>
+                <strong class="text-lime-custom">₹4.10 Cr</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Platform Take Rate (15%):</span>
+                <strong class="text-dark">₹72.3 Lakh</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 small">
+                <span class="text-muted">Active Escrow on Hold:</span>
+                <strong class="text-dark">₹1.85 Lakh</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Revisit Bookings Log -->
+          <div class="col-md-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="font-weight-bold mb-0"><i class="bi bi-arrow-repeat text-lime-custom me-2"></i> Revisit Bookings Log</h5>
+                <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('Exporting Revisits CSV', 'info')"><i class="bi bi-download"></i></button>
+              </div>
+              <p class="text-muted small mb-3">Follow-up audits, warranty re-checks, and post-service calibrations.</p>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Total Revisits Scheduled:</span>
+                <strong class="text-dark">15</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Warranty Covered (₹0 Charge):</span>
+                <strong class="text-lime-custom">14 (93.3%)</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Revisits Completed:</span>
+                <strong class="text-dark">13</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 small">
+                <span class="text-muted">Average Revisit Resolution Time:</span>
+                <strong class="text-dark">1.4 Days</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Professional Activity Metrics -->
+          <div class="col-md-6">
+            <div class="card-custom p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="font-weight-bold mb-0"><i class="bi bi-person-badge text-teal-custom me-2"></i> Professional Activity Report</h5>
+                <button class="btn btn-sm btn-outline-dark" onclick="window.showToast('Exporting Pro Activity CSV', 'info')"><i class="bi bi-download"></i></button>
+              </div>
+              <p class="text-muted small mb-3">Provider onboarding status, job completions, and rating benchmarks.</p>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Active Verified Providers:</span>
+                <strong class="text-lime-custom">1,842</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Pending Credential Audit:</span>
+                <strong class="text-dark">14</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom small">
+                <span class="text-muted">Average Provider Rating:</span>
+                <strong class="text-dark">4.95 ★</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 small">
+                <span class="text-muted">Suspended / Paused Accounts:</span>
+                <strong class="text-dark">86</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/admin.js' %}"></script>
+</body>
+</html>

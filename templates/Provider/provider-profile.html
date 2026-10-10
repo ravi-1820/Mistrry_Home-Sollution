@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider Profile & Portfolio | Mistrry Home Solution Pro</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Design System Styles (Supabase Sage Edition) -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Top Global Portal Switcher -->
+  <div class="platform-switch-bar">
+    <div class="container-custom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 11px;">
+          <i class="bi bi-layers-half me-1 text-lime-custom"></i> PLATFORM DEMO
+        </span>
+        <span class="d-none d-md-inline text-muted">Switch Experience:</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <a href="{% url 'home' %}" class="switch-link"><i class="bi bi-person-fill"></i> 1. Customer Website</a>
+        <a href="{% url 'provider_dashboard' %}" class="switch-link provider-active"><i class="bi bi-tools"></i> 2. Provider Portal</a>
+        <a href="{% url 'admin_dashboard' %}" class="switch-link"><i class="bi bi-shield-lock-fill"></i> 3. Admin Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="Mistrry Home Solution" class="brand-svg-mark" style="width: 36px; height: 36px;">
+        <div>
+          <div class="sidebar-brand-title">Mistrry <span class="text-lime-custom">Pro</span></div>
+          <span class="badge bg-transparent border border-light text-white font-weight-bold" style="font-size: 9.5px; border-radius: 9999px; padding: 2px 8px; letter-spacing: 0.05em;">VERIFIED PARTNER</span>
+        </div>
+      </div>
+
+      <div class="sidebar-menu-category">Work & Dispatch</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_dashboard' %}" class="sidebar-nav-link">
+            <i class="bi bi-speedometer2"></i> Dashboard Overview
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_jobs' %}" class="sidebar-nav-link">
+            <i class="bi bi-briefcase"></i> Job Requests & Tasks
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">2</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_schedule' %}" class="sidebar-nav-link">
+            <i class="bi bi-calendar3"></i> Schedule & Slots
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_quotations' %}" class="sidebar-nav-link">
+            <i class="bi bi-file-earmark-text"></i> Inspections & Quotations
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_earnings' %}" class="sidebar-nav-link">
+            <i class="bi bi-wallet2"></i> Earnings & Payouts
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_history' %}" class="sidebar-nav-link">
+            <i class="bi bi-clock-history"></i> Job History & Revisits
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'provider_profile' %}" class="sidebar-nav-link active">
+            <i class="bi bi-person-badge"></i> Business Profile
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="javascript:void(0)" onclick="window.showToast('🔔 3 Unread notifications logged', 'info')" class="sidebar-nav-link">
+            <i class="bi bi-bell"></i> Notifications
+            <span class="sidebar-badge" style="background: #84CC16; color: #0C1E18;">3</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="{% url 'contact' %}" class="sidebar-nav-link">
+            <i class="bi bi-question-circle"></i> Help & Support
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" class="rounded-circle border border-2" style="width: 40px; height: 40px; object-fit: cover;">
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="font-weight-bold text-white small text-truncate">Vikram Electrical</div>
+          <div class="text-lime-custom small d-flex align-items-center gap-1" style="font-size: 11px;">
+            <i class="bi bi-circle-fill" style="font-size: 6px;"></i> Verified Professional
+          </div>
+        </div>
+        <a href="{% url 'provider_profile' %}" class="text-muted hover-white" title="Profile Details"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="font-weight-bold mb-0">Business Profile & Showcase</h4>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn-custom btn-custom-primary btn-custom-sm" onclick="window.showToast('✅ Public profile changes published live!', 'success')">
+            <i class="bi bi-check2 me-1"></i> Save Changes
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        <div class="row g-4">
+          <!-- Profile Info Form -->
+          <div class="col-lg-8">
+            <div class="card-custom p-4 bg-white mb-4">
+              <h5 class="font-weight-bold mb-3">Public Profile Information</h5>
+              
+              <div class="d-flex align-items-center gap-4 mb-4">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="rounded-circle border border-2" style="width: 80px; height: 80px; object-fit: cover;">
+                <div>
+                  <button class="btn btn-sm btn-outline-dark me-2" onclick="window.showToast('📸 Photo uploader initialized', 'info')">Change Photo</button>
+                  <span class="text-muted small">PNG, JPG up to 5MB</span>
+                </div>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small text-muted font-weight-bold">Business Name</label>
+                  <input type="text" class="form-control" value="Vikram Electrical Solutions" style="border-radius: var(--radius-md);">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-muted font-weight-bold">Lead Contact Person</label>
+                  <input type="text" class="form-control" value="Vikramaditya Rao" style="border-radius: var(--radius-md);">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-muted font-weight-bold">Primary Specialty</label>
+                  <input type="text" class="form-control" value="Master Electrician & Smart Home Automation" style="border-radius: var(--radius-md);">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-muted font-weight-bold">Base Starting Rate</label>
+                  <input type="text" class="form-control" value="₹599/hr" style="border-radius: var(--radius-md);">
+                </div>
+                <div class="col-12">
+                  <label class="form-label small text-muted font-weight-bold">Business Bio & Craftsmanship Standards</label>
+                  <textarea class="form-control" rows="3" style="border-radius: var(--radius-md);">Licensed Class-A electrical engineering contractor specializing in smart home automation, high-voltage sub-panels, and infrared thermal diagnostic safety audits for luxury villas.</textarea>
+                </div>
+                <div class="col-12">
+                  <label class="form-label small text-muted font-weight-bold">Service Coverage Areas</label>
+                  <input type="text" class="form-control" value="Indiranagar, Whitefield, Koramangala, HSR Layout, MG Road" style="border-radius: var(--radius-md);">
+                </div>
+              </div>
+            </div>
+
+            <!-- Portfolio Projects Gallery (Editorial Architecture Style) -->
+            <div class="card-custom p-4 bg-white">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="font-weight-bold mb-0">Project Portfolio Gallery</h5>
+                <button class="btn-custom btn-custom-outline btn-custom-sm" onclick="window.showToast('📁 Select project photos to upload', 'info')">
+                  <i class="bi bi-plus-lg me-1"></i> Add Portfolio Project
+                </button>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="border rounded-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=500&q=80" class="w-100" style="height: 140px; object-fit: cover;">
+                    <div class="p-3 bg-white">
+                      <h6 class="font-weight-bold mb-1">Prestige Villa Thermal Rewiring</h6>
+                      <span class="text-muted small">Whitefield • 63A Sub-panel setup</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="border rounded-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=500&q=80" class="w-100" style="height: 140px; object-fit: cover;">
+                    <div class="p-3 bg-white">
+                      <h6 class="font-weight-bold mb-1">Smart Automation Server Rack</h6>
+                      <span class="text-muted small">Koramangala • Zigbee central hub</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Verification & Badges -->
+          <div class="col-lg-4">
+            <div class="card-custom p-4 bg-white mb-4">
+              <h5 class="font-weight-bold mb-3">Verification & Credentials</h5>
+              
+              <div class="d-flex flex-column gap-3">
+                <div class="p-3 rounded-3 bg-light border border-teal-subtle d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="fw-bold text-dark small"><i class="bi bi-patch-check-fill text-teal-custom me-1"></i> Class-A Electrical License</div>
+                    <span class="text-muted small">Verified by Admin (#LIC-88219)</span>
+                  </div>
+                  <span class="badge-custom badge-custom-verified">Active</span>
+                </div>
+
+                <div class="p-3 rounded-3 bg-light border border-teal-subtle d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="fw-bold text-dark small"><i class="bi bi-shield-lock-fill text-teal-custom me-1"></i> Police Background Verification</div>
+                    <span class="text-muted small">Cleared Biometric Record</span>
+                  </div>
+                  <span class="badge-custom badge-custom-verified">Passed</span>
+                </div>
+
+                <div class="p-3 rounded-3 bg-light border border-teal-subtle d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="fw-bold text-dark small"><i class="bi bi-currency-rupee text-teal-custom me-1"></i> GSTIN & Bank Escrow Link</div>
+                    <span class="text-muted small">GST: 29AAAAA0000A1Z5</span>
+                  </div>
+                  <span class="badge-custom badge-custom-verified">Linked</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/mock-data.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
