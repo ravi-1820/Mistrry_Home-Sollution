@@ -299,11 +299,38 @@
       box-shadow: 0 0 0 3px rgba(13, 95, 76, 0.12);
     }
 
-    .custom-input-box i {
+    .custom-input-box > i:first-child {
       color: #94A3B8;
       font-size: 17px;
       margin-right: 12px;
       flex-shrink: 0;
+    }
+
+    .btn-toggle-password {
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0 4px;
+      margin-left: 8px;
+      color: #94A3B8;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: color 0.18s ease, transform 0.12s ease;
+    }
+
+    .btn-toggle-password:hover {
+      color: #0D5F4C;
+      transform: scale(1.08);
+    }
+
+    .btn-toggle-password i {
+      color: inherit;
+      font-size: 18px;
+      margin-right: 0 !important;
     }
 
     .custom-input-box input {
@@ -604,6 +631,9 @@
             <div class="custom-input-box">
               <i class="bi bi-lock"></i>
               <input type="password" id="reg-password" placeholder="Create a password (min. 8 characters)" value="password123" required>
+              <button type="button" class="btn-toggle-password" id="togglePasswordBtn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility()">
+                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
           </div>
 
@@ -642,6 +672,22 @@
   <script src="{% static 'js/main.js' %}"></script>
   
   <script>
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('reg-password');
+      const toggleIcon = document.getElementById('togglePasswordIcon');
+      if (!passwordInput || !toggleIcon) return;
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('bi-eye');
+        toggleIcon.classList.add('bi-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('bi-eye-slash');
+        toggleIcon.classList.add('bi-eye');
+      }
+    }
+
     function handleSignUpSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('reg-name').value;
