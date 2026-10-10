@@ -801,15 +801,30 @@
             </div>
           </div>
 
-          <!-- Field 6: Password -->
-          <div class="form-field-group">
-            <label class="form-field-label" for="reg-password">Password</label>
-            <div class="custom-input-box">
-              <i class="bi bi-lock"></i>
-              <input type="password" name="password" id="reg-password" placeholder="Create a password (min. 8 characters)" required>
-              <button type="button" class="btn-toggle-password" id="togglePasswordBtn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility()">
-                <i class="bi bi-eye" id="togglePasswordIcon"></i>
-              </button>
+          <!-- 2-Col Row: Password & Confirm Password -->
+          <div class="form-row-2col">
+            <!-- Field 6: Password -->
+            <div class="form-field-group">
+              <label class="form-field-label" for="reg-password">Password</label>
+              <div class="custom-input-box">
+                <i class="bi bi-lock"></i>
+                <input type="password" name="password" id="reg-password" placeholder="Create password" required>
+                <button type="button" class="btn-toggle-password" id="togglePasswordBtn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility()">
+                  <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Field 7: Confirm Password -->
+            <div class="form-field-group">
+              <label class="form-field-label" for="reg-confirm-password">Confirm Password</label>
+              <div class="custom-input-box">
+                <i class="bi bi-shield-lock"></i>
+                <input type="password" name="confirm_password" id="reg-confirm-password" placeholder="Confirm password" required>
+                <button type="button" class="btn-toggle-password" id="toggleConfirmPasswordBtn" aria-label="Toggle confirm password visibility" onclick="toggleConfirmPasswordVisibility()">
+                  <i class="bi bi-eye" id="toggleConfirmPasswordIcon"></i>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -893,6 +908,22 @@
       }
     }
 
+    function toggleConfirmPasswordVisibility() {
+      const input = document.getElementById('reg-confirm-password');
+      const icon = document.getElementById('toggleConfirmPasswordIcon');
+      if (!input || !icon) return;
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('bi-eye');
+        icon.classList.add('bi-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('bi-eye-slash');
+        icon.classList.add('bi-eye');
+      }
+    }
+
     function handleProfilePreview(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -927,6 +958,15 @@
 
     function handleSignUpSubmit(e) {
       e.preventDefault();
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+      if (password !== confirmPassword) {
+        window.showToast('⚠️ Passwords do not match! Please check again.', 'error', 'bi-exclamation-triangle-fill');
+        document.getElementById('reg-confirm-password').focus();
+        return;
+      }
+
       const name = document.getElementById('reg-name').value;
       window.showToast(`🎉 Account created for ${name}! Redirecting to dashboard...`, 'success', 'bi-check-circle-fill');
       setTimeout(() => {
