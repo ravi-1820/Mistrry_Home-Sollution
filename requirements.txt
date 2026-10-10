@@ -1,7 +1,17 @@
-﻿asgiref==3.12.1
-Django==6.1.1
-djangorestframework==3.18.1
-psycopg2-binary==2.9.13
-python-dotenv==1.2.4
-sqlparse==0.6.0
-tzdata==2026.5
+# Core Web Framework & API
+Django>=5.0.0,<6.0.0
+djangorestframework>=3.14.0
+
+# Database Engine (PostgreSQL)
+psycopg2-binary>=2.9.9
+
+# Environment Configuration
+python-dotenv>=1.0.0
+
+# Image Processing (Required for Django ImageField / Avatars / Uploads)
+Pillow>=10.0.0
+
+# Django Core Dependencies
+asgiref>=3.8.0
+sqlparse>=0.5.0
+tzdata>=2024.1
