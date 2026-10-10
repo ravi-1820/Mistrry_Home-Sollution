@@ -264,58 +264,58 @@
     .auth-form-subtitle {
       font-size: 13px;
       color: #64748B;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    /* Account Role Switcher (User vs Provider) */
-    .auth-role-switcher {
+    /* Account Type Switcher (Customer / Provider) */
+    .auth-role-switch-wrapper {
       display: flex;
-      background: #F1F5F3;
+      gap: 6px;
+      background: #F1F5F4;
       border: 1.5px solid #E2E8F0;
       border-radius: 12px;
       padding: 3.5px;
       margin-bottom: 12px;
-      gap: 5px;
     }
 
-    .role-switch-btn {
+    .auth-role-btn {
       flex: 1;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 7px 14px;
-      border-radius: 9px;
+      gap: 7px;
+      padding: 6.5px 12px;
       border: none;
       background: transparent;
       color: #64748B;
       font-size: 13px;
       font-weight: 600;
-      cursor: pointer;
       font-family: inherit;
-      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .role-switch-btn i {
-      font-size: 15px;
+    .auth-role-btn i {
+      font-size: 14.5px;
       color: #94A3B8;
-      transition: all 0.22s ease;
+      transition: color 0.2s ease, transform 0.2s ease;
     }
 
-    .role-switch-btn:hover {
+    .auth-role-btn:hover:not(.active) {
       color: #08291F;
       background: rgba(255, 255, 255, 0.7);
     }
 
-    .role-switch-btn.active {
-      background: #08291F;
+    .auth-role-btn.active {
+      background: #06261D;
       color: #FFFFFF;
-      box-shadow: 0 3px 10px rgba(8, 41, 31, 0.18);
+      box-shadow: 0 2px 10px rgba(6, 38, 29, 0.28);
     }
 
-    .role-switch-btn.active i {
+    .auth-role-btn.active i {
       color: #2DD4BF;
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     /* Form Fields */
@@ -795,24 +795,24 @@
         </div>
 
         <h2 class="auth-form-title">Create Account</h2>
-        <p class="auth-form-subtitle" id="authSubtitle">Sign up to manage your bookings and home services.</p>
-
-        <!-- Account Role Selector: User vs Provider -->
-        <div class="auth-role-switcher" role="tablist" aria-label="Choose Account Type">
-          <button type="button" class="role-switch-btn active" id="roleBtnUser" onclick="selectAccountRole('user')">
-            <i class="bi bi-person-fill"></i>
-            <span>User</span>
-          </button>
-          <button type="button" class="role-switch-btn" id="roleBtnProvider" onclick="selectAccountRole('provider')">
-            <i class="bi bi-tools"></i>
-            <span>Provider</span>
-          </button>
-        </div>
+        <p class="auth-form-subtitle">Sign up to manage your bookings and home services.</p>
 
         <!-- Registration Form -->
         <form onsubmit="handleSignUpSubmit(event)" enctype="multipart/form-data">
           {% csrf_token %}
-          <input type="hidden" name="role" id="accountRoleInput" value="user">
+
+          <!-- Account Type / Role Selector (1. Customer & 2. Provider with icon) -->
+          <div class="auth-role-switch-wrapper" role="radiogroup" aria-label="Select account type">
+            <input type="hidden" name="user_type" id="userTypeInput" value="customer">
+            <button type="button" class="auth-role-btn active" id="roleBtnCustomer" onclick="selectUserRole('customer')" aria-checked="true" role="radio">
+              <i class="bi bi-person-fill"></i>
+              <span>Customer</span>
+            </button>
+            <button type="button" class="auth-role-btn" id="roleBtnProvider" onclick="selectUserRole('provider')" aria-checked="false" role="radio">
+              <i class="bi bi-tools"></i>
+              <span>Provider</span>
+            </button>
+          </div>
 
           <!-- 2-Col Row: Full Name & Email -->
           <div class="form-row-2col">
@@ -931,7 +931,7 @@
 
           <!-- Primary Submit Button -->
           <button type="submit" class="btn-signin-action mb-2">
-            <i class="bi bi-person-plus me-1"></i> Create Account
+            <i class="bi bi-person-plus me-1" id="signUpSubmitIcon"></i> <span id="signUpSubmitText">Create Account</span>
           </button>
         </form>
 
@@ -1020,22 +1020,32 @@
       placeholder.classList.remove('d-none');
     }
 
-    function selectAccountRole(role) {
-      const userBtn = document.getElementById('roleBtnUser');
-      const providerBtn = document.getElementById('roleBtnProvider');
-      const roleInput = document.getElementById('accountRoleInput');
-      const subtitle = document.getElementById('authSubtitle');
-      if (!userBtn || !providerBtn || !roleInput) return;
+    function selectUserRole(role) {
+      const input = document.getElementById('userTypeInput');
+      const btnCustomer = document.getElementById('roleBtnCustomer');
+      const btnProvider = document.getElementById('roleBtnProvider');
+      const subtitle = document.querySelector('.auth-form-subtitle');
+      const submitIcon = document.getElementById('signUpSubmitIcon');
+      const submitText = document.getElementById('signUpSubmitText');
 
-      roleInput.value = role;
-      if (role === 'user') {
-        userBtn.classList.add('active');
-        providerBtn.classList.remove('active');
+      input.value = role;
+
+      if (role === 'customer') {
+        btnCustomer.classList.add('active');
+        btnCustomer.setAttribute('aria-checked', 'true');
+        btnProvider.classList.remove('active');
+        btnProvider.setAttribute('aria-checked', 'false');
         if (subtitle) subtitle.textContent = 'Sign up to manage your bookings and home services.';
+        if (submitIcon) submitIcon.className = 'bi bi-person-plus me-1';
+        if (submitText) submitText.textContent = 'Create Account';
       } else {
-        providerBtn.classList.add('active');
-        userBtn.classList.remove('active');
-        if (subtitle) subtitle.textContent = 'Sign up as a verified professional to get client bookings.';
+        btnProvider.classList.add('active');
+        btnProvider.setAttribute('aria-checked', 'true');
+        btnCustomer.classList.remove('active');
+        btnCustomer.setAttribute('aria-checked', 'false');
+        if (subtitle) subtitle.textContent = 'Sign up to join our verified partner network and get bookings.';
+        if (submitIcon) submitIcon.className = 'bi bi-tools me-1';
+        if (submitText) submitText.textContent = 'Join as Provider';
       }
     }
 
@@ -1050,19 +1060,14 @@
         return;
       }
 
+      const role = document.getElementById('userTypeInput').value;
       const name = document.getElementById('reg-name').value;
-      const role = document.getElementById('accountRoleInput')?.value || 'user';
-      if (role === 'provider') {
-        window.showToast(`🎉 Provider account created for ${name}! Redirecting to Provider Portal...`, 'success', 'bi-check-circle-fill');
-        setTimeout(() => {
-          window.location.href = "{% url 'provider_dashboard' %}";
-        }, 1000);
-      } else {
-        window.showToast(`🎉 Account created for ${name}! Redirecting to dashboard...`, 'success', 'bi-check-circle-fill');
-        setTimeout(() => {
-          window.location.href = "{% url 'customer_dashboard' %}";
-        }, 1000);
-      }
+      const targetUrl = role === 'provider' ? "{% url 'provider_dashboard' %}" : "{% url 'customer_dashboard' %}";
+      const roleLabel = role === 'provider' ? 'Provider partner' : 'Customer';
+      window.showToast(`🎉 Account created for ${name}! Redirecting to ${roleLabel} dashboard...`, 'success', 'bi-check-circle-fill');
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 1000);
     }
   </script>
 </body>
