@@ -267,6 +267,57 @@
       margin-bottom: 12px;
     }
 
+    /* Account Role Switcher (User vs Provider) */
+    .auth-role-switcher {
+      display: flex;
+      background: #F1F5F3;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 3.5px;
+      margin-bottom: 12px;
+      gap: 5px;
+    }
+
+    .role-switch-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: #64748B;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .role-switch-btn i {
+      font-size: 15px;
+      color: #94A3B8;
+      transition: all 0.22s ease;
+    }
+
+    .role-switch-btn:hover {
+      color: #08291F;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .role-switch-btn.active {
+      background: #08291F;
+      color: #FFFFFF;
+      box-shadow: 0 3px 10px rgba(8, 41, 31, 0.18);
+    }
+
+    .role-switch-btn.active i {
+      color: #2DD4BF;
+      transform: scale(1.1);
+    }
+
     /* Form Fields */
     .form-field-group {
       margin-bottom: 9px;
@@ -744,11 +795,24 @@
         </div>
 
         <h2 class="auth-form-title">Create Account</h2>
-        <p class="auth-form-subtitle">Sign up to manage your bookings and home services.</p>
+        <p class="auth-form-subtitle" id="authSubtitle">Sign up to manage your bookings and home services.</p>
+
+        <!-- Account Role Selector: User vs Provider -->
+        <div class="auth-role-switcher" role="tablist" aria-label="Choose Account Type">
+          <button type="button" class="role-switch-btn active" id="roleBtnUser" onclick="selectAccountRole('user')">
+            <i class="bi bi-person-fill"></i>
+            <span>User</span>
+          </button>
+          <button type="button" class="role-switch-btn" id="roleBtnProvider" onclick="selectAccountRole('provider')">
+            <i class="bi bi-tools"></i>
+            <span>Provider</span>
+          </button>
+        </div>
 
         <!-- Registration Form -->
         <form onsubmit="handleSignUpSubmit(event)" enctype="multipart/form-data">
           {% csrf_token %}
+          <input type="hidden" name="role" id="accountRoleInput" value="user">
 
           <!-- 2-Col Row: Full Name & Email -->
           <div class="form-row-2col">
@@ -956,6 +1020,25 @@
       placeholder.classList.remove('d-none');
     }
 
+    function selectAccountRole(role) {
+      const userBtn = document.getElementById('roleBtnUser');
+      const providerBtn = document.getElementById('roleBtnProvider');
+      const roleInput = document.getElementById('accountRoleInput');
+      const subtitle = document.getElementById('authSubtitle');
+      if (!userBtn || !providerBtn || !roleInput) return;
+
+      roleInput.value = role;
+      if (role === 'user') {
+        userBtn.classList.add('active');
+        providerBtn.classList.remove('active');
+        if (subtitle) subtitle.textContent = 'Sign up to manage your bookings and home services.';
+      } else {
+        providerBtn.classList.add('active');
+        userBtn.classList.remove('active');
+        if (subtitle) subtitle.textContent = 'Sign up as a verified professional to get client bookings.';
+      }
+    }
+
     function handleSignUpSubmit(e) {
       e.preventDefault();
       const password = document.getElementById('reg-password').value;
@@ -968,10 +1051,18 @@
       }
 
       const name = document.getElementById('reg-name').value;
-      window.showToast(`🎉 Account created for ${name}! Redirecting to dashboard...`, 'success', 'bi-check-circle-fill');
-      setTimeout(() => {
-        window.location.href = "{% url 'customer_dashboard' %}";
-      }, 1000);
+      const role = document.getElementById('accountRoleInput')?.value || 'user';
+      if (role === 'provider') {
+        window.showToast(`🎉 Provider account created for ${name}! Redirecting to Provider Portal...`, 'success', 'bi-check-circle-fill');
+        setTimeout(() => {
+          window.location.href = "{% url 'provider_dashboard' %}";
+        }, 1000);
+      } else {
+        window.showToast(`🎉 Account created for ${name}! Redirecting to dashboard...`, 'success', 'bi-check-circle-fill');
+        setTimeout(() => {
+          window.location.href = "{% url 'customer_dashboard' %}";
+        }, 1000);
+      }
     }
   </script>
 </body>

@@ -271,7 +271,58 @@
     .auth-form-subtitle {
       font-size: 14.5px;
       color: #64748B;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+    }
+
+    /* Account Role Switcher (User vs Provider) */
+    .auth-role-switcher {
+      display: flex;
+      background: #F1F5F3;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 3.5px;
+      margin-bottom: 20px;
+      gap: 5px;
+    }
+
+    .role-switch-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: #64748B;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .role-switch-btn i {
+      font-size: 15px;
+      color: #94A3B8;
+      transition: all 0.22s ease;
+    }
+
+    .role-switch-btn:hover {
+      color: #08291F;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .role-switch-btn.active {
+      background: #08291F;
+      color: #FFFFFF;
+      box-shadow: 0 3px 10px rgba(8, 41, 31, 0.18);
+    }
+
+    .role-switch-btn.active i {
+      color: #2DD4BF;
+      transform: scale(1.1);
     }
 
     /* Form Fields */
@@ -636,11 +687,24 @@
         </div>
 
         <h2 class="auth-form-title">Welcome Back</h2>
-        <p class="auth-form-subtitle">Sign in to manage your bookings and home services.</p>
+        <p class="auth-form-subtitle" id="signinSubtitle">Sign in to manage your bookings and home services.</p>
+
+        <!-- Account Role Selector: User vs Provider -->
+        <div class="auth-role-switcher" role="tablist" aria-label="Choose Account Type">
+          <button type="button" class="role-switch-btn active" id="roleBtnUser" onclick="selectAccountRole('user')">
+            <i class="bi bi-person-fill"></i>
+            <span>User</span>
+          </button>
+          <button type="button" class="role-switch-btn" id="roleBtnProvider" onclick="selectAccountRole('provider')">
+            <i class="bi bi-tools"></i>
+            <span>Provider</span>
+          </button>
+        </div>
 
         <!-- Sign In Form -->
         <form onsubmit="handlePasswordSignIn(event)">
           {% csrf_token %}
+          <input type="hidden" name="role" id="accountRoleInput" value="user">
           <!-- Field 1: Email / Mobile Number -->
           <div class="form-field-group">
             <label class="form-field-label" for="signin-identifier">Email / Mobile Number</label>
@@ -717,12 +781,39 @@
       }
     }
 
+    function selectAccountRole(role) {
+      const userBtn = document.getElementById('roleBtnUser');
+      const providerBtn = document.getElementById('roleBtnProvider');
+      const roleInput = document.getElementById('accountRoleInput');
+      const subtitle = document.getElementById('signinSubtitle');
+      if (!userBtn || !providerBtn || !roleInput) return;
+
+      roleInput.value = role;
+      if (role === 'user') {
+        userBtn.classList.add('active');
+        providerBtn.classList.remove('active');
+        if (subtitle) subtitle.textContent = 'Sign in to manage your bookings and home services.';
+      } else {
+        providerBtn.classList.add('active');
+        userBtn.classList.remove('active');
+        if (subtitle) subtitle.textContent = 'Sign in to your verified service provider dashboard.';
+      }
+    }
+
     function handlePasswordSignIn(e) {
       e.preventDefault();
-      window.showToast('🎉 Signed in successfully! Loading dashboard...', 'success', 'bi-check-circle-fill');
-      setTimeout(() => {
-        window.location.href = "{% url 'customer_dashboard' %}";
-      }, 900);
+      const role = document.getElementById('accountRoleInput')?.value || 'user';
+      if (role === 'provider') {
+        window.showToast('🎉 Signed in as Provider! Loading provider dashboard...', 'success', 'bi-check-circle-fill');
+        setTimeout(() => {
+          window.location.href = "{% url 'provider_dashboard' %}";
+        }, 900);
+      } else {
+        window.showToast('🎉 Signed in successfully! Loading dashboard...', 'success', 'bi-check-circle-fill');
+        setTimeout(() => {
+          window.location.href = "{% url 'customer_dashboard' %}";
+        }, 900);
+      }
     }
   </script>
 </body>
