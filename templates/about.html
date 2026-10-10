@@ -187,36 +187,40 @@
       <div class="container-custom position-relative" style="z-index: 2;">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-3">
-          <ol class="breadcrumb small">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">About Mistrry Home Solution</li>
-          </ol>
+          <div class="hero-frosted-breadcrumb">
+            <ol class="breadcrumb small mb-0">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">About Mistrry Home Solution</li>
+            </ol>
+          </div>
         </nav>
 
         <div class="row align-items-center g-4 g-xl-5">
           <div class="col-lg-8">
-            <span class="section-badge mb-3">
-              <i class="bi bi-shield-check text-teal-custom"></i> The Architectural Standard
-            </span>
-            <h1 class="hero-headline text-balance mb-3">
-              Engineering Trust, Precision & Escrow into Every Home.
-            </h1>
-            <p class="hero-subheadline mb-4">
-              We founded Mistrry Home Solution to eliminate the guesswork, friction, and delays of home projects. By uniting certified master contractors with milestone escrow security and digital diagnostic audits, we guarantee unmatched craftsmanship.
-            </p>
+            <div class="hero-editorial-glass-card">
+              <span class="section-badge mb-3">
+                <i class="bi bi-shield-check text-teal-custom"></i> The Architectural Standard
+              </span>
+              <h1 class="hero-headline text-balance mb-3">
+                Engineering Trust, Precision & Escrow into Every Home.
+              </h1>
+              <p class="hero-subheadline mb-4">
+                We founded Mistrry Home Solution to eliminate the guesswork, friction, and delays of home projects. By uniting certified master contractors with milestone escrow security and digital diagnostic audits, we guarantee unmatched craftsmanship.
+              </p>
 
-            <div class="d-flex align-items-center gap-3 flex-wrap">
-              <a href="{% url 'services' %}" class="btn-custom btn-custom-primary btn-custom-lg">
-                <i class="bi bi-search me-1"></i> Explore Certified Services
-              </a>
-              <a href="{% url 'projects' %}" class="btn-custom btn-custom-outline btn-custom-lg">
-                <i class="bi bi-stars me-1"></i> View Project Case Studies
-              </a>
+              <div class="d-flex align-items-center gap-3 flex-wrap">
+                <a href="{% url 'services' %}" class="btn-custom btn-custom-primary btn-custom-lg">
+                  <i class="bi bi-search me-1"></i> Explore Certified Services
+                </a>
+                <a href="{% url 'projects' %}" class="btn-custom btn-custom-outline btn-custom-lg hero-frosted-btn">
+                  <i class="bi bi-stars me-1"></i> View Project Case Studies
+                </a>
+              </div>
             </div>
           </div>
 
           <div class="col-lg-4 text-lg-end">
-            <div class="card-custom p-4 bg-white text-start shadow-sm border">
+            <div class="card-custom hero-editorial-side-card p-4 text-start">
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="bento-icon-box mb-0">
                   <i class="bi bi-patch-check-fill"></i>
@@ -228,7 +232,7 @@
               </div>
               <p class="text-muted small mb-3">Only 1 in 10 trade contractors pass our criminal background screening, trade license audits, and physical skill assessments.</p>
               
-              <div class="p-2 px-3 rounded-3 bg-light border d-flex align-items-center justify-content-between mb-3">
+              <div class="p-2 px-3 rounded-3 hero-frosted-pill d-flex align-items-center justify-content-between mb-3 w-100">
                 <div class="d-flex align-items-center gap-2">
                   <i class="bi bi-shield-lock-fill text-lime-custom"></i>
                   <span class="small font-weight-bold">₹50k Milestone Escrow</span>
@@ -236,7 +240,7 @@
                 <span class="badge bg-dark text-white" style="font-size: 10px;">Zero Risk</span>
               </div>
 
-              <a href="{% url 'projects' %}" class="btn-custom btn-custom-outline btn-custom-sm w-100 justify-content-center">
+              <a href="{% url 'projects' %}" class="btn-custom btn-custom-outline btn-custom-sm w-100 justify-content-center hero-frosted-btn">
                 <i class="bi bi-collection-play me-1"></i> Browse Real Projects
               </a>
             </div>

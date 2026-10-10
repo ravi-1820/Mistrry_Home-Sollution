@@ -1160,11 +1160,19 @@
 
 .hero-editorial-section {
   position: relative;
-  background-color: var(--background);
-  padding-top: clamp(2rem, 4vw, 3.8rem);
+  background-color: transparent;
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
   padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
   overflow: hidden;
   border-bottom: 1px solid var(--surface-border);
+}
+
+.hero-editorial-section .hero-bg-glow {
+  display: none !important;
+}
+
+.hero-editorial-section .hero-bg-grid {
+  opacity: 0.18;
 }
 
 /* Balanced Container for Hero with comfortable separation */
@@ -2148,17 +2156,101 @@
    ABOUT US & COMPANY STORY STYLES
    -------------------------------------------------------------------------- */
 .hero-bg-art-about {
-  background-image: 
-    linear-gradient(90deg, rgba(247, 248, 245, 0.95) 0%, rgba(247, 248, 245, 0.82) 40%, rgba(247, 248, 245, 0.25) 75%, rgba(247, 248, 245, 0.45) 100%),
-    url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2400&q=90');
+  background-image: url('../images/hero-about-architecture.jpg');
+  background-size: cover;
+  background-position: center 30%;
   opacity: 1;
 }
 
 .hero-bg-art-contact {
-  background-image: 
-    linear-gradient(90deg, rgba(247, 248, 245, 0.94) 0%, rgba(247, 248, 245, 0.78) 38%, rgba(247, 248, 245, 0.22) 72%, rgba(247, 248, 245, 0.45) 100%),
-    url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=90');
+  background-image: url('../images/hero-contact-concierge.jpg');
+  background-size: cover;
+  background-position: center;
   opacity: 1;
+}
+
+/* Frosted Glass Editorial Cards (About & Contact) */
+.hero-editorial-glass-card {
+  background: rgba(255, 255, 255, 0.48);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 28px;
+  padding: clamp(24px, 3.5vw, 40px);
+  box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.16), inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.hero-editorial-glass-card .section-badge {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+.hero-editorial-glass-card .hero-headline {
+  color: #0F172A;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.45);
+}
+
+.hero-editorial-glass-card .hero-subheadline {
+  color: #1E293B;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.hero-editorial-side-card {
+  background: rgba(255, 255, 255, 0.52) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.16), inset 0 1px 1px 0 rgba(255, 255, 255, 0.85) !important;
+}
+
+.hero-editorial-side-card .bento-icon-box {
+  background: rgba(15, 118, 110, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 118, 110, 0.22);
+}
+
+.hero-frosted-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.48);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+.hero-frosted-pill,
+.hero-contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.50) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+.hero-frosted-btn {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  color: var(--dark) !important;
+}
+
+.hero-frosted-btn:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
 }
 
 .story-stat-box {
