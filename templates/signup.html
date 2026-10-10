@@ -808,10 +808,10 @@
               <i class="bi bi-person-fill"></i>
               <span>Customer</span>
             </button>
-            <button type="button" class="auth-role-btn" id="roleBtnProvider" onclick="selectUserRole('provider')" aria-checked="false" role="radio">
+            <a href="{% url 'provider_register' %}" class="auth-role-btn" id="roleBtnProvider" role="radio" aria-checked="false" style="text-decoration: none;">
               <i class="bi bi-tools"></i>
               <span>Provider</span>
-            </button>
+            </a>
           </div>
 
           <!-- 2-Col Row: Full Name & Email -->
@@ -1021,6 +1021,10 @@
     }
 
     function selectUserRole(role) {
+      if (role === 'provider') {
+        window.location.href = "{% url 'provider_register' %}";
+        return;
+      }
       const input = document.getElementById('userTypeInput');
       const btnCustomer = document.getElementById('roleBtnCustomer');
       const btnProvider = document.getElementById('roleBtnProvider');
@@ -1033,19 +1037,13 @@
       if (role === 'customer') {
         btnCustomer.classList.add('active');
         btnCustomer.setAttribute('aria-checked', 'true');
-        btnProvider.classList.remove('active');
-        btnProvider.setAttribute('aria-checked', 'false');
+        if (btnProvider) {
+          btnProvider.classList.remove('active');
+          btnProvider.setAttribute('aria-checked', 'false');
+        }
         if (subtitle) subtitle.textContent = 'Sign up to manage your bookings and home services.';
         if (submitIcon) submitIcon.className = 'bi bi-person-plus me-1';
         if (submitText) submitText.textContent = 'Create Account';
-      } else {
-        btnProvider.classList.add('active');
-        btnProvider.setAttribute('aria-checked', 'true');
-        btnCustomer.classList.remove('active');
-        btnCustomer.setAttribute('aria-checked', 'false');
-        if (subtitle) subtitle.textContent = 'Sign up to join our verified partner network and get bookings.';
-        if (submitIcon) submitIcon.className = 'bi bi-tools me-1';
-        if (submitText) submitText.textContent = 'Join as Provider';
       }
     }
 

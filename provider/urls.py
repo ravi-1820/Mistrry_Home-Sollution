@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/', views.provider_profile_view, name='provider_profile'),
     path('quotations/', views.provider_quotations_view, name='provider_quotations'),
     path('schedule/', views.provider_schedule_view, name='provider_schedule'),
+    path('register/', views.provider_register_view, name='provider_register'),
 ]

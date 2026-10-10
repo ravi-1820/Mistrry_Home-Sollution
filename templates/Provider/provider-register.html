@@ -1,0 +1,1642 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider Registration | Mistrry Home Solution</title>
+  <meta name="description" content="Register as a certified master trade partner with Mistrry Home Solution. Connect with homeowners across Ahmedabad for carpentry, electrical, plumbing, and home projects.">
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo-icon.svg' %}">
+
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+
+  <style>
+    /* ==========================================================================
+       PROVIDER REGISTRATION LUXURY DESIGN SYSTEM
+       ========================================================================== */
+    body {
+      background-color: #F7F8F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #17211F;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .provider-reg-page {
+      min-height: 100vh;
+      display: flex;
+      position: relative;
+    }
+
+    /* LEFT VISUAL SIDEBAR */
+    .provider-reg-visual {
+      flex: 1.1;
+      position: relative;
+      background-color: #06261D;
+      background-image: 
+        linear-gradient(135deg, rgba(6, 38, 29, 0.60) 0%, rgba(9, 58, 45, 0.35) 48%, rgba(4, 26, 20, 0.68) 100%),
+        url("{% static 'images/signup-bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #FFFFFF;
+      padding: clamp(32px, 4.5vw, 60px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .visual-decor-circle {
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(45, 212, 191, 0.08);
+      pointer-events: none;
+    }
+
+    .visual-decor-circle-br {
+      position: absolute;
+      bottom: -90px;
+      right: -90px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(15, 118, 110, 0.12);
+      pointer-events: none;
+    }
+
+    .provider-logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+    }
+
+    .provider-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 50px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #2DD4BF;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+
+    .provider-hero-heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 3.2vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+      color: #FFFFFF;
+    }
+
+    .provider-hero-heading .text-mint {
+      color: #2DD4BF;
+      display: block;
+    }
+
+    .provider-hero-subtext {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #D1D5DB;
+      max-width: 480px;
+      margin-bottom: 30px;
+    }
+
+    /* Benefits List */
+    .provider-benefit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .provider-benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .benefit-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2DD4BF;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .benefit-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .benefit-desc {
+      font-size: 12.5px;
+      color: #9CA3AF;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .provider-trust-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      flex-wrap: wrap;
+    }
+
+    .provider-trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #D1D5DB;
+      font-weight: 600;
+    }
+
+    .provider-trust-item i {
+      color: #2DD4BF;
+      font-size: 15px;
+    }
+
+    /* RIGHT FORM COLUMN */
+    .provider-reg-form-side {
+      flex: 1.45;
+      background: #FFFFFF;
+      overflow-y: auto;
+      max-height: 100vh;
+      padding: clamp(24px, 3.5vw, 48px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-container-inner {
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Account Type Switcher */
+    .auth-role-switch-wrapper {
+      display: flex;
+      gap: 6px;
+      background: #F1F5F4;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 3.5px;
+      margin-bottom: 18px;
+    }
+
+    .auth-role-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border: none;
+      background: transparent;
+      color: #64748B;
+      font-size: 13.5px;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 9px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .auth-role-btn i {
+      font-size: 15px;
+      color: #94A3B8;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .auth-role-btn:hover:not(.active) {
+      color: #08291F;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .auth-role-btn.active {
+      background: #06261D;
+      color: #FFFFFF;
+      box-shadow: 0 2px 10px rgba(6, 38, 29, 0.28);
+    }
+
+    .auth-role-btn.active i {
+      color: #2DD4BF;
+      transform: scale(1.08);
+    }
+
+    /* Page Header */
+    .reg-form-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.6rem, 2.2vw, 2rem);
+      font-weight: 800;
+      color: #08291F;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+
+    .reg-form-subtitle {
+      font-size: 13.5px;
+      color: #64748B;
+      margin-bottom: 20px;
+    }
+
+    /* Step Progress Indicator */
+    .reg-stepper-container {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+    }
+
+    .reg-stepper-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .step-pill-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: none;
+      padding: 6px 8px;
+      cursor: pointer;
+      text-align: left;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .step-pill-btn:hover {
+      background: rgba(15, 118, 110, 0.05);
+    }
+
+    .step-num-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      color: #64748B;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .step-pill-btn.active .step-num-badge {
+      background: #0F766E;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.35);
+    }
+
+    .step-pill-btn.completed .step-num-badge {
+      background: #0D9488;
+      color: #FFFFFF;
+    }
+
+    .step-text-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1E293B;
+      line-height: 1.2;
+      display: block;
+    }
+
+    .step-pill-btn.active .step-text-title {
+      color: #0F766E;
+    }
+
+    .step-text-desc {
+      font-size: 11px;
+      color: #94A3B8;
+      display: block;
+    }
+
+    .reg-progress-track {
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .reg-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0F766E 0%, #2DD4BF 100%);
+      width: 33.33%;
+      border-radius: 3px;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Section Headers inside Card */
+    .form-step-section {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .form-step-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-section-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .step-heading-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(15, 118, 110, 0.1);
+      color: #0F766E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .step-heading-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #08291F;
+      margin: 0;
+    }
+
+    .step-heading-sub {
+      font-size: 12px;
+      color: #64748B;
+      margin: 0;
+    }
+
+    /* Form Inputs */
+    .form-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 576px) {
+      .form-row-2col {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+
+    .form-group-item {
+      margin-bottom: 13px;
+    }
+
+    .form-label-custom {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .required-star {
+      color: #DC2626;
+      font-weight: 700;
+      margin-left: 2px;
+    }
+
+    .optional-tag {
+      font-size: 11px;
+      color: #94A3B8;
+      font-weight: 400;
+    }
+
+    .custom-input-box {
+      display: flex;
+      align-items: center;
+      background: #FAFAFA;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 0 12px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .custom-input-box:focus-within {
+      border-color: #0F766E;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    }
+
+    .custom-input-box > i:first-child {
+      color: #94A3B8;
+      font-size: 15px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .custom-input-box input,
+    .custom-input-box select {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      padding: 9px 0;
+      font-size: 13.5px;
+      color: #1E293B;
+      font-family: inherit;
+    }
+
+    .custom-input-box input::placeholder {
+      color: #94A3B8;
+      font-weight: 400;
+    }
+
+    .custom-textarea-box {
+      display: flex;
+      background: #FAFAFA;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      transition: all 0.2s ease;
+    }
+
+    .custom-textarea-box:focus-within {
+      border-color: #0F766E;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    }
+
+    .custom-textarea-box textarea {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      font-size: 13.5px;
+      color: #1E293B;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 72px;
+      line-height: 1.45;
+    }
+
+    .btn-toggle-eye {
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0 2px;
+      color: #94A3B8;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-toggle-eye:hover {
+      color: #0F766E;
+    }
+
+    /* Document Upload Cards Grid */
+    .document-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 576px) {
+      .document-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .doc-upload-card {
+      border: 1.5px dashed #CBD5E1;
+      background: #FAFAFA;
+      border-radius: 12px;
+      padding: 14px 16px;
+      position: relative;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 138px;
+    }
+
+    .doc-upload-card:hover {
+      border-color: #0F766E;
+      background: #F4FAF8;
+    }
+
+    .doc-upload-card.has-file {
+      border-style: solid;
+      border-color: #0F766E;
+      background: #F0FDF4;
+    }
+
+    .doc-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .doc-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(15, 118, 110, 0.1);
+      color: #0F766E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .doc-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1E293B;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .doc-card-hint {
+      font-size: 11px;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    /* Empty Upload Zone */
+    .doc-upload-zone {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    .upload-cta-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0F766E;
+      margin-top: 4px;
+    }
+
+    /* Selected File Preview Box */
+    .doc-preview-zone {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      margin-top: 6px;
+    }
+
+    .doc-preview-thumb {
+      width: 38px;
+      height: 38px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+      display: none;
+    }
+
+    .doc-preview-icon-generic {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(15, 118, 110, 0.1);
+      color: #0F766E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .doc-preview-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .doc-preview-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1E293B;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+    }
+
+    .doc-preview-size {
+      font-size: 10.5px;
+      color: #64748B;
+      margin: 0;
+    }
+
+    .doc-remove-btn {
+      background: transparent;
+      border: none;
+      color: #EF4444;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .doc-remove-btn:hover {
+      background: #FEE2E2;
+    }
+
+    /* Declaration Box */
+    .declaration-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .custom-check-declaration {
+      width: 18px;
+      height: 18px;
+      accent-color: #0F766E;
+      margin-top: 3px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .declaration-text {
+      font-size: 12.5px;
+      color: #334155;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .declaration-text a {
+      color: #0F766E;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    /* Actions Bottom Bar */
+    .form-nav-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #E2E8F0;
+      flex-wrap: wrap;
+    }
+
+    .btn-step-prev {
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      color: #334155;
+      padding: 8px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-step-prev:hover {
+      background: #F1F5F9;
+      border-color: #94A3B8;
+      color: #0F172A;
+    }
+
+    .btn-step-next,
+    .btn-submit-app {
+      background: linear-gradient(135deg, #0F766E 0%, #0D9488 100%);
+      border: 1px solid #0F766E;
+      color: #FFFFFF;
+      padding: 9px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-step-next:hover,
+    .btn-submit-app:hover {
+      background: linear-gradient(135deg, #115E59 0%, #0F766E 100%);
+      box-shadow: 0 6px 18px rgba(15, 118, 110, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-reset-app {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      color: #64748B;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-reset-app:hover {
+      background: #F1F5F9;
+      color: #EF4444;
+      border-color: #FCA5A5;
+    }
+
+    .back-login-link {
+      color: #0F766E;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .back-login-link:hover {
+      color: #115E59;
+      text-decoration: underline;
+    }
+
+    /* Client-side Notice Banner */
+    .preview-demo-banner {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1E40AF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 991px) {
+      .provider-reg-visual {
+        display: none;
+      }
+      .provider-reg-form-side {
+        max-height: none;
+        padding: 24px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="provider-reg-page">
+
+    <!-- LEFT VISUAL BRAND PANEL -->
+    <div class="provider-reg-visual">
+      <div class="visual-decor-circle"></div>
+      <div class="visual-decor-circle-br"></div>
+
+      <!-- Top Brand -->
+      <div>
+        <a href="{% url 'home' %}" class="d-inline-block">
+          <img src="{% static 'images/logo-dark.png' %}" alt="Mistrry Home Solution" class="provider-logo-img">
+        </a>
+        <br>
+        <div class="provider-hero-badge">
+          <i class="bi bi-patch-check-fill"></i> Mistrry Pro Guild
+        </div>
+
+        <h1 class="provider-hero-heading">
+          Grow Your Business with
+          <span class="text-mint">Direct Client Dispatches.</span>
+        </h1>
+
+        <p class="provider-hero-subtext">
+          Join 850+ verified master electricians, plumbers, carpenters, and renovation contractors across Ahmedabad. Zero commission on your first 10 projects.
+        </p>
+
+        <!-- Benefits List -->
+        <div class="provider-benefit-list">
+          <div class="provider-benefit-item">
+            <div class="benefit-icon-box">
+              <i class="bi bi-shield-lock-fill"></i>
+            </div>
+            <div>
+              <div class="benefit-title">Escrow Protected Payments</div>
+              <p class="benefit-desc">Milestone funds locked in escrow before you begin. Fast 24-hr payouts upon job approval.</p>
+            </div>
+          </div>
+
+          <div class="provider-benefit-item">
+            <div class="benefit-icon-box">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <div>
+              <div class="benefit-title">Local Ahmedabad Jobs</div>
+              <p class="benefit-desc">Targeted leads in Bodakdev, SG Highway, Satellite, Bopal, Vastrapur, and surrounding areas.</p>
+            </div>
+          </div>
+
+          <div class="provider-benefit-item">
+            <div class="benefit-icon-box">
+              <i class="bi bi-award-fill"></i>
+            </div>
+            <div>
+              <div class="benefit-title">Certified Master Badge</div>
+              <p class="benefit-desc">Elevate your reputation with the verified 1% Guild artisan credentials and client reviews.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Trust Strip -->
+      <div class="provider-trust-bar">
+        <div class="provider-trust-item">
+          <i class="bi bi-shield-check"></i> Verified Guild Network
+        </div>
+        <div class="provider-trust-item">
+          <i class="bi bi-lightning-charge-fill"></i> Instant SMS/WhatsApp Dispatch
+        </div>
+        <div class="provider-trust-item">
+          <i class="bi bi-currency-rupee"></i> 100% Guaranteed Pay
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT REGISTRATION FORM PANEL -->
+    <div class="provider-reg-form-side">
+      <div class="form-container-inner">
+
+        <!-- Role Selector (Customer vs Provider) -->
+        <div class="auth-role-switch-wrapper" role="radiogroup" aria-label="Select Account Type">
+          <a href="{% url 'signup' %}" class="auth-role-btn" id="roleBtnCustomer" role="radio" aria-checked="false">
+            <i class="bi bi-person-fill"></i>
+            <span>Customer</span>
+          </a>
+          <button type="button" class="auth-role-btn active" id="roleBtnProvider" role="radio" aria-checked="true">
+            <i class="bi bi-tools"></i>
+            <span>Provider</span>
+          </button>
+        </div>
+
+        <h2 class="reg-form-title">Join as a Service Partner</h2>
+        <p class="reg-form-subtitle">Complete your trade credentials and document onboarding to start receiving bookings.</p>
+
+        <!-- Stepper Progress Bar -->
+        <div class="reg-stepper-container">
+          <div class="reg-stepper-nav">
+            <!-- Step 1 Button -->
+            <button type="button" class="step-pill-btn active" id="stepPill1" onclick="goToStep(1)">
+              <div class="step-num-badge" id="stepBadge1">1</div>
+              <div>
+                <span class="step-text-title">Personal & Account</span>
+                <span class="step-text-desc">Contact info & password</span>
+              </div>
+            </button>
+
+            <!-- Step 2 Button -->
+            <button type="button" class="step-pill-btn" id="stepPill2" onclick="goToStep(2)">
+              <div class="step-num-badge" id="stepBadge2">2</div>
+              <div>
+                <span class="step-text-title">Professional Info</span>
+                <span class="step-text-desc">Category & experience</span>
+              </div>
+            </button>
+
+            <!-- Step 3 Button -->
+            <button type="button" class="step-pill-btn" id="stepPill3" onclick="goToStep(3)">
+              <div class="step-num-badge" id="stepBadge3">3</div>
+              <div>
+                <span class="step-text-title">Documents & KYC</span>
+                <span class="step-text-desc">Identity & declaration</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="reg-progress-track">
+            <div class="reg-progress-fill" id="regProgressFill" style="width: 33.33%;"></div>
+          </div>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="providerRegistrationForm" onsubmit="handleProviderSubmit(event)" novalidate>
+          {% csrf_token %}
+
+          <!-- ====================================================================
+               STEP 1: PERSONAL & ACCOUNT INFORMATION
+               ==================================================================== -->
+          <div class="form-step-section active" id="stepSection1">
+            <div class="step-section-heading">
+              <div class="step-heading-icon">
+                <i class="bi bi-person-vcard-fill"></i>
+              </div>
+              <div>
+                <h3 class="step-heading-title">Personal & Account Details</h3>
+                <p class="step-heading-sub">Provide your legal contact details and create your secure portal password.</p>
+              </div>
+            </div>
+
+            <!-- Field 1: Full Name -->
+            <div class="form-group-item">
+              <label class="form-label-custom" for="prov-name">
+                <span>Full Name <span class="required-star">*</span></span>
+              </label>
+              <div class="custom-input-box">
+                <i class="bi bi-person"></i>
+                <input type="text" id="prov-name" name="full_name" placeholder="Enter your full legal name (e.g. Rameshbhai Patel)" value="Rameshbhai Patel" required>
+              </div>
+            </div>
+
+            <!-- 2-Col: Email Address & Mobile Number -->
+            <div class="form-row-2col">
+              <!-- Field 2: Email Address -->
+              <div class="form-group-item">
+                <label class="form-label-custom" for="prov-email">
+                  <span>Email Address <span class="required-star">*</span></span>
+                </label>
+                <div class="custom-input-box">
+                  <i class="bi bi-envelope"></i>
+                  <input type="email" id="prov-email" name="email" placeholder="e.g. ramesh.patel@example.com" value="ramesh.electrician@example.com" required>
+                </div>
+              </div>
+
+              <!-- Field 3: Mobile Number -->
+              <div class="form-group-item">
+                <label class="form-label-custom" for="prov-mobile">
+                  <span>Mobile Number <span class="required-star">*</span></span>
+                </label>
+                <div class="custom-input-box">
+                  <i class="bi bi-telephone"></i>
+                  <input type="tel" id="prov-mobile" name="mobile" placeholder="10-digit mobile number" value="9876543210" pattern="[0-9]{10}" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2-Col: Password & Confirm Password -->
+            <div class="form-row-2col">
+              <!-- Field 4: Password -->
+              <div class="form-group-item">
+                <label class="form-label-custom" for="prov-password">
+                  <span>Password <span class="required-star">*</span></span>
+                </label>
+                <div class="custom-input-box">
+                  <i class="bi bi-lock"></i>
+                  <input type="password" id="prov-password" name="password" placeholder="Min. 8 characters" value="PartnerPass@123" required>
+                  <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" aria-label="Toggle password" onclick="togglePasswordVisibility('prov-password', 'togglePasswordIcon')">
+                    <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Field 5: Confirm Password -->
+              <div class="form-group-item">
+                <label class="form-label-custom" for="prov-confirm-password">
+                  <span>Confirm Password <span class="required-star">*</span></span>
+                </label>
+                <div class="custom-input-box">
+                  <i class="bi bi-shield-lock"></i>
+                  <input type="password" id="prov-confirm-password" name="confirm_password" placeholder="Re-enter password" value="PartnerPass@123" required>
+                  <button type="button" class="btn-toggle-eye" id="toggleConfirmBtn" aria-label="Toggle confirm password" onclick="togglePasswordVisibility('prov-confirm-password', 'toggleConfirmIcon')">
+                    <i class="bi bi-eye" id="toggleConfirmIcon"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-nav-actions">
+              <a href="{% url 'signin' %}" class="back-login-link">
+                <i class="bi bi-arrow-left"></i> Back to Login
+              </a>
+              <button type="button" class="btn-step-next" onclick="validateAndGoToStep(2)">
+                <span>Next: Professional Info</span> <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- ====================================================================
+               STEP 2: PROFESSIONAL INFORMATION
+               ==================================================================== -->
+          <div class="form-step-section" id="stepSection2">
+            <div class="step-section-heading">
+              <div class="step-heading-icon">
+                <i class="bi bi-tools"></i>
+              </div>
+              <div>
+                <h3 class="step-heading-title">Professional Trade Information</h3>
+                <p class="step-heading-sub">Specify your primary trade service, experience level, and operational locality.</p>
+              </div>
+            </div>
+
+            <!-- 2-Col: Service Category & Experience -->
+            <div class="form-row-2col">
+              <!-- Field 6: Service Category -->
+              <div class="form-group-item">
+                <label class="form-label-custom" for="prov-category">
+                  <span>Primary Service Category <span class="required-star">*</span></span>
+                </label>
+                <div class="custom-input-box">
+                  <i class="bi bi-wrench-adjustable"></i>
+                  <select id="prov-category" name="service_category" required>
+                    <option value="Electrician" selected>Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Construction">Construction</option>
+                    <option value="AC Repair">AC Repair</option>
+                    <option value="Renovation">Renovation</option>
+                    <option value="RO & Geyser">RO & Geyser</option>
+                    <option value="Washing Machine">Washing Machine</option>
+                    <option value="Tiles & Furniture Assembly">Tiles & Furniture Assembly</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Field 7: Experience -->
+              <div class="form-group-item">
+                <label class="form-label-custom" for="prov-experience">
+                  <span>Years of Experience <span class="required-star">*</span></span>
+                </label>
+                <div class="custom-input-box">
+                  <i class="bi bi-award"></i>
+                  <select id="prov-experience" name="experience" required>
+                    <option value="Beginner">Beginner (< 1 Year)</option>
+                    <option value="1-2 Years" selected>1–2 Years</option>
+                    <option value="3-5 Years">3–5 Years</option>
+                    <option value="5+ Years">5+ Years (Master)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Field 8: Service Area -->
+            <div class="form-group-item">
+              <label class="form-label-custom" for="prov-service-area">
+                <span>Primary Service Area <span class="required-star">*</span></span>
+                <span class="optional-tag">Operational City</span>
+              </label>
+              <div class="custom-input-box">
+                <i class="bi bi-geo-alt"></i>
+                <input type="text" id="prov-service-area" name="service_area" placeholder="Service city and coverage areas" value="Ahmedabad" required>
+              </div>
+              <div class="small text-muted mt-1" style="font-size: 11.5px;">
+                <i class="bi bi-info-circle me-1"></i> Active coverage: Bodakdev, SG Highway, Satellite, Bopal, Vastrapur, Navrangpura, and Ahmedabad suburbs.
+              </div>
+            </div>
+
+            <!-- Field 9: Professional Description -->
+            <div class="form-group-item">
+              <label class="form-label-custom" for="prov-description">
+                <span>Short Professional Description <span class="optional-tag">Recommended</span></span>
+              </label>
+              <div class="custom-textarea-box">
+                <textarea id="prov-description" name="description" placeholder="Briefly introduce your specialty, equipment, trade certifications or past client transformations...">Certified residential & commercial electrician with hands-on expertise in distribution panels, 3-phase wiring, inverter setup, and emergency short-circuit fault diagnostics across Ahmedabad.</textarea>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-nav-actions">
+              <button type="button" class="btn-step-prev" onclick="goToStep(1)">
+                <i class="bi bi-arrow-left"></i> Previous
+              </button>
+              <button type="button" class="btn-step-next" onclick="validateAndGoToStep(3)">
+                <span>Next: Documents & KYC</span> <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- ====================================================================
+               STEP 3: DOCUMENT UPLOAD & DECLARATION
+               ==================================================================== -->
+          <div class="form-step-section" id="stepSection3">
+            <div class="step-section-heading">
+              <div class="step-heading-icon">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div>
+                <h3 class="step-heading-title">Document Verification & Declaration</h3>
+                <p class="step-heading-sub">Upload clear scans or photos for guild verification. Client-side preview enabled.</p>
+              </div>
+            </div>
+
+            <!-- 4 Document Upload Cards -->
+            <div class="document-cards-grid">
+              
+              <!-- Card 1: Passport-size Profile Photo -->
+              <div class="doc-upload-card" id="cardProfilePhoto">
+                <div>
+                  <div class="doc-card-header">
+                    <div class="doc-card-icon">
+                      <i class="bi bi-person-bounding-box"></i>
+                    </div>
+                    <div>
+                      <h4 class="doc-card-title">Passport-size Photo <span class="required-star">*</span></h4>
+                      <p class="doc-card-hint">JPG or PNG • Max 5MB</p>
+                    </div>
+                  </div>
+
+                  <!-- Upload Trigger -->
+                  <div class="doc-upload-zone" id="zoneProfilePhoto" onclick="document.getElementById('inputProfilePhoto').click()">
+                    <i class="bi bi-cloud-arrow-up text-teal-custom fs-4"></i>
+                    <span class="upload-cta-text">Choose photo</span>
+                  </div>
+                  <input type="file" id="inputProfilePhoto" accept=".jpg,.jpeg,.png" class="d-none" onchange="handleFileSelected(event, 'cardProfilePhoto', 'previewProfilePhoto', 'nameProfilePhoto', 'sizeProfilePhoto', 'imgProfilePhoto')">
+
+                  <!-- Preview Zone -->
+                  <div class="doc-preview-zone" id="previewProfilePhoto">
+                    <img id="imgProfilePhoto" class="doc-preview-thumb" alt="Profile Preview">
+                    <div class="doc-preview-icon-generic" id="iconProfilePhotoGeneric">
+                      <i class="bi bi-file-earmark-person"></i>
+                    </div>
+                    <div class="doc-preview-info">
+                      <p class="doc-preview-name" id="nameProfilePhoto">profile.jpg</p>
+                      <p class="doc-preview-size" id="sizeProfilePhoto">0 KB</p>
+                    </div>
+                    <button type="button" class="doc-remove-btn" title="Remove file" onclick="removeFile('inputProfilePhoto', 'cardProfilePhoto', 'previewProfilePhoto', 'zoneProfilePhoto')">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2: Aadhaar Card (Front Side) -->
+              <div class="doc-upload-card" id="cardAadhaarFront">
+                <div>
+                  <div class="doc-card-header">
+                    <div class="doc-card-icon">
+                      <i class="bi bi-card-heading"></i>
+                    </div>
+                    <div>
+                      <h4 class="doc-card-title">Aadhaar (Front Side) <span class="required-star">*</span></h4>
+                      <p class="doc-card-hint">JPG, PNG, PDF • Max 5MB</p>
+                    </div>
+                  </div>
+
+                  <!-- Upload Trigger -->
+                  <div class="doc-upload-zone" id="zoneAadhaarFront" onclick="document.getElementById('inputAadhaarFront').click()">
+                    <i class="bi bi-cloud-arrow-up text-teal-custom fs-4"></i>
+                    <span class="upload-cta-text">Upload front scan</span>
+                  </div>
+                  <input type="file" id="inputAadhaarFront" accept=".jpg,.jpeg,.png,.pdf" class="d-none" onchange="handleFileSelected(event, 'cardAadhaarFront', 'previewAadhaarFront', 'nameAadhaarFront', 'sizeAadhaarFront', 'imgAadhaarFront')">
+
+                  <!-- Preview Zone -->
+                  <div class="doc-preview-zone" id="previewAadhaarFront">
+                    <img id="imgAadhaarFront" class="doc-preview-thumb" alt="Aadhaar Front Preview">
+                    <div class="doc-preview-icon-generic" id="iconAadhaarFrontGeneric">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="doc-preview-info">
+                      <p class="doc-preview-name" id="nameAadhaarFront">aadhaar-front.jpg</p>
+                      <p class="doc-preview-size" id="sizeAadhaarFront">0 KB</p>
+                    </div>
+                    <button type="button" class="doc-remove-btn" title="Remove file" onclick="removeFile('inputAadhaarFront', 'cardAadhaarFront', 'previewAadhaarFront', 'zoneAadhaarFront')">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3: Aadhaar Card (Back Side) -->
+              <div class="doc-upload-card" id="cardAadhaarBack">
+                <div>
+                  <div class="doc-card-header">
+                    <div class="doc-card-icon">
+                      <i class="bi bi-card-text"></i>
+                    </div>
+                    <div>
+                      <h4 class="doc-card-title">Aadhaar (Back Side) <span class="required-star">*</span></h4>
+                      <p class="doc-card-hint">JPG, PNG, PDF • Max 5MB</p>
+                    </div>
+                  </div>
+
+                  <!-- Upload Trigger -->
+                  <div class="doc-upload-zone" id="zoneAadhaarBack" onclick="document.getElementById('inputAadhaarBack').click()">
+                    <i class="bi bi-cloud-arrow-up text-teal-custom fs-4"></i>
+                    <span class="upload-cta-text">Upload back scan</span>
+                  </div>
+                  <input type="file" id="inputAadhaarBack" accept=".jpg,.jpeg,.png,.pdf" class="d-none" onchange="handleFileSelected(event, 'cardAadhaarBack', 'previewAadhaarBack', 'nameAadhaarBack', 'sizeAadhaarBack', 'imgAadhaarBack')">
+
+                  <!-- Preview Zone -->
+                  <div class="doc-preview-zone" id="previewAadhaarBack">
+                    <img id="imgAadhaarBack" class="doc-preview-thumb" alt="Aadhaar Back Preview">
+                    <div class="doc-preview-icon-generic" id="iconAadhaarBackGeneric">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="doc-preview-info">
+                      <p class="doc-preview-name" id="nameAadhaarBack">aadhaar-back.jpg</p>
+                      <p class="doc-preview-size" id="sizeAadhaarBack">0 KB</p>
+                    </div>
+                    <button type="button" class="doc-remove-btn" title="Remove file" onclick="removeFile('inputAadhaarBack', 'cardAadhaarBack', 'previewAadhaarBack', 'zoneAadhaarBack')">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4: PAN Card -->
+              <div class="doc-upload-card" id="cardPanCard">
+                <div>
+                  <div class="doc-card-header">
+                    <div class="doc-card-icon">
+                      <i class="bi bi-credit-card-2-front"></i>
+                    </div>
+                    <div>
+                      <h4 class="doc-card-title">PAN Card Document <span class="required-star">*</span></h4>
+                      <p class="doc-card-hint">JPG, PNG, PDF • Max 5MB</p>
+                    </div>
+                  </div>
+
+                  <!-- Upload Trigger -->
+                  <div class="doc-upload-zone" id="zonePanCard" onclick="document.getElementById('inputPanCard').click()">
+                    <i class="bi bi-cloud-arrow-up text-teal-custom fs-4"></i>
+                    <span class="upload-cta-text">Upload PAN scan</span>
+                  </div>
+                  <input type="file" id="inputPanCard" accept=".jpg,.jpeg,.png,.pdf" class="d-none" onchange="handleFileSelected(event, 'cardPanCard', 'previewPanCard', 'namePanCard', 'sizePanCard', 'imgPanCard')">
+
+                  <!-- Preview Zone -->
+                  <div class="doc-preview-zone" id="previewPanCard">
+                    <img id="imgPanCard" class="doc-preview-thumb" alt="PAN Card Preview">
+                    <div class="doc-preview-icon-generic" id="iconPanCardGeneric">
+                      <i class="bi bi-file-earmark-check"></i>
+                    </div>
+                    <div class="doc-preview-info">
+                      <p class="doc-preview-name" id="namePanCard">pan-card.jpg</p>
+                      <p class="doc-preview-size" id="sizePanCard">0 KB</p>
+                    </div>
+                    <button type="button" class="doc-remove-btn" title="Remove file" onclick="removeFile('inputPanCard', 'cardPanCard', 'previewPanCard', 'zonePanCard')">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Declaration Checkbox -->
+            <div class="declaration-card">
+              <input type="checkbox" id="declarationConsent" name="declaration" class="custom-check-declaration" required checked>
+              <label for="declarationConsent" class="declaration-text">
+                I hereby declare that all submitted personal, trade and identification documents are accurate, genuine, and legally valid. I consent to Mistrry Home Solution’s master contractor background screening and <a href="#" onclick="event.preventDefault(); window.showToast('📋 Document verification policy is reviewed per Guild guidelines.', 'info');">document verification policy</a>.
+              </label>
+            </div>
+
+            <!-- Client-side Notice Banner -->
+            <div class="preview-demo-banner">
+              <i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>
+              <span><strong>Note:</strong> Client-side demonstration only. Document formats & sizes are validated in browser; no files or identity records are transmitted or stored on server.</span>
+            </div>
+
+            <!-- Form Action Buttons -->
+            <div class="form-nav-actions">
+              <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn-step-prev" onclick="goToStep(2)">
+                  <i class="bi bi-arrow-left"></i> Previous
+                </button>
+                <button type="button" class="btn-reset-app" onclick="resetProviderForm()">
+                  <i class="bi bi-arrow-counterclockwise"></i> Reset Form
+                </button>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <a href="{% url 'signin' %}" class="back-login-link">
+                  <i class="bi bi-box-arrow-in-left"></i> Back to Login
+                </a>
+                <button type="submit" class="btn-submit-app" id="btnSubmitApplication">
+                  <i class="bi bi-send-check-fill"></i>
+                  <span>Submit Application</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle & Toast Utility -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+  <script>
+    /* ==========================================================================
+       PROVIDER ONBOARDING WIZARD INTERACTION & VALIDATION
+       ========================================================================== */
+    let currentStep = 1;
+
+    // Step Switcher
+    function goToStep(stepNumber) {
+      if (stepNumber < 1 || stepNumber > 3) return;
+      currentStep = stepNumber;
+
+      // Update section visibility
+      document.querySelectorAll('.form-step-section').forEach((section, index) => {
+        section.classList.toggle('active', index + 1 === currentStep);
+      });
+
+      // Update stepper pills & progress bar
+      for (let i = 1; i <= 3; i++) {
+        const pill = document.getElementById(`stepPill${i}`);
+        if (!pill) continue;
+        pill.classList.toggle('active', i === currentStep);
+        pill.classList.toggle('completed', i < currentStep);
+      }
+
+      const progressFill = document.getElementById('regProgressFill');
+      if (progressFill) {
+        const widths = ['33.33%', '66.66%', '100%'];
+        progressFill.style.width = widths[currentStep - 1];
+      }
+
+      // Scroll form to top
+      const formSide = document.querySelector('.provider-reg-form-side');
+      if (formSide) formSide.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Step Validation
+    function validateAndGoToStep(targetStep) {
+      if (targetStep === 2) {
+        const name = document.getElementById('prov-name').value.trim();
+        const email = document.getElementById('prov-email').value.trim();
+        const mobile = document.getElementById('prov-mobile').value.trim();
+        const password = document.getElementById('prov-password').value;
+        const confirmPassword = document.getElementById('prov-confirm-password').value;
+
+        if (!name) {
+          window.showToast('⚠️ Please enter your full name.', 'warning');
+          document.getElementById('prov-name').focus();
+          return;
+        }
+        if (!email || !email.includes('@')) {
+          window.showToast('⚠️ Please enter a valid email address.', 'warning');
+          document.getElementById('prov-email').focus();
+          return;
+        }
+        if (!mobile || mobile.length < 10) {
+          window.showToast('⚠️ Please enter a valid 10-digit mobile number.', 'warning');
+          document.getElementById('prov-mobile').focus();
+          return;
+        }
+        if (password.length < 6) {
+          window.showToast('⚠️ Password must be at least 6 characters long.', 'warning');
+          document.getElementById('prov-password').focus();
+          return;
+        }
+        if (password !== confirmPassword) {
+          window.showToast('⚠️ Passwords do not match! Please check again.', 'error');
+          document.getElementById('prov-confirm-password').focus();
+          return;
+        }
+      } else if (targetStep === 3) {
+        const category = document.getElementById('prov-category').value;
+        const experience = document.getElementById('prov-experience').value;
+        const serviceArea = document.getElementById('prov-service-area').value.trim();
+
+        if (!category) {
+          window.showToast('⚠️ Please select your primary service category.', 'warning');
+          return;
+        }
+        if (!experience) {
+          window.showToast('⚠️ Please select your experience level.', 'warning');
+          return;
+        }
+        if (!serviceArea) {
+          window.showToast('⚠️ Please enter your primary service area (e.g. Ahmedabad).', 'warning');
+          document.getElementById('prov-service-area').focus();
+          return;
+        }
+      }
+
+      goToStep(targetStep);
+    }
+
+    // Password Visibility Toggle
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input || !icon) return;
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('bi-eye');
+        icon.classList.add('bi-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('bi-eye-slash');
+        icon.classList.add('bi-eye');
+      }
+    }
+
+    // Document File Selection & Client-Side Validation
+    function handleFileSelected(event, cardId, previewId, nameId, sizeId, imgId) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const card = document.getElementById(cardId);
+      const previewZone = document.getElementById(previewId);
+      const zoneUpload = card.querySelector('.doc-upload-zone');
+      const nameElem = document.getElementById(nameId);
+      const sizeElem = document.getElementById(sizeId);
+      const imgElem = document.getElementById(imgId);
+      const genericIcon = card.querySelector('.doc-preview-icon-generic');
+
+      // 1. Client-Side File Extension Validation
+      const allowedExts = ['jpg', 'jpeg', 'png', 'pdf'];
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      if (!allowedExts.includes(fileExt)) {
+        window.showToast(`⚠️ Invalid format (.${fileExt}). Allowed: JPG, PNG, PDF only.`, 'warning');
+        event.target.value = '';
+        return;
+      }
+
+      // 2. Client-Side Size Validation (Max 5MB)
+      const maxSizeBytes = 5 * 1024 * 1024;
+      if (file.size > maxSizeBytes) {
+        window.showToast(`⚠️ File too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Max allowed: 5MB.`, 'warning');
+        event.target.value = '';
+        return;
+      }
+
+      // Format file size
+      let formattedSize = '';
+      if (file.size < 1024 * 1024) {
+        formattedSize = `${(file.size / 1024).toFixed(0)} KB`;
+      } else {
+        formattedSize = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+      }
+
+      nameElem.textContent = file.name;
+      sizeElem.textContent = formattedSize;
+
+      // Handle Image vs PDF Thumbnail
+      if (['jpg', 'jpeg', 'png'].includes(fileExt) && imgElem) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imgElem.src = e.target.result;
+          imgElem.style.display = 'block';
+          if (genericIcon) genericIcon.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        if (imgElem) imgElem.style.display = 'none';
+        if (genericIcon) genericIcon.style.display = 'flex';
+      }
+
+      // Switch zones
+      zoneUpload.style.display = 'none';
+      previewZone.style.display = 'flex';
+      card.classList.add('has-file');
+
+      window.showToast(`✅ Selected: ${file.name} (${formattedSize})`, 'success');
+    }
+
+    // Document File Removal
+    function removeFile(inputId, cardId, previewId, zoneId) {
+      const input = document.getElementById(inputId);
+      const card = document.getElementById(cardId);
+      const previewZone = document.getElementById(previewId);
+      const zoneUpload = document.getElementById(zoneId);
+
+      if (input) input.value = '';
+      if (previewZone) previewZone.style.display = 'none';
+      if (zoneUpload) zoneUpload.style.display = 'flex';
+      if (card) card.classList.remove('has-file');
+
+      window.showToast('🗑️ File removed.', 'info');
+    }
+
+    // Reset Form to Demo Defaults
+    function resetProviderForm() {
+      const form = document.getElementById('providerRegistrationForm');
+      if (form) form.reset();
+
+      // Reset Demo Defaults
+      document.getElementById('prov-name').value = 'Rameshbhai Patel';
+      document.getElementById('prov-email').value = 'ramesh.electrician@example.com';
+      document.getElementById('prov-mobile').value = '9876543210';
+      document.getElementById('prov-password').value = 'PartnerPass@123';
+      document.getElementById('prov-confirm-password').value = 'PartnerPass@123';
+      document.getElementById('prov-category').value = 'Electrician';
+      document.getElementById('prov-experience').value = '1-2 Years';
+      document.getElementById('prov-service-area').value = 'Ahmedabad';
+      document.getElementById('prov-description').value = 'Certified residential & commercial electrician with hands-on expertise in distribution panels, 3-phase wiring, inverter setup, and emergency short-circuit fault diagnostics across Ahmedabad.';
+      document.getElementById('declarationConsent').checked = true;
+
+      // Clear uploads
+      ['inputProfilePhoto', 'inputAadhaarFront', 'inputAadhaarBack', 'inputPanCard'].forEach(id => {
+        const inp = document.getElementById(id);
+        if (inp) inp.value = '';
+      });
+      document.querySelectorAll('.doc-preview-zone').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.doc-upload-zone').forEach(el => el.style.display = 'flex');
+      document.querySelectorAll('.doc-upload-card').forEach(el => el.classList.remove('has-file'));
+
+      goToStep(1);
+      window.showToast('🔄 Form restored to visual demo defaults.', 'info');
+    }
+
+    // Form Submit Handler (Frontend Preview Notice as strictly required)
+    function handleProviderSubmit(event) {
+      event.preventDefault();
+
+      // Check declaration
+      const declaration = document.getElementById('declarationConsent');
+      if (!declaration.checked) {
+        window.showToast('⚠️ Please consent to the declaration & verification policy.', 'warning');
+        declaration.focus();
+        return;
+      }
+
+      // Required message strictly per prompt specifications
+      window.showToast('Frontend preview only — backend registration is not connected yet.', 'info', 'bi-info-circle-fill');
+    }
+  </script>
+</body>
+
+</html>

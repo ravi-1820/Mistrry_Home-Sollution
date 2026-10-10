@@ -34,3 +34,9 @@ def provider_quotations_view(request):
 def provider_schedule_view(request):
     """Provider appointments calendar and schedule."""
     return render(request, 'Provider/provider-schedule.html')
+
+
+def provider_register_view(request):
+    """Provider partner onboarding and registration frontend page."""
+    return render(request, 'Provider/provider-register.html')
+
