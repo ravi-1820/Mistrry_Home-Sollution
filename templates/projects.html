@@ -188,43 +188,47 @@
       <div class="container-custom position-relative" style="z-index: 2;">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-3">
-          <ol class="breadcrumb small">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Our Projects & Transformations</li>
-          </ol>
+          <div class="projects-hero-breadcrumb">
+            <ol class="breadcrumb small mb-0">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Our Projects & Transformations</li>
+            </ol>
+          </div>
         </nav>
 
         <div class="row align-items-center g-4">
           <div class="col-lg-8">
-            <span class="section-badge mb-3">
-              <i class="bi bi-stars text-teal-custom"></i> Verified Client Case Studies
-            </span>
-            <h1 class="hero-headline text-balance mb-3">
-              Real Homes. Master Craftsmanship. <br class="d-none d-md-inline">Verified Proof of Work.
-            </h1>
-            <p class="hero-subheadline mb-4">
-              Inspect verified home renovation, precision electrical overhaul, bespoke teak furniture, and hydro-jet plumbing transformations executed with escrow milestone protection.
-            </p>
+            <div class="projects-hero-glass-card">
+              <span class="section-badge mb-3">
+                <i class="bi bi-stars text-teal-custom"></i> Verified Client Case Studies
+              </span>
+              <h1 class="hero-headline text-balance mb-3">
+                Real Homes. Master Craftsmanship. <br class="d-none d-md-inline">Verified Proof of Work.
+              </h1>
+              <p class="hero-subheadline mb-4">
+                Inspect verified home renovation, precision electrical overhaul, bespoke teak furniture, and hydro-jet plumbing transformations executed with escrow milestone protection.
+              </p>
 
-            <!-- Quick Trust Metric Strip -->
-            <div class="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-check-circle-fill text-teal-custom fs-5"></i>
-                <span class="small font-weight-bold text-dark">150+ Verified Completed Projects</span>
-              </div>
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-shield-lock-fill text-teal-custom fs-5"></i>
-                <span class="small font-weight-bold text-dark">₹1.2 Cr Escrow Insured</span>
-              </div>
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-star-fill text-lime-custom fs-5"></i>
-                <span class="small font-weight-bold text-dark">4.96 / 5 Client Rating</span>
+              <!-- Quick Trust Metric Strip -->
+              <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap">
+                <div class="projects-trust-pill">
+                  <i class="bi bi-check-circle-fill text-teal-custom fs-5"></i>
+                  <span class="small font-weight-bold text-dark">150+ Verified Projects</span>
+                </div>
+                <div class="projects-trust-pill">
+                  <i class="bi bi-shield-lock-fill text-teal-custom fs-5"></i>
+                  <span class="small font-weight-bold text-dark">₹1.2 Cr Escrow Insured</span>
+                </div>
+                <div class="projects-trust-pill">
+                  <i class="bi bi-star-fill text-lime-custom fs-5"></i>
+                  <span class="small font-weight-bold text-dark">4.96 / 5 Client Rating</span>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="col-lg-4 text-lg-end">
-            <div class="card-custom p-4 bg-white d-inline-block text-start w-100" style="max-width: 360px;">
+            <div class="card-custom projects-hero-escrow-card p-4 bg-white d-inline-block text-start w-100" style="max-width: 360px;">
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="bento-icon-box mb-0" style="width: 44px; height: 44px; font-size: 1.25rem;">
                   <i class="bi bi-patch-check-fill"></i>
