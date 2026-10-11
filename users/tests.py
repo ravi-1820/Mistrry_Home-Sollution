@@ -1,5 +1,8 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
+from rest_framework.test import APIClient
+
+from .models import User
 
 
 class UsersPagesViewTests(SimpleTestCase):
@@ -54,3 +57,89 @@ class UsersPagesViewTests(SimpleTestCase):
         response = self.client.get(reverse('customer_profile'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'User/profile.html')
+
+
+class SignInAPITests(TestCase):
+    """Test role-aware sign in API endpoint."""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.signin_url = reverse('api_signin')
+
+        self.customer = User.objects.create_user(
+            email='customer@example.com',
+            password='CustomerPassword123!',
+            full_name='Customer User',
+            mobile_number='9876543201',
+            role=User.Role.CUSTOMER,
+        )
+
+        self.provider = User.objects.create_user(
+            email='provider@example.com',
+            password='ProviderPassword123!',
+            full_name='Provider Partner',
+            mobile_number='9876543202',
+            role=User.Role.PROVIDER,
+        )
+
+        self.admin = User.objects.create_user(
+            email='admin@example.com',
+            password='AdminPassword123!',
+            full_name='Admin User',
+            mobile_number='9876543203',
+            role=User.Role.ADMIN,
+        )
+
+    def test_customer_sign_in_success(self):
+        response = self.client.post(
+            self.signin_url,
+            {"identifier": "customer@example.com", "password": "CustomerPassword123!"},
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+        self.assertEqual(response.data["user"]["role"], User.Role.CUSTOMER)
+        self.assertEqual(response.data["redirect_url"], reverse('customer_dashboard'))
+
+    def test_customer_sign_in_with_mobile_success(self):
+        response = self.client.post(
+            self.signin_url,
+            {"identifier": "9876543201", "password": "CustomerPassword123!"},
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("access", response.data)
+        self.assertEqual(response.data["user"]["role"], User.Role.CUSTOMER)
+        self.assertEqual(response.data["redirect_url"], reverse('customer_dashboard'))
+
+    def test_provider_sign_in_success(self):
+        response = self.client.post(
+            self.signin_url,
+            {"identifier": "provider@example.com", "password": "ProviderPassword123!"},
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+        self.assertEqual(response.data["user"]["role"], User.Role.PROVIDER)
+        self.assertEqual(response.data["redirect_url"], reverse('provider_dashboard'))
+
+    def test_admin_sign_in_disallowed(self):
+        response = self.client.post(
+            self.signin_url,
+            {"identifier": "admin@example.com", "password": "AdminPassword123!"},
+            format='json',
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("detail", response.data)
+        self.assertIn("Admin accounts cannot sign in through this portal", str(response.data["detail"]))
+
+    def test_invalid_credentials(self):
+        response = self.client.post(
+            self.signin_url,
+            {"identifier": "customer@example.com", "password": "WrongPassword!"},
+            format='json',
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("detail", response.data)

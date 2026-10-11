@@ -44,6 +44,10 @@ class User(AbstractUser):
         choices=Role.choices,
         default=Role.CUSTOMER,
     )
+    
+    profile_photo = models.ImageField(
+        upload_to="profile_photos/", blank=True, null=True
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["full_name"]

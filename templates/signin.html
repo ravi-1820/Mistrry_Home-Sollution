@@ -49,9 +49,8 @@
       flex: 1.25;
       position: relative;
       background-color: #06261D;
-      background-image: 
-        linear-gradient(135deg, rgba(6, 38, 29, 0.55) 0%, rgba(9, 58, 45, 0.28) 48%, rgba(4, 26, 20, 0.62) 100%),
-        url("{% static 'images/auth-bg.jpg' %}");
+      background-image: linear-gradient(135deg, rgba(6, 38, 29, 0.55) 0%, rgba(9, 58, 45, 0.28) 48%, rgba(4, 26, 20, 0.62) 100%),
+      url("{% static 'images/auth-bg.jpg' %}");
       background-size: cover;
       background-position: center right;
       background-repeat: no-repeat;
@@ -303,7 +302,7 @@
       box-shadow: 0 0 0 3px rgba(13, 95, 76, 0.12);
     }
 
-    .custom-input-box > i:first-child {
+    .custom-input-box>i:first-child {
       color: #94A3B8;
       font-size: 17px;
       margin-right: 12px;
@@ -660,9 +659,9 @@
             </div>
             <div class="custom-input-box">
               <i class="bi bi-lock"></i>
-              <input type="password" id="signin-password" placeholder="Enter your password" value="password123"
-                required>
-              <button type="button" class="btn-toggle-password" id="togglePasswordBtn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility()">
+              <input type="password" id="signin-password" placeholder="Enter your password" required>
+              <button type="button" class="btn-toggle-password" id="togglePasswordBtn"
+                aria-label="Toggle password visibility" onclick="togglePasswordVisibility()">
                 <i class="bi bi-eye" id="togglePasswordIcon"></i>
               </button>
             </div>
@@ -700,10 +699,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{% static 'js/main.js' %}"></script>
 
+
   <script>
     function togglePasswordVisibility() {
       const passwordInput = document.getElementById('signin-password');
       const toggleIcon = document.getElementById('togglePasswordIcon');
+
       if (!passwordInput || !toggleIcon) return;
 
       if (passwordInput.type === 'password') {
@@ -717,12 +718,137 @@
       }
     }
 
-    function handlePasswordSignIn(e) {
+    async function handlePasswordSignIn(e) {
       e.preventDefault();
-      window.showToast('🎉 Signed in successfully! Loading dashboard...', 'success', 'bi-check-circle-fill');
-      setTimeout(() => {
-        window.location.href = "{% url 'customer_dashboard' %}";
-      }, 900);
+
+      const form = e.currentTarget;
+      const identifier = document
+        .getElementById('signin-identifier')
+        .value.trim();
+
+      const password = document.getElementById('signin-password').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+      const button = form.querySelector('button[type="submit"]');
+
+      const originalButtonHTML = button.innerHTML;
+      button.disabled = true;
+      button.innerHTML =
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Signing in...';
+
+      try {
+        const response = await fetch("{% url 'api_signin' %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            identifier: identifier,
+            password: password
+          })
+        });
+
+        let data;
+
+        try {
+          data = await response.json();
+        } catch {
+          data = {};
+        }
+
+        if (!response.ok) {
+          let message = 'Invalid email/mobile number or password.';
+
+          if (typeof data.detail === 'string') {
+            message = data.detail;
+          } else if (typeof data.message === 'string') {
+            message = data.message;
+          } else if (data.non_field_errors?.length) {
+            message = data.non_field_errors[0];
+          } else if (data.identifier?.length) {
+            message = data.identifier[0];
+          } else if (data.password?.length) {
+            message = data.password[0];
+          } else if (data.confirm_password?.length) {
+            message = data.confirm_password[0];
+          }
+
+          window.showToast(
+            `⚠️ ${message}`,
+            'error',
+            'bi-exclamation-triangle-fill'
+          );
+          return;
+        }
+
+        if (!data.access || !data.refresh) {
+          window.showToast(
+            'The server returned an invalid login response.',
+            'error',
+            'bi-exclamation-circle-fill'
+          );
+          return;
+        }
+
+        // Store tokens in storage
+        localStorage.setItem('mistry_access_token', data.access);
+        localStorage.setItem('mistry_refresh_token', data.refresh);
+        if (data.user) {
+          localStorage.setItem('mistry_user', JSON.stringify(data.user));
+        }
+
+        sessionStorage.removeItem('access_token');
+        sessionStorage.removeItem('refresh_token');
+        sessionStorage.removeItem('user');
+
+        if (rememberMe) {
+          sessionStorage.setItem('access_token', data.access);
+          sessionStorage.setItem('refresh_token', data.refresh);
+          if (data.user) {
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+          }
+        } else {
+          sessionStorage.setItem('access_token', data.access);
+          sessionStorage.setItem('refresh_token', data.refresh);
+          if (data.user) {
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+          }
+        }
+
+        const userRole = data.user?.role;
+        let targetDashboard = "{% url 'customer_dashboard' %}";
+
+        if (data.redirect_url) {
+          targetDashboard = data.redirect_url;
+        } else if (userRole === 'provider') {
+          targetDashboard = "{% url 'provider_dashboard' %}";
+        }
+
+        const roleLabel = userRole === 'provider' ? 'Provider partner' : 'Customer';
+        const welcomeName = data.user?.full_name || 'User';
+
+        window.showToast(
+          `🎉 Welcome back, ${welcomeName}! Loading ${roleLabel} dashboard...`,
+          'success',
+          'bi-check-circle-fill'
+        );
+
+        setTimeout(() => {
+          window.location.href = targetDashboard;
+        }, 900);
+
+      } catch (error) {
+        console.error('Sign-in error:', error);
+
+        window.showToast(
+          'Unable to connect to the server. Please try again.',
+          'error',
+          'bi-exclamation-circle-fill'
+        );
+      } finally {
+        button.disabled = false;
+        button.innerHTML = originalButtonHTML;
+      }
     }
   </script>
 </body>
