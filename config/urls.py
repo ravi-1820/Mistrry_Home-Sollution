@@ -8,7 +8,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 @api_view(['GET'])
 def api_test_view(request):
@@ -34,6 +37,18 @@ urlpatterns = [
 
     # Customer Web & Auth (Root)
     path('', include('users.urls')),
+    
+     # JWT Authentication URLs
+    path(
+        "api/token/",
+        TokenObtainPairView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "api/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh",
+    ),
 ]
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
