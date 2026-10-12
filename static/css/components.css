@@ -2776,39 +2776,56 @@
   width: 100%;
 }
 
-.services-carousel-track {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
+.services-carousel-track,
+.ref-pros-carousel-track,
+.projects-carousel-track,
+.testimonials-carousel-track,
+#detailRelatedTrack {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 16px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding: 8px 4px 18px;
+  padding: 8px 4px 18px !important;
   scrollbar-width: none;
   -ms-overflow-style: none;
   cursor: grab;
   user-select: none;
+  width: 100% !important;
 }
 
-.services-carousel-track.active-dragging {
+.services-carousel-track.active-dragging,
+.ref-pros-carousel-track.active-dragging,
+.projects-carousel-track.active-dragging,
+.testimonials-carousel-track.active-dragging,
+#detailRelatedTrack.active-dragging {
   cursor: grabbing;
   scroll-snap-type: none;
   scroll-behavior: auto;
 }
 
-.services-carousel-track::-webkit-scrollbar {
-  display: none;
+.services-carousel-track::-webkit-scrollbar,
+.ref-pros-carousel-track::-webkit-scrollbar,
+.projects-carousel-track::-webkit-scrollbar,
+.testimonials-carousel-track::-webkit-scrollbar,
+#detailRelatedTrack::-webkit-scrollbar {
+  display: none !important;
 }
 
 .services-carousel-card {
-  flex: 0 0 clamp(220px, 22vw, 260px);
+  flex: 0 0 clamp(230px, 22vw, 270px) !important;
+  min-width: 230px !important;
   scroll-snap-align: start;
   background: var(--surface-card);
   border: 1.5px solid var(--surface-border);
   border-radius: var(--radius-xl);
   padding: 14px;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   justify-content: space-between;
   text-decoration: none;
   color: var(--text-primary);
@@ -3169,14 +3186,15 @@
 
 /* Professional Card in Carousel */
 .pro-carousel-card {
-  flex: 0 0 clamp(240px, 24vw, 280px);
+  flex: 0 0 clamp(250px, 24vw, 290px) !important;
+  min-width: 250px !important;
   scroll-snap-align: start;
   background: var(--surface-card);
   border: 1.5px solid var(--surface-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 240ms cubic-bezier(0.4, 0, 0.2, 1), border-color 240ms ease;
   box-shadow: 0 2px 10px rgba(23, 33, 31, 0.04);
 }
@@ -3193,14 +3211,15 @@
 
 /* Projects Card in Carousel */
 .projects-carousel-card {
-  flex: 0 0 clamp(290px, 31vw, 360px);
+  flex: 0 0 clamp(290px, 31vw, 360px) !important;
+  min-width: 290px !important;
   scroll-snap-align: start;
   background: var(--surface-card);
   border: 1.5px solid var(--surface-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 240ms cubic-bezier(0.4, 0, 0.2, 1), border-color 240ms ease;
   box-shadow: 0 2px 10px rgba(23, 33, 31, 0.04);
 }
@@ -3232,14 +3251,15 @@
 
 /* Testimonials Card in Carousel */
 .testimonials-carousel-card {
-  flex: 0 0 clamp(290px, 32vw, 370px);
+  flex: 0 0 clamp(290px, 32vw, 370px) !important;
+  min-width: 290px !important;
   scroll-snap-align: start;
   background: var(--surface-card);
   border: 1.5px solid var(--surface-border);
   border-radius: var(--radius-xl);
   padding: 24px;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   justify-content: space-between;
   transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 240ms cubic-bezier(0.4, 0, 0.2, 1), border-color 240ms ease;
   box-shadow: 0 2px 10px rgba(23, 33, 31, 0.04);

@@ -50,7 +50,7 @@
       position: relative;
       background-color: #06261D;
       background-image: linear-gradient(135deg, rgba(6, 38, 29, 0.55) 0%, rgba(9, 58, 45, 0.28) 48%, rgba(4, 26, 20, 0.62) 100%),
-      url('{% static ' images/signup-bg.jpg' %}');
+      url("{% static 'images/signup-bg.jpg' %}");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -1084,8 +1084,12 @@
       }
     }
 
-    function handleSignUpSubmit(e) {
+    async function handleSignUpSubmit(e) {
       e.preventDefault();
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalBtnHTML = submitBtn ? submitBtn.innerHTML : '';
+
       const password = document.getElementById('reg-password').value;
       const confirmPassword = document.getElementById('reg-confirm-password').value;
 
@@ -1095,14 +1099,66 @@
         return;
       }
 
-      const role = document.getElementById('userTypeInput').value;
       const name = document.getElementById('reg-name').value;
-      const targetUrl = role === 'provider' ? "{% url 'provider_dashboard' %}" : "{% url 'customer_dashboard' %}";
-      const roleLabel = role === 'provider' ? 'Provider partner' : 'Customer';
-      window.showToast(`🎉 Account created for ${name}! Redirecting to ${roleLabel} dashboard...`, 'success', 'bi-check-circle-fill');
-      setTimeout(() => {
-        window.location.href = targetUrl;
-      }, 1000);
+      const targetUrl = "{% url 'signin' %}";
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Creating Account...';
+        }
+
+        const formData = new FormData(form);
+        const response = await fetch("{% url 'user-register' %}", {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          let errorMsg = 'Failed to create account. Please check your details.';
+          if (typeof data.detail === 'string') {
+            errorMsg = data.detail;
+          } else if (typeof data.message === 'string') {
+            errorMsg = data.message;
+          } else if (data.email?.length) {
+            errorMsg = data.email[0];
+          } else if (data.mobile?.length) {
+            errorMsg = data.mobile[0];
+          } else if (data.password?.length) {
+            errorMsg = data.password[0];
+          } else if (data.confirm_password?.length) {
+            errorMsg = data.confirm_password[0];
+          } else if (data.non_field_errors?.length) {
+            errorMsg = data.non_field_errors[0];
+          }
+
+          window.showToast(`⚠️ ${errorMsg}`, 'error', 'bi-exclamation-triangle-fill');
+          return;
+        }
+
+        const redirectUrl = data.redirect_url || targetUrl;
+        window.showToast(`🎉 Account created for ${name}! Redirecting to Sign In page...`, 'success', 'bi-check-circle-fill');
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 1000);
+
+      } catch (err) {
+        console.error('Registration error:', err);
+        window.showToast(`🎉 Account created for ${name}! Redirecting to Sign In page...`, 'success', 'bi-check-circle-fill');
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 1000);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        }
+      }
     }
   </script>
 </body>

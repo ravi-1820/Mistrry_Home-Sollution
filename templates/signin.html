@@ -816,7 +816,7 @@
         }
 
         const userRole = data.user?.role;
-        let targetDashboard = "{% url 'customer_dashboard' %}";
+        let targetDashboard = "{% url 'home' %}";
 
         if (data.redirect_url) {
           targetDashboard = data.redirect_url;
@@ -826,9 +826,12 @@
 
         const roleLabel = userRole === 'provider' ? 'Provider partner' : 'Customer';
         const welcomeName = data.user?.full_name || 'User';
+        const toastMsg = userRole === 'provider'
+          ? `🎉 Welcome back, ${welcomeName}! Loading Provider dashboard...`
+          : `🎉 Welcome back, ${welcomeName}! Loading home page...`;
 
         window.showToast(
-          `🎉 Welcome back, ${welcomeName}! Loading ${roleLabel} dashboard...`,
+          toastMsg,
           'success',
           'bi-check-circle-fill'
         );

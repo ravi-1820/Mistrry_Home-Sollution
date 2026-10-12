@@ -76,6 +76,7 @@ class RegisterView(APIView):
         return Response(
             {
                 "message": "Customer account created successfully",
+                "redirect_url": reverse("signin"),
                 "user": {
                     "id": user.pk,
                     "email": user.email,
@@ -112,7 +113,7 @@ class SignInView(APIView):
         if user.role == User.Role.PROVIDER:
             redirect_url = reverse("provider_dashboard")
         else:
-            redirect_url = reverse("customer_dashboard")
+            redirect_url = reverse("home")
 
         return Response(
             {

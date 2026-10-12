@@ -100,7 +100,7 @@ class SignInAPITests(TestCase):
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
         self.assertEqual(response.data["user"]["role"], User.Role.CUSTOMER)
-        self.assertEqual(response.data["redirect_url"], reverse('customer_dashboard'))
+        self.assertEqual(response.data["redirect_url"], reverse('home'))
 
     def test_customer_sign_in_with_mobile_success(self):
         response = self.client.post(
@@ -111,7 +111,7 @@ class SignInAPITests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("access", response.data)
         self.assertEqual(response.data["user"]["role"], User.Role.CUSTOMER)
-        self.assertEqual(response.data["redirect_url"], reverse('customer_dashboard'))
+        self.assertEqual(response.data["redirect_url"], reverse('home'))
 
     def test_provider_sign_in_success(self):
         response = self.client.post(
