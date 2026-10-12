@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth import login as django_login, logout as django_logout
+from django.shortcuts import redirect, render
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -6,6 +7,12 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .serializers import UserRegistrationSerializer
+
+
+def logout_view(request):
+    """User logout view: ends Django session and redirects to home."""
+    django_logout(request)
+    return redirect('home')
 
 
 def home_view(request):
@@ -107,6 +114,8 @@ class SignInView(APIView):
                 {"detail": "Admin accounts cannot sign in through this portal. Please use the Admin Portal."},
                 status=status.HTTP_403_FORBIDDEN,
             )
+
+        django_login(request, user)
 
         refresh = RefreshToken.for_user(user)
 

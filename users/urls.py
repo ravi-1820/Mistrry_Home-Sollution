@@ -11,6 +11,7 @@ urlpatterns = [
     path('contact/', views.contact_view, name='contact'),
     path('signin/', views.signin_view, name='signin'),
     path('signup/', views.signup_view, name='signup'),
+    path('logout/', views.logout_view, name='logout'),
     path(
         'api/v1/auth/register/',
         views.RegisterView.as_view(),

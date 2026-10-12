@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initToastContainer();
   initTooltipsAndPopovers();
   initAllCarousels();
+  initAuthNavState();
 });
 
 /* --------------------------------------------------------------------------
@@ -396,5 +397,71 @@ function initAllCarousels() {
 
 window.setupModernCarousel = setupModernCarousel;
 window.initAllCarousels = initAllCarousels;
+
+/* --------------------------------------------------------------------------
+   Auth State Synchronization (Navbar Corner: Sign In/Register vs Profile)
+   -------------------------------------------------------------------------- */
+function initAuthNavState() {
+  const token = localStorage.getItem('mistry_access_token') || sessionStorage.getItem('access_token');
+  const userJson = localStorage.getItem('mistry_user') || sessionStorage.getItem('user');
+  let user = null;
+  if (userJson) {
+    try {
+      user = JSON.parse(userJson);
+    } catch (err) {
+      console.warn('Failed to parse cached user json:', err);
+    }
+  }
+
+  const serverAuth = document.body && document.body.getAttribute('data-user-authenticated') === 'true';
+  const isLoggedIn = !!token || serverAuth;
+
+  const guestElements = document.querySelectorAll('.auth-guest-only');
+  const userElements = document.querySelectorAll('.auth-user-only');
+  const nameDisplays = document.querySelectorAll('.nav-profile-name, .user-display-name');
+
+  if (isLoggedIn) {
+    guestElements.forEach(el => {
+      el.style.setProperty('display', 'none', 'important');
+    });
+    userElements.forEach(el => {
+      el.style.removeProperty('display');
+    });
+
+    if (user && (user.full_name || user.email)) {
+      const displayName = user.full_name || user.email;
+      nameDisplays.forEach(el => {
+        el.textContent = displayName;
+      });
+    }
+  } else {
+    userElements.forEach(el => {
+      el.style.setProperty('display', 'none', 'important');
+    });
+    guestElements.forEach(el => {
+      el.style.removeProperty('display');
+    });
+  }
+}
+
+function handleClientLogout(e) {
+  if (e) {
+    e.preventDefault();
+  }
+  try {
+    localStorage.removeItem('mistry_access_token');
+    localStorage.removeItem('mistry_refresh_token');
+    localStorage.removeItem('mistry_user');
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('refresh_token');
+    sessionStorage.removeItem('user');
+  } catch (err) {
+    console.warn('Error clearing auth storage:', err);
+  }
+  window.location.href = '/logout/';
+}
+
+window.initAuthNavState = initAuthNavState;
+window.handleClientLogout = handleClientLogout;
 
 
