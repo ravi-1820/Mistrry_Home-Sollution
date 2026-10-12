@@ -92,11 +92,3 @@ Open `http://127.0.0.1:8000/` in your browser.
 
 ## Screenshots
 
-### 1. Customer Home Page & Services Discovery
-Portal switcher, hero banner with technician discovery, instant search capsule, categorized service badges, and live pro radar carousel.
-
-### 2. Provider Partner Workspace
-Real-time earnings tracker, active job requests, quotation submission modal, appointment schedule calendar, and performance metrics.
-
-### 3. Enterprise Admin Management & Analytics
-Platform gross merchandise value (GMV), booking pipeline, verified partner directory, warranty revisit claims, and system configuration.

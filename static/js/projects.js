@@ -418,7 +418,7 @@ function openProjectModal(projectId) {
 
           <!-- Action Buttons -->
           <div class="pt-3 border-top d-flex gap-2">
-            <a href="service-detail.html" class="btn-custom btn-custom-primary flex-grow-1 py-3 text-center">
+            <a href="/service-detail/" class="btn-custom btn-custom-primary flex-grow-1 py-3 text-center">
               <i class="bi bi-lightning-charge-fill me-1"></i> Book Similar Project
             </a>
             <button type="button" class="btn-custom btn-custom-outline" data-bs-dismiss="modal">

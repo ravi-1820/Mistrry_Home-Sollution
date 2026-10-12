@@ -25,6 +25,20 @@ class UsersPagesViewTests(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'service-detail.html')
 
+    def test_service_detail_aliases_and_html_paths(self):
+        # Test exact path from user error: /services/service-detail.html?id=serv-101
+        response = self.client.get('/services/service-detail.html?id=serv-101')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'service-detail.html')
+
+        response = self.client.get('/services/service-detail/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'service-detail.html')
+
+        response = self.client.get('/service-detail.html')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'service-detail.html')
+
     def test_projects_page(self):
         response = self.client.get(reverse('projects'))
         self.assertEqual(response.status_code, 200)

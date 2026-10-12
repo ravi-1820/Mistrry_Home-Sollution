@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFavoriteToggles();
   initServicesFilter();
   initCustomerDashboardTabs();
+  initServiceDetailPage();
 });
 
 function initCustomerDashboardTabs() {
@@ -86,7 +87,7 @@ function initFavoriteToggles() {
    Multi-Step Booking Wizard Engine
    -------------------------------------------------------------------------- */
 let currentBookingStep = 1;
-const totalBookingSteps = 6;
+const totalBookingSteps = 7;
 let bookingData = {
   serviceId: 'serv-101',
   serviceName: 'Full Home Electrical Safety Audit & Rewiring',
@@ -94,26 +95,115 @@ let bookingData = {
   addons: [],
   address: 'Home - Flat 402, Goyal Intercity, Drive-In Road, Bodakdev, Ahmedabad',
   date: 'Tomorrow, Oct 6, 2026',
-  timeSlot: '10:00 AM - 12:00 PM',
+  timeSlot: '09:00 AM - 11:00 AM',
   provider: 'Vikram Electrical Solutions',
+  problemDescription: 'Full Preventive Safety Health Check',
+  urgency: 'normal',
+  attachedFiles: [],
   paymentMethod: 'upi',
   total: 1499
 };
 
+let uploadedProblemFiles = [];
+
+function selectUrgency(tile, level) {
+  const parentRow = tile.closest('.row');
+  if (parentRow) {
+    parentRow.querySelectorAll('.urgency-option-tile').forEach(t => t.classList.remove('active'));
+  }
+  tile.classList.add('active');
+  bookingData.urgency = level;
+}
+
+function handleProblemFiles(event) {
+  const files = Array.from(event.target.files);
+  if (!files || files.length === 0) return;
+
+  files.forEach(file => {
+    if (uploadedProblemFiles.length >= 3) return;
+    uploadedProblemFiles.push(file.name);
+  });
+
+  bookingData.attachedFiles = [...uploadedProblemFiles];
+  renderProblemFilePreviews();
+}
+
+function removeProblemFile(idx) {
+  uploadedProblemFiles.splice(idx, 1);
+  bookingData.attachedFiles = [...uploadedProblemFiles];
+  renderProblemFilePreviews();
+}
+
+function renderProblemFilePreviews() {
+  const previewContainer = document.getElementById('booking-attached-previews');
+  if (!previewContainer) return;
+
+  if (uploadedProblemFiles.length === 0) {
+    previewContainer.innerHTML = '';
+    return;
+  }
+
+  previewContainer.innerHTML = uploadedProblemFiles.map((name, idx) => `
+    <div class="problem-attached-chip">
+      <i class="bi bi-paperclip text-teal-custom"></i>
+      <span class="text-truncate" style="max-width: 140px;">${name}</span>
+      <button type="button" class="btn-remove-attachment" onclick="removeProblemFile(${idx})" title="Remove">
+        <i class="bi bi-x-circle-fill"></i>
+      </button>
+    </div>
+  `).join('');
+}
+
+window.selectUrgency = selectUrgency;
+window.handleProblemFiles = handleProblemFiles;
+window.removeProblemFile = removeProblemFile;
+
 function initBookingWizard() {
-  // Slot selection handlers
+  // Slot selection handlers (Single-selection only)
   document.addEventListener('click', (e) => {
     const slotBtn = e.target.closest('.slot-btn');
     if (slotBtn) {
-      const parent = slotBtn.parentElement;
-      parent.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('selected'));
+      const container = slotBtn.closest('#booking-step-3') || slotBtn.closest('.modal-body') || document;
+      container.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('selected'));
       slotBtn.classList.add('selected');
-      bookingData.timeSlot = slotBtn.getAttribute('data-slot') || slotBtn.innerText;
+      bookingData.timeSlot = slotBtn.getAttribute('data-slot') || slotBtn.innerText.trim();
     }
   });
 
-  // Addon check handlers
+  // Problem description quick chip toggles
+  document.addEventListener('click', (e) => {
+    const chip = e.target.closest('.problem-chip-btn');
+    if (chip) {
+      const container = chip.closest('#problem-chips-container');
+      if (container) {
+        container.querySelectorAll('.problem-chip-btn').forEach(c => c.classList.remove('active'));
+      }
+      chip.classList.add('active');
+      const issueText = chip.getAttribute('data-issue') || chip.innerText.trim();
+      const descInput = document.getElementById('booking-problem-desc');
+      if (descInput) {
+        descInput.value = issueText;
+        const countEl = document.getElementById('problem-char-count');
+        if (countEl) countEl.innerText = `${descInput.value.length} / 500 chars`;
+      }
+      bookingData.problemDescription = issueText;
+    }
+  });
+
+  // Problem description character counter
+  document.addEventListener('input', (e) => {
+    if (e.target && e.target.id === 'booking-problem-desc') {
+      const countEl = document.getElementById('problem-char-count');
+      if (countEl) countEl.innerText = `${e.target.value.length} / 500 chars`;
+      bookingData.problemDescription = e.target.value.trim();
+    }
+  });
+
+  // Date and Addon change handlers
   document.addEventListener('change', (e) => {
+    if (e.target.matches('#booking-date-input') || (e.target.type === 'date' && e.target.closest('#booking-step-3'))) {
+      bookingData.date = e.target.value;
+    }
     if (e.target.classList.contains('addon-checkbox')) {
       calculateBookingTotal();
     }
@@ -165,10 +255,21 @@ function selectPaymentMethod(btn, method) {
 
 function nextBookingStep() {
   if (currentBookingStep < totalBookingSteps) {
-    // Validate step before proceeding
+    // Validate address step
     if (currentBookingStep === 2) {
       const addrInput = document.querySelector('input[name="bookingAddress"]:checked');
       if (addrInput) bookingData.address = addrInput.value;
+    }
+
+    // Save problem description step (Step 5)
+    if (currentBookingStep === 5) {
+      const descInput = document.getElementById('booking-problem-desc');
+      if (descInput && descInput.value.trim()) {
+        bookingData.problemDescription = descInput.value.trim();
+      } else {
+        const activeChip = document.querySelector('.problem-chip-btn.active');
+        bookingData.problemDescription = activeChip ? (activeChip.getAttribute('data-issue') || activeChip.innerText.trim()) : 'Routine full safety audit & diagnostics';
+      }
     }
 
     currentBookingStep++;
@@ -207,17 +308,32 @@ function updateBookingStepUI() {
     }
   }
 
-  // Update summary in step 5
-  if (currentBookingStep === 5) {
+  // Update summary in step 6 (Review Order)
+  if (currentBookingStep === 6) {
     const summaryService = document.getElementById('summary-service-name');
     const summaryAddress = document.getElementById('summary-address');
     const summaryDateTime = document.getElementById('summary-datetime');
     const summaryProvider = document.getElementById('summary-provider');
+    const summaryProblem = document.getElementById('summary-problem-desc');
+    const summaryUrgency = document.getElementById('summary-urgency-badge');
 
     if (summaryService) summaryService.innerText = bookingData.serviceName;
     if (summaryAddress) summaryAddress.innerText = bookingData.address;
     if (summaryDateTime) summaryDateTime.innerText = `${bookingData.date} at ${bookingData.timeSlot}`;
     if (summaryProvider) summaryProvider.innerText = bookingData.provider;
+    if (summaryProblem) summaryProblem.innerText = bookingData.problemDescription || 'Routine Full Audit';
+    if (summaryUrgency) {
+      if (bookingData.urgency === 'emergency') {
+        summaryUrgency.className = 'badge bg-danger bg-opacity-10 text-danger';
+        summaryUrgency.innerText = 'Critical / Hazard';
+      } else if (bookingData.urgency === 'urgent') {
+        summaryUrgency.className = 'badge bg-warning bg-opacity-10 text-warning';
+        summaryUrgency.innerText = 'Priority / Same-Day';
+      } else {
+        summaryUrgency.className = 'badge bg-success bg-opacity-10 text-success';
+        summaryUrgency.innerText = 'Normal Schedule';
+      }
+    }
     calculateBookingTotal();
   }
 }
@@ -232,7 +348,7 @@ function confirmBookingAndPay() {
   }
 
   setTimeout(() => {
-    currentBookingStep = 6;
+    currentBookingStep = 7;
     updateBookingStepUI();
     
     // Update confirmation screen payment method label
@@ -402,7 +518,7 @@ function initServicesFilter() {
           <div class="service-card-body">
             <div class="service-card-category">${s.categoryName}</div>
             <h5 class="service-card-title">
-              <a href="service-detail.html?id=${s.id}">${s.title}</a>
+              <a href="/service-detail/?id=${s.id}">${s.title}</a>
             </h5>
             <div class="service-rating-row">
               <div class="star-rating"><i class="bi bi-star-fill"></i></div>
@@ -418,7 +534,7 @@ function initServicesFilter() {
                 <span class="service-price-label">Starting from</span>
                 <span class="service-price-value">${s.priceFormatted}</span>
               </div>
-              <a href="service-detail.html?id=${s.id}" class="btn-custom btn-custom-primary btn-custom-sm">
+              <a href="/service-detail/?id=${s.id}" class="btn-custom btn-custom-primary btn-custom-sm">
                 View Details
               </a>
             </div>
@@ -442,4 +558,139 @@ function initServicesFilter() {
   };
 
   renderFilteredServices();
+}
+
+/* --------------------------------------------------------------------------
+   Dynamic Service Details Page Hydration
+   -------------------------------------------------------------------------- */
+function initServiceDetailPage() {
+  const mainTitleEl = document.getElementById('detailServiceTitle');
+  if (!mainTitleEl) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceId = urlParams.get('id');
+
+  if (!window.MockData || !window.MockData.services) return;
+
+  // Find targeted service or fall back to serv-101
+  const targetId = serviceId || 'serv-101';
+  const service = window.MockData.services.find(s => s.id === targetId) || window.MockData.services[0];
+  if (!service) return;
+
+  // Sync booking data
+  bookingData.serviceId = service.id;
+  bookingData.serviceName = service.title;
+  bookingData.basePrice = service.price || 1499;
+  bookingData.total = bookingData.basePrice;
+  if (service.providerName) bookingData.provider = service.providerName;
+
+  // Update Page Title & Metadata
+  document.title = `${service.title} | Mistrry Home Solution`;
+  mainTitleEl.innerText = service.title;
+
+  const breadcrumbCat = document.getElementById('detailBreadcrumbCat');
+  if (breadcrumbCat && service.categoryName) {
+    breadcrumbCat.innerHTML = `<a href="/services/?cat=${service.category}">${service.categoryName}</a>`;
+  }
+  const breadcrumbTitle = document.getElementById('detailBreadcrumbTitle');
+  if (breadcrumbTitle) {
+    breadcrumbTitle.innerText = service.title;
+  }
+
+  const categoryBadge = document.getElementById('detailCategoryBadge');
+  if (categoryBadge && service.categoryName) {
+    categoryBadge.innerText = service.categoryName;
+  }
+
+  const ratingScore = document.getElementById('detailRatingScore');
+  if (ratingScore && service.rating) {
+    ratingScore.innerText = service.rating;
+  }
+
+  const reviewsCount = document.getElementById('detailReviewsCount');
+  if (reviewsCount && service.reviewsCount) {
+    reviewsCount.innerText = `(${service.reviewsCount} reviews)`;
+  }
+
+  const durationText = document.getElementById('detailDurationText');
+  if (durationText && service.duration) {
+    durationText.innerText = `Est. ${service.duration}`;
+  }
+
+  const locationText = document.getElementById('detailLocationText');
+  if (locationText && service.location) {
+    locationText.innerText = service.location;
+  }
+
+  const descEl = document.getElementById('detailDescription');
+  if (descEl && service.description) {
+    descEl.innerText = service.description;
+  }
+
+  const priceDisplay = document.getElementById('detailPriceDisplay');
+  if (priceDisplay && service.priceFormatted) {
+    priceDisplay.innerText = service.priceFormatted;
+  }
+
+  const sidebarLocation = document.getElementById('detailSidebarLocation');
+  if (sidebarLocation && service.location) {
+    sidebarLocation.innerText = service.location;
+  }
+
+  const sidebarDuration = document.getElementById('detailSidebarDuration');
+  if (sidebarDuration && service.duration) {
+    sidebarDuration.innerText = service.duration;
+  }
+
+  const mainImg = document.getElementById('mainGalleryImg');
+  if (mainImg && service.image) {
+    mainImg.src = service.image;
+    mainImg.alt = service.title;
+  }
+
+  // Gallery Thumbnails
+  const thumbnailsContainer = document.getElementById('detailThumbnails');
+  if (thumbnailsContainer && service.gallery && service.gallery.length > 0) {
+    thumbnailsContainer.innerHTML = service.gallery.map((imgUrl, idx) => `
+      <img src="${imgUrl}" class="rounded-2 border ${idx === 0 ? 'border-2 border-teal' : ''}" style="width: 70px; height: 50px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('mainGalleryImg').src = this.src" alt="Thumbnail ${idx + 1}">
+    `).join('');
+  }
+
+  // What's Included List
+  const includedList = document.getElementById('detailIncludedList');
+  if (includedList && service.included && service.included.length > 0) {
+    includedList.innerHTML = service.included.map(item => `
+      <li><i class="bi bi-check2 text-teal-custom me-2 font-weight-bold"></i> ${item}</li>
+    `).join('');
+  }
+
+  // What's Not Included List
+  const notIncludedList = document.getElementById('detailNotIncludedList');
+  if (notIncludedList && service.notIncluded && service.notIncluded.length > 0) {
+    notIncludedList.innerHTML = service.notIncluded.map(item => `
+      <li><i class="bi bi-dash text-muted me-2 font-weight-bold"></i> ${item}</li>
+    `).join('');
+  }
+
+  // Service Partner Card
+  const providerNameEl = document.getElementById('detailProviderName');
+  if (providerNameEl && service.providerName) {
+    providerNameEl.innerText = service.providerName;
+  }
+  const providerRatingEl = document.getElementById('detailProviderRating');
+  if (providerRatingEl && service.providerRating) {
+    providerRatingEl.innerHTML = `<i class="bi bi-star-fill text-lime-custom"></i> ${service.providerRating} (${service.reviewsCount || 100}+ reviews)`;
+  }
+  const providerJobsEl = document.getElementById('detailProviderJobs');
+  if (providerJobsEl && service.providerJobs) {
+    providerJobsEl.innerHTML = `<strong>${service.providerJobs}+</strong> Jobs Completed`;
+  }
+
+  // Modal Title
+  const modalTitle = document.getElementById('bookingWizardTitle');
+  if (modalTitle) {
+    modalTitle.innerText = `Schedule ${service.title}`;
+  }
+
+  calculateBookingTotal();
 }

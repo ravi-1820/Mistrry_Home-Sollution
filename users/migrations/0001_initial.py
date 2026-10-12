@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('email', models.EmailField(max_length=254, unique=True)),
                 ('full_name', models.CharField(max_length=150)),
-                ('mobile_number', models.CharField(max_length=15, unique=True)),
+                ('mobile_number', models.CharField(blank=True, max_length=15, null=True, unique=True)),
                 ('role', models.CharField(choices=[('customer', 'Customer'), ('provider', 'Service Provider'), ('admin', 'Admin/Owner')], default='customer', max_length=20)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),

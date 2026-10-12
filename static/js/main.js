@@ -43,7 +43,7 @@ function initPortalSwitcherHighlight() {
       link.classList.add('active');
     } else if (currentPath.includes('admin') && href.includes('admin')) {
       link.classList.add('active');
-    } else if (!currentPath.includes('provider') && !currentPath.includes('admin') && (href === 'index.html' || href === './')) {
+    } else if (!currentPath.includes('provider') && !currentPath.includes('admin') && (href === '/' || href.includes('home') || href === 'index.html' || href === './')) {
       link.classList.add('active');
     }
   });
@@ -139,9 +139,9 @@ window.handleNavGlobalSearch = function(e) {
   }
 
   if (query) {
-    window.location.href = `services.html?q=${encodeURIComponent(query)}`;
+    window.location.href = `/services/?q=${encodeURIComponent(query)}`;
   } else {
-    window.location.href = 'services.html';
+    window.location.href = '/services/';
   }
 };
 
@@ -206,7 +206,7 @@ window.changeRadarPage = function(delta) {
               <i class="bi bi-circle-fill me-1" style="font-size: 5px;"></i>${p.online ? 'Online Now' : 'Available'}
             </span>
           </div>
-          <a href="services.html?cat=${p.cat}" class="btn btn-sm radar-book-btn">Book Now</a>
+          <a href="/services/?cat=${p.cat}" class="btn btn-sm radar-book-btn">Book Now</a>
         </div>
       </div>
     `).join('');

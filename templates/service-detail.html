@@ -20,7 +20,7 @@
   <!-- Custom Design System Styles (Supabase Sage Edition) -->
   <link rel="stylesheet" href="{% static 'css/variables.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}?v=1.2">
 </head>
 <body>
 
@@ -182,8 +182,8 @@
         <ol class="breadcrumb small">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
           <li class="breadcrumb-item"><a href="{% url 'services' %}">Services</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'services' %}?cat=electrical">Electrical</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Electrical Safety Audit</li>
+          <li class="breadcrumb-item" id="detailBreadcrumbCat"><a href="{% url 'services' %}?cat=electrical">Electrical</a></li>
+          <li class="breadcrumb-item active" id="detailBreadcrumbTitle" aria-current="page">Electrical Safety Audit</li>
         </ol>
       </nav>
 
@@ -200,7 +200,7 @@
               </span>
             </div>
             <!-- Thumbnails -->
-            <div class="d-flex gap-2 p-3 bg-white border-top">
+            <div class="d-flex gap-2 p-3 bg-white border-top" id="detailThumbnails">
               <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=200&q=80" class="rounded-2 border border-2 border-teal" style="width: 70px; height: 50px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('mainGalleryImg').src = this.src" alt="Thumbnail 1">
               <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=200&q=80" class="rounded-2 border" style="width: 70px; height: 50px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('mainGalleryImg').src = this.src" alt="Thumbnail 2">
               <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=200&q=80" class="rounded-2 border" style="width: 70px; height: 50px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('mainGalleryImg').src = this.src" alt="Thumbnail 3">
@@ -210,24 +210,24 @@
           <!-- Service Header Info -->
           <div class="card-custom p-4 mb-4">
             <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge-custom badge-custom-neutral text-uppercase font-weight-bold">Electrical & Automation</span>
+              <span class="badge-custom badge-custom-neutral text-uppercase font-weight-bold" id="detailCategoryBadge">Electrical & Automation</span>
               <span class="badge-custom badge-custom-verified"><i class="bi bi-shield-check"></i> ₹50k Guarantee</span>
             </div>
-            <h1 class="h2 font-weight-bold mb-3">Full Home Electrical Safety Audit & Rewiring</h1>
+            <h1 class="h2 font-weight-bold mb-3" id="detailServiceTitle">Full Home Electrical Safety Audit & Rewiring</h1>
             
             <div class="d-flex align-items-center gap-3 flex-wrap text-muted small pb-3 border-bottom">
               <div class="d-flex align-items-center gap-1 font-weight-bold">
                 <i class="bi bi-star-fill text-lime-custom"></i>
-                <span class="text-dark">4.94</span>
-                <span class="text-muted">(312 reviews)</span>
+                <span class="text-dark" id="detailRatingScore">4.94</span>
+                <span class="text-muted" id="detailReviewsCount">(312 reviews)</span>
               </div>
               <div>•</div>
-              <div><i class="bi bi-clock me-1"></i> Est. 3 - 4 Hours</div>
+              <div id="detailDuration"><i class="bi bi-clock me-1"></i> <span id="detailDurationText">Est. 3 - 4 Hours</span></div>
               <div>•</div>
-              <div><i class="bi bi-geo-alt-fill text-teal-custom me-1"></i> Ahmedabad, Gujarat</div>
+              <div id="detailLocation"><i class="bi bi-geo-alt-fill text-teal-custom me-1"></i> <span id="detailLocationText">Ahmedabad, Gujarat</span></div>
             </div>
 
-            <p class="mt-3 text-secondary">
+            <p class="mt-3 text-secondary" id="detailDescription">
               Our comprehensive home electrical audit utilizes certified infrared thermography to identify concealed hotspots, dangerous line overloads, loose terminal lugs, and faulty earthing pits before they cause hazards or appliance damage.
             </p>
           </div>
@@ -243,7 +243,7 @@
                   <h6 class="text-teal-custom font-weight-bold mb-3 d-flex align-items-center gap-2">
                     <i class="bi bi-check-circle-fill"></i> What's Included
                   </h6>
-                  <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small text-secondary">
+                  <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small text-secondary" id="detailIncludedList">
                     <li><i class="bi bi-check2 text-teal-custom me-2 font-weight-bold"></i> Complete MCB & DB board thermal scan</li>
                     <li><i class="bi bi-check2 text-teal-custom me-2 font-weight-bold"></i> Earth pit resistance test with digital meter</li>
                     <li><i class="bi bi-check2 text-teal-custom me-2 font-weight-bold"></i> Load test on heavy appliances (AC, Geyser, Oven)</li>
@@ -259,7 +259,7 @@
                   <h6 class="text-dark font-weight-bold mb-3 d-flex align-items-center gap-2">
                     <i class="bi bi-x-circle-fill text-muted"></i> What's Not Included
                   </h6>
-                  <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small text-secondary">
+                  <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small text-secondary" id="detailNotIncludedList">
                     <li><i class="bi bi-dash text-muted me-2 font-weight-bold"></i> Cost of high-amp replacement circuit breakers</li>
                     <li><i class="bi bi-dash text-muted me-2 font-weight-bold"></i> Concealed wall chasing for brand new sockets</li>
                     <li><i class="bi bi-dash text-muted me-2 font-weight-bold"></i> Main electricity board meter upgrades</li>
@@ -273,19 +273,19 @@
           <div class="card-custom p-4 mb-4">
             <h4 class="font-weight-bold mb-3">Service Partner</h4>
             <div class="d-flex align-items-center gap-4 flex-wrap">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Vikram Electrical" class="rounded-circle border border-2" style="width: 72px; height: 72px; object-fit: cover;">
+              <img id="detailProviderImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Vikram Electrical" class="rounded-circle border border-2" style="width: 72px; height: 72px; object-fit: cover;">
               <div class="flex-grow-1">
                 <div class="d-flex align-items-center gap-2">
-                  <h5 class="mb-0 font-weight-bold">Vikram Electrical Solutions</h5>
+                  <h5 class="mb-0 font-weight-bold" id="detailProviderName">Vikram Electrical Solutions</h5>
                   <span class="badge-custom badge-custom-verified"><i class="bi bi-patch-check-fill"></i> Class-A Licensed</span>
                 </div>
-                <div class="text-muted small mt-1">Specialist in Smart Home Automation & Residential High-Voltage Sub-Panels</div>
+                <div class="text-muted small mt-1" id="detailProviderBio">Specialist in Smart Home Automation & Residential High-Voltage Sub-Panels</div>
                 <div class="d-flex align-items-center gap-3 mt-2 small">
-                  <span class="font-weight-bold"><i class="bi bi-star-fill text-lime-custom"></i> 4.95 (384 reviews)</span>
+                  <span class="font-weight-bold" id="detailProviderRating"><i class="bi bi-star-fill text-lime-custom"></i> 4.95 (384 reviews)</span>
                   <span class="text-muted">•</span>
                   <span><strong>14+ Years</strong> Experience</span>
                   <span class="text-muted">•</span>
-                  <span><strong>480+</strong> Jobs Completed</span>
+                  <span id="detailProviderJobs"><strong>480+</strong> Jobs Completed</span>
                 </div>
               </div>
             </div>
@@ -330,7 +330,7 @@
             <div class="d-flex align-items-baseline justify-content-between mb-3">
               <div>
                 <span class="text-muted small text-uppercase font-weight-bold">Starting from</span>
-                <div class="h2 font-weight-bold text-dark mb-0">₹1,499</div>
+                <div class="h2 font-weight-bold text-dark mb-0" id="detailPriceDisplay">₹1,499</div>
               </div>
               <span class="badge-custom badge-custom-verified">
                 <i class="bi bi-clock-history"></i> Available Tomorrow
@@ -340,11 +340,11 @@
             <div class="p-3 bg-light rounded-3 mb-4">
               <div class="d-flex align-items-center justify-content-between small text-muted mb-2">
                 <span><i class="bi bi-geo-alt text-teal-custom me-1"></i> Location</span>
-                <span class="text-dark font-weight-bold">Bodakdev, Ahmedabad</span>
+                <span class="text-dark font-weight-bold" id="detailSidebarLocation">Bodakdev, Ahmedabad</span>
               </div>
               <div class="d-flex align-items-center justify-content-between small text-muted mb-2">
                 <span><i class="bi bi-hourglass-split text-teal-custom me-1"></i> Duration</span>
-                <span class="text-dark font-weight-bold">3 - 4 Hours</span>
+                <span class="text-dark font-weight-bold" id="detailSidebarDuration">3 - 4 Hours</span>
               </div>
               <div class="d-flex align-items-center justify-content-between small text-muted">
                 <span><i class="bi bi-shield-check text-teal-custom me-1"></i> Warranty</span>
@@ -545,9 +545,13 @@
             </div>
             <div class="stepper-step" id="step-indicator-5">
               <div class="stepper-circle">5</div>
-              <span class="stepper-label">Review</span>
+              <span class="stepper-label">Problem</span>
             </div>
             <div class="stepper-step" id="step-indicator-6">
+              <div class="stepper-circle">6</div>
+              <span class="stepper-label">Review</span>
+            </div>
+            <div class="stepper-step" id="step-indicator-7">
               <div class="stepper-circle"><i class="bi bi-check-lg"></i></div>
               <span class="stepper-label">Done</span>
             </div>
@@ -640,11 +644,11 @@
             <h5 class="font-weight-bold mb-3">3. Pick Date & Preferred Time Slot</h5>
             <div class="mb-3">
               <label class="form-label small text-muted font-weight-bold">Select Date</label>
-              <input type="date" class="form-control" value="2026-10-06" min="2026-10-06">
+              <input type="date" class="form-control" id="booking-date-input" value="2026-10-06" min="2026-10-06">
             </div>
 
             <label class="form-label small text-muted font-weight-bold">Available Arrival Slots</label>
-            <div class="row g-2 mb-4">
+            <div class="row g-2 mb-4" id="booking-slots-container">
               <div class="col-6 col-md-4">
                 <div class="slot-btn selected" data-slot="09:00 AM - 11:00 AM">
                   <i class="bi bi-sun me-1"></i> 09:00 AM - 11:00 AM
@@ -695,14 +699,111 @@
             <div class="d-flex justify-content-between pt-3 border-top">
               <button class="btn-custom btn-custom-outline" onclick="prevBookingStep()">Back</button>
               <button class="btn-custom btn-custom-primary" onclick="nextBookingStep()">
+                Describe Problem <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 5: Describe Problem & Requirements -->
+          <div class="booking-step-content" id="booking-step-5">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h5 class="font-weight-bold mb-0">5. Describe Your Problem / Requirements</h5>
+              <span class="badge bg-light text-muted border small">Step 5 of 6</span>
+            </div>
+            <p class="text-muted small mb-3">Provide details about the issue so the technician arrives fully prepared with the required testing equipment and spare parts.</p>
+
+            <!-- Quick Common Issues Chips -->
+            <label class="form-label small text-muted font-weight-bold d-block mb-2">Quick Select Common Issues</label>
+            <div class="d-flex flex-wrap gap-2 mb-3" id="problem-chips-container">
+              <button type="button" class="problem-chip-btn" data-issue="Frequent MCB Tripping / Overload">
+                <i class="bi bi-lightning-charge text-warning"></i> Frequent MCB Tripping
+              </button>
+              <button type="button" class="problem-chip-btn" data-issue="Sparking or Burning Odor from Panel">
+                <i class="bi bi-fire text-danger"></i> Sparking / Burning Smell
+              </button>
+              <button type="button" class="problem-chip-btn" data-issue="Specific Switchboard / Socket Dead">
+                <i class="bi bi-power text-teal-custom"></i> Dead Sockets / Switches
+              </button>
+              <button type="button" class="problem-chip-btn" data-issue="High Voltage Fluctuation Damaging Gadgets">
+                <i class="bi bi-activity text-primary"></i> Voltage Fluctuation
+              </button>
+              <button type="button" class="problem-chip-btn" data-issue="Earthing Shock on Appliances / Water Taps">
+                <i class="bi bi-shield-slash text-danger"></i> Earthing Issue / Shocks
+              </button>
+              <button type="button" class="problem-chip-btn active" data-issue="Full Preventive Safety Health Check">
+                <i class="bi bi-clipboard2-check text-success"></i> Routine Full Audit
+              </button>
+            </div>
+
+            <!-- Problem Description Textarea -->
+            <div class="mb-3">
+              <label for="booking-problem-desc" class="form-label small text-muted font-weight-bold d-flex justify-content-between align-items-center">
+                <span>Detailed Problem Description</span>
+                <span class="text-muted" style="font-size: 11px;" id="problem-char-count">0 / 500 chars</span>
+              </label>
+              <textarea class="form-control" id="booking-problem-desc" rows="3" maxlength="500" placeholder="Please describe what is happening, where the issue is located (bedroom, kitchen, main panel), and when it started..." style="border-radius: var(--radius-md); font-size: 0.88rem;"></textarea>
+              <div class="form-text small text-muted" style="font-size: 11.5px;">
+                <i class="bi bi-info-circle me-1 text-teal-custom"></i> Tip: Accurate details help the pro provide precise quotes and prevent return visits.
+              </div>
+            </div>
+
+            <!-- Urgency Level -->
+            <div class="mb-3">
+              <label class="form-label small text-muted font-weight-bold d-block mb-2">Urgency Level</label>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <div class="urgency-option-tile active" data-urgency="normal" onclick="selectUrgency(this, 'normal')">
+                    <span class="badge rounded-circle p-2 bg-success bg-opacity-10 text-success"><i class="bi bi-clock"></i></span>
+                    <div>
+                      <div class="fw-bold small text-dark">Normal</div>
+                      <div class="text-muted" style="font-size: 11px;">Standard scheduled slot</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="urgency-option-tile" data-urgency="urgent" onclick="selectUrgency(this, 'urgent')">
+                    <span class="badge rounded-circle p-2 bg-warning bg-opacity-10 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                    <div>
+                      <div class="fw-bold small text-dark">Urgent</div>
+                      <div class="text-muted" style="font-size: 11px;">Within 2-4 hours today</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="urgency-option-tile" data-urgency="emergency" onclick="selectUrgency(this, 'emergency')">
+                    <span class="badge rounded-circle p-2 bg-danger bg-opacity-10 text-danger"><i class="bi bi-shield-fill-exclamation"></i></span>
+                    <div>
+                      <div class="fw-bold small text-dark">Critical</div>
+                      <div class="text-muted" style="font-size: 11px;">Immediate hazard / blackout</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload Photo / Video (Optional) -->
+            <div class="mb-3">
+              <label class="form-label small text-muted font-weight-bold d-block mb-1">Attach Photos or Video (Optional)</label>
+              <div class="border border-2 border-dashed rounded-3 p-3 text-center bg-light" style="cursor: pointer; transition: all 0.2s;" id="problem-upload-box" onclick="document.getElementById('booking-problem-files').click()">
+                <i class="bi bi-camera-fill fs-4 text-teal-custom"></i>
+                <div class="fw-bold small text-dark mt-1">Click to Upload Photos / Clips</div>
+                <div class="text-muted" style="font-size: 11.5px;">Take a picture of the faulty MCB, panel, or appliance (Max 3 files, PNG/JPG/MP4)</div>
+                <input type="file" id="booking-problem-files" class="d-none" multiple accept="image/*,video/*" onchange="handleProblemFiles(event)">
+              </div>
+              <div id="booking-attached-previews" class="d-flex flex-wrap gap-2 mt-2"></div>
+            </div>
+
+            <div class="d-flex justify-content-between pt-3 border-top">
+              <button class="btn-custom btn-custom-outline" onclick="prevBookingStep()">Back</button>
+              <button class="btn-custom btn-custom-primary" onclick="nextBookingStep()">
                 Review Order <i class="bi bi-arrow-right ms-1"></i>
               </button>
             </div>
           </div>
 
-          <!-- Step 5: Review & Payment -->
-          <div class="booking-step-content" id="booking-step-5">
-            <h5 class="font-weight-bold mb-3">5. Review Booking & Payment</h5>
+          <!-- Step 6: Review & Payment -->
+          <div class="booking-step-content" id="booking-step-6">
+            <h5 class="font-weight-bold mb-3">6. Review Booking & Payment</h5>
             
             <div class="card-custom p-3 bg-light mb-3">
               <div class="d-flex justify-content-between small text-muted mb-2">
@@ -720,6 +821,14 @@
               <div class="d-flex justify-content-between small text-muted mb-2">
                 <span>Verified Pro:</span>
                 <span class="text-dark font-weight-bold" id="summary-provider">Vikram Electrical Solutions</span>
+              </div>
+              <div class="d-flex justify-content-between small text-muted mb-2">
+                <span>Described Issue:</span>
+                <span class="text-dark font-weight-bold text-end" id="summary-problem-desc" style="max-width: 60%;">Routine Full Audit</span>
+              </div>
+              <div class="d-flex justify-content-between small text-muted mb-2">
+                <span>Urgency Priority:</span>
+                <span id="summary-urgency-badge" class="badge bg-success bg-opacity-10 text-success">Normal</span>
               </div>
               <div class="d-flex justify-content-between pt-2 border-top">
                 <span class="font-weight-bold text-dark">Total Amount:</span>
@@ -785,8 +894,8 @@
             </div>
           </div>
 
-          <!-- Step 6: Confirmation -->
-          <div class="booking-step-content text-center py-4" id="booking-step-6">
+          <!-- Step 7: Confirmation -->
+          <div class="booking-step-content text-center py-4" id="booking-step-7">
             <div class="empty-state-icon mx-auto mb-3" style="background-color: var(--primary-subtle); color: var(--primary);">
               <i class="bi bi-check2-circle"></i>
             </div>
@@ -936,6 +1045,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{% static 'js/mock-data.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
-  <script src="{% static 'js/customer.js' %}"></script>
+  <script src="{% static 'js/customer.js' %}?v=1.2"></script>
 </body>
 </html>
